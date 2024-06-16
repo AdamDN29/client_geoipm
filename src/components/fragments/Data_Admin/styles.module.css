@@ -1,0 +1,32 @@
+.colStyle{
+    padding-left: 0px !important;
+}
+
+.formEdit{
+    padding-left: 0px !important;
+    /* width: 80vh; */
+}
+
+.titleSection{
+    font-size: 18px;
+    font-weight: 600 !important;
+    color: #2A2E2E;
+    border-bottom : 3px solid #B8D9A0;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.buttons{
+    background-color: #B8D9A0 !important;
+    color: #2A2E2E !important;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    /* margin-top: 5px; */
+    float: right !important;
+
+}
+.buttons:hover{
+    color: white !important;
+    background-color: #2A2E2E !important;
+}

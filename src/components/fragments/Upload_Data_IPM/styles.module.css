@@ -1,0 +1,202 @@
+.rowBox{
+    margin-bottom: 30px !important;
+}
+
+.textData{
+    font-size: 28px !important;
+    margin-bottom: 0px;
+}
+
+.rowSection{
+    margin-bottom: 10px;
+    border-bottom : 3px solid #B8D9A0;
+    /* padding-bottom: 10px; */
+}
+
+.colStyle{
+    padding-left: 0px !important;
+}
+
+.dropdownTitle{
+    margin-bottom: 10px;
+    color: #2A2E2E;
+    font-weight: 500;
+}
+
+.dropdownStyle{
+    /* border-color: rgb(241, 21, 21) !important; */
+    padding: 4px 7px 4px 7px;
+    width: 100%;
+    color: #2A2E2E;
+    font-size: 13px;
+    border-radius: 3px !important;
+
+}
+
+.titleSection{
+    font-size: 20px;
+    font-weight: 600px !important;
+    text-align: center;
+}
+
+.buttons{
+    background-color: #B8D9A0 !important;
+    color: #2A2E2E !important;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    /* margin-top: 5px; */
+    float: right !important;
+    width: 100%;
+    /* height: 100%; */
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+    /* margin-top: 10px;
+    margin-bottom: 10px; */
+    width: 180px;
+}
+.buttons:hover{
+    color: white !important;
+    background-color: #2A2E2E !important;
+}
+
+.centerText{
+    text-align: center !important;
+    vertical-align: top !important;
+}
+
+.leftText{
+    text-align: left !important;
+}
+
+.tableField{
+    max-height: 40vh !important;
+    height: 40vh;
+    padding: 0px;
+}
+
+.tableStyles{
+    /* max-height: 10vh !important; */
+    /* height: 40vh !important; */
+    height: 100%;
+    overflow: scroll;
+    font-size: 13px !important;
+    text-align: center !important;
+}
+
+.subText{
+    font-weight: 400 !important;
+    margin-bottom: 0px;
+}
+
+.sheetContainer{
+    width:515px;
+    float:left;
+    padding:0 0 0 5px;
+    position:relative;
+    float:left;
+    max-height:200px;
+    border-right: 1px #e0b508 solid;
+    color: #2A2E2E;
+}
+
+.sheetExcel{
+    /* height: 50% !important; */
+   /* overflow: auto;
+   height: 50%;
+   color: #B8D9A0;
+   overflow-y: scroll;
+   max-height: 500px !important;
+   display: block; */
+
+    max-height:440px !important;
+		width:215px;
+		background-color:#bd2222;		
+        overflow:scroll;
+		float:left;
+		position:relative;
+		margin-left:-5px;
+}
+
+table{
+    max-height: 100% !important;
+    width: 100% !important;
+    /* flex-flow: column; */  
+    /* overflow: auto;
+    display: block; */
+}
+
+table, th, td {
+    border: 1px solid;
+    /* text-align: center; */
+  }
+  
+tbody td, thead th {
+    width: auto;  
+}
+/* table tbody,
+table thead {
+    display: block;
+    
+} */
+
+
+/* table tbody {
+    height: 400px;
+    
+    overflow-y: scroll !important;   
+    overflow-x: hidden;  
+
+} */
+/* tbody td,
+thead th {
+    width: 200px;
+    border-right: 2px solid black;
+} */
+
+
+/* 
+
+table {
+    width: 100%;
+
+   
+    border-spacing: 0;
+    border: 2px solid black;
+}
+
+
+table tbody,
+table thead {
+    display: block;
+}
+
+thead tr th {
+     height: 40px;
+    line-height: 40px; 
+} 
+
+table tbody {
+
+
+    height: 400px;
+
+   
+    overflow-y: auto;
+
+    overflow-x: hidden;
+}
+
+tbody {
+    border-top: 2px solid black;
+}
+
+tbody td,
+thead th {
+    width: 200px;
+    border-right: 2px solid black;
+}
+
+td {
+    text-align: center;
+} */

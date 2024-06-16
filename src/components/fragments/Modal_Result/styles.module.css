@@ -1,0 +1,50 @@
+.modal{
+    min-width: 93vw !important;
+}
+
+.header{}
+
+.row1{
+    border-bottom : 13px solid #B8D9A0 !important;
+    margin-bottom: 20px !important;
+}
+
+.header{
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+.kel1{
+    color: #00B8A9 !important;
+    margin-bottom: 5px;
+}
+
+.kel2{
+    color: #FFDE78 !important;
+    margin-bottom: 5px;
+}
+
+.kel3{
+    color: #F6416C !important;
+    margin-bottom: 5px;
+}
+
+.listField{
+    height: 50vh !important;
+    overflow: scroll;
+    overflow-x: hidden;
+    margin-bottom: 10px;
+}
+
+.dataTitle{
+    margin-bottom: 5px !important;
+}
+
+.list{
+    margin-bottom: 0px !important;
+}
+
+.totalList{
+    margin-bottom: 0px !important;
+    text-align: center;
+}

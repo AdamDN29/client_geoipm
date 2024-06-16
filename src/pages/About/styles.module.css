@@ -1,0 +1,75 @@
+body{
+    padding-top: 50px !important;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.title{
+    font-size: 42px;
+    font-weight: 750;
+}
+
+.semiTitle{
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.title2{
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.subtitle{
+    font-weight: 700;
+    font-size: 32px;
+    font-style: italic;
+    color: #B8D9A0;
+}
+
+.boldP{
+    font-weight: 500;
+    
+}
+
+.rowContent{
+    padding-bottom: 15px;
+}
+
+.ipm_image{
+    /* padding-bottom: 20px; */
+}
+
+.ulStyles{
+    padding-left: 30px;
+}
+
+.linkText{
+    font-weight: 700;
+    color: #B8D9A0;
+}
+.linkText:hover{
+    color: #2A2E2E;
+}
+
+.colButton{
+    border-top : 3px solid #B8D9A0;
+    border-bottom : 3px solid #B8D9A0;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    /* background-color: #2A2E2E; */
+}
+
+.buttons{
+    background-color: #B8D9A0 !important;
+    color: #2A2E2E !important;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.buttons:hover{
+    color: white !important;
+    background-color: #2A2E2E !important;
+}

@@ -1,0 +1,68 @@
+.containerlogin{
+    /* height: 100% !important; */
+}
+
+.loginField{
+    
+    margin-top: 5vh;
+    
+}
+
+.loginForm{
+    margin-top: 10px;
+    vertical-align: middle;
+    width: 350px;
+    /* height: 350px; */
+    /* border : 2px solid #B8D9A0; */
+    border-radius: 5px;
+    padding: 15px;
+    box-shadow: inset;
+}
+
+.loginTitle{
+    color: #2A2E2E;
+}
+
+.formBody{
+    padding: 20px 10px 20px 10px!important;
+}
+
+.labelForm{
+    text-align: left !important;
+    left: 0px;
+    margin-bottom: 5px;
+}
+
+.buttons{
+    background-color: #B8D9A0 !important;
+    color: #2A2E2E !important;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    margin-top: 5px;
+    width: 100%;
+    border-top: 2px solid #B8D9A0;
+}
+.buttons:hover{
+    color: white !important;
+    background-color: #2A2E2E !important;
+}
+
+.divider{
+    border-top: 1px solid #2A2E2E;
+    margin-bottom: 10px;
+}
+
+.link{
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+a{color: #B8D9A0; font-weight: 500;
+}a:hover{color: #2A2E2E;}
+
+.alert{
+    /* height: 50px; */
+    width: 350px;
+    /* background-color: #2A2E2E; */
+}

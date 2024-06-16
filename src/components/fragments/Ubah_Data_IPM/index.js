@@ -1,0 +1,1 @@
+export { default } from './Ubah_Data_IPM.js';

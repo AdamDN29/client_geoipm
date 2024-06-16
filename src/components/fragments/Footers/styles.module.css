@@ -1,0 +1,26 @@
+.footerStyle{
+    background-color: #2A2E2E;
+    display: block;
+    overflow: auto;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    margin-top: 10px;
+}
+
+.link_text{
+    color: white;
+    margin-bottom: 5px;
+    font-size: 16px;
+    text-decoration: none !important;
+    font-weight: 500;
+}
+.link_text:hover{
+    color: #B8D9A0;
+}
+
+.copyright{
+    color: white;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+}

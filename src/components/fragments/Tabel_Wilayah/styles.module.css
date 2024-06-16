@@ -1,0 +1,79 @@
+.rowSection{
+    margin-bottom: 10px;
+    border-bottom : 3px solid #B8D9A0;
+    padding-bottom: 10px;
+}
+
+.colStyle{
+    padding-left: 0px !important;
+}
+
+.dropdownTitle{
+    margin-bottom: 10px;
+    color: #2A2E2E;
+    font-weight: 500;
+}
+
+.dropdownStyle{
+    /* border-color: rgb(241, 21, 21) !important; */
+    padding: 4px 7px 4px 7px;
+    width: 100%;
+    color: #2A2E2E;
+    font-size: 13px;
+    border-radius: 3px !important;
+
+}
+
+.titleSection{
+    font-size: 20px;
+    font-weight: 600px !important;
+    text-align: center;
+}
+
+.buttons{
+    background-color: #B8D9A0 !important;
+    color: #2A2E2E !important;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    /* margin-top: 5px; */
+    float: right !important;
+    width: 100%;
+    /* height: 100%; */
+    padding-top: 2px !important;
+    padding-bottom: 2px !important;
+}
+.buttons:hover{
+    color: white !important;
+    background-color: #2A2E2E !important;
+}
+
+.centerText{
+    text-align: center !important;
+    vertical-align: top !important;
+}
+
+.leftText{
+    text-align: left !important;
+}
+
+.tableField{
+    max-height: 40vh !important;
+    height: 40vh;
+    padding: 0px;
+}
+
+.tableStyles{
+    /* max-height: 10vh !important; */
+    /* height: 40vh !important; */
+    height: 100%;
+    overflow: scroll;
+    font-size: 13px !important;
+    text-align: center !important;
+}
+
+.subText{
+    font-weight: 400 !important;
+    margin-bottom: 0px;
+}
+

@@ -1,0 +1,36 @@
+.centerText{
+    text-align: center !important;
+    vertical-align: top !important;
+}
+
+.leftText{
+    text-align: left !important;
+}
+
+.tableField{
+    max-height: 40vh !important;
+    height: 40vh;
+    padding: 0px;
+}
+
+.tableStyles{
+    height: 100%;
+    overflow: scroll;
+    font-size: 13px !important;
+    text-align: center !important;
+}
+
+.subText{
+    font-weight: 400 !important;
+    margin-bottom: 0px;
+}
+
+.action{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.buttons{
+    border: none !important;
+    padding: 0px !important;
+}
