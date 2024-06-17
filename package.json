@@ -12,7 +12,6 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
-    "dotenv": "^16.4.5",
     "file-saver": "^2.0.5",
     "leaflet": "^1.9.4",
     "prop-types": "^15.8.1",
@@ -35,7 +34,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "npm install --legacy-peer-deps && react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -62,3 +61,4 @@
     "netlify-cli": "^17.28.0"
   }
 }
+
