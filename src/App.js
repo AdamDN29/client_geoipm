@@ -3,10 +3,7 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Navigate,
-  Outlet,
 } from "react-router-dom";
-import axios from "axios";
 
 import { Spinner } from 'react-bootstrap'
 import PrivateRoute from './hook/PrivateRoute';

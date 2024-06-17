@@ -1,7 +1,8 @@
 import axios from "axios";
 
 // const baseURL = "https://be-pengetahuan-tradisional.herokuapp.com/api/";
-const baseURL = "http://localhost:5000/api/";
+const baseURL = process.env.REACT_APP_BACKEND_URL;
+
 
 const Api = axios.create({
   baseURL: baseURL,
