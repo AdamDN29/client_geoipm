@@ -12,8 +12,6 @@ import Data_Admin from '../../components/fragments/Data_Admin/Data_Admin';
 
 //import component Bootstrap React
 import { Row, Col, ListGroup, Tab, NavDropdown } from 'react-bootstrap'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 
 export default function Admin() {
 
