@@ -1,11 +1,9 @@
 import React from 'react'
-import { useState, useEffect } from "react";
 import ImgAsset from '../../../assets'
 import styles from './styles.module.css';
 
 //import component Bootstrap React
-import { Navbar, Nav, NavDropdown, Button, Container, Card, Col, Row } from 'react-bootstrap'
-import { Link } from "react-router-dom";
+import { Container, Col, Row } from 'react-bootstrap'
 
 export default function Footers () {
 	

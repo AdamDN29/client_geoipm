@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import styles from './styles.module.css';
 import ImgAsset from '../../assets'
@@ -11,7 +11,7 @@ import Data_Admin from '../../components/fragments/Data_Admin/Data_Admin';
 
 
 //import component Bootstrap React
-import { Container, Row, Col, Button, Spinner, ListGroup, Tab, NavDropdown } from 'react-bootstrap'
+import { Row, Col, ListGroup, Tab, NavDropdown } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleUser } from '@fortawesome/free-solid-svg-icons';
 

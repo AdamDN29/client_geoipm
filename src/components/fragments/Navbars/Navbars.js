@@ -1,10 +1,10 @@
 import React from 'react'
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import ImgAsset from '../../../assets'
 import styles from './styles.module.css';
 
 //import component Bootstrap React
-import { Navbar, Nav, NavDropdown, Button } from 'react-bootstrap'
+import { Navbar, Nav, Button } from 'react-bootstrap'
 import { Link } from "react-router-dom";
 
 export default function Navbars () {

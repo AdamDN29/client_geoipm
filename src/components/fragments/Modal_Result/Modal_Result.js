@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import {Row, Col, Divider} from 'react-bootstrap';
+import {Row, Col} from 'react-bootstrap';
 import styles from './styles.module.css';
 import separatorNumber from '../../../hook/separatorNumber';
 

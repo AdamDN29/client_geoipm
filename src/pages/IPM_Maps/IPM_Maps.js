@@ -1,10 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import axios from "axios";
 
 //import component Bootstrap React
-import { Container, Row, Col, Button, Spinner, Popover  } from 'react-bootstrap'
-import ReactDOMServer from 'react-dom/server';
+import { Container, Row, Col, Button, Spinner  } from 'react-bootstrap'
 import Leaflet from 'leaflet'
 import {
     MapContainer,
@@ -12,9 +10,7 @@ import {
     Marker,
     GeoJSON,
     Tooltip,
-    Popup,
     ZoomControl,
-    useMap
 } from 'react-leaflet';
 
 import styles from './styles.module.css';
@@ -49,7 +45,6 @@ export default function IPM_Maps() {
     const [geojson, setGeojson] = useState([]);
     const [dataMap, setDataMap] = useState([]);
     const [dataCalc, setDataCalc] = useState({});
-    const [dataSelected, setDataSelected] = useState([]);
 
     const [listYear, setListYear] = useState([]);
 

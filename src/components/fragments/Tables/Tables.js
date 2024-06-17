@@ -11,7 +11,6 @@ import ipm_provinsiAPI from "../../../api/ipm_provinsiAPI";
 import ipm_kab_kotAPI from "../../../api/ipm_kab_kotAPI";
 import provinsiAPI from "../../../api/provinsiAPI";
 import kab_kotAPI from "../../../api/kab_kotAPI";
-import { array } from "prop-types";
 
 export default function Tables({contentChanger, dataChanger, tableFlag, textTingkat, textTahun, dataTable, actionFlag, refreshFlag}) {
     

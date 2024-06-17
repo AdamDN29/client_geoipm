@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import styles from './styles.module.css'
 import * as FileSaver from 'file-saver';
 import XLSX from 'sheetjs-style';
-import * as xlsx from "xlsx";
-import {ExcelRenderer} from 'react-excel-renderer';
 import provinsiAPI from '../../../api/provinsiAPI';
 import kab_kotAPI from '../../../api/kab_kotAPI';
 import ipm_provinsiAPI from "../../../api/ipm_provinsiAPI";
@@ -123,25 +121,6 @@ export default function Dashboard() {
 
        const saveProcess = await saveFile(dataConvert); 
     }
-
-    // const fileHandler = (event) => {
-    //     let fileObj = event.target.files[0];
-    //     console.log(fileObj)         
-    //     //just pass the fileObj as parameter
-    //     ExcelRenderer(fileObj, (err, resp) => {
-    //       if(err){
-    //         console.log(err);            
-    //       }
-    //       else{
-    //         console.log("dataUpload")  
-    //         console.log(resp.cols) 
-    //         console.log(resp.rows) 
-    //         setDataUpload(resp.rows);
-    //         setStatus(true)
-    //       }
-    //     });      
-    //     // console.log(dataUpload)         
-    //   }
       
 
       const handleConvert = (event) => {
@@ -178,10 +157,6 @@ export default function Dashboard() {
         }
       };
 
-      function timeout(delay) {
-        return new Promise( res => setTimeout(res, delay) );
-    }
-
     const uploadData = async (data, index) => {
         let temp = totalUpload + 1;
         let id_wilayah = parseInt(data.id_wilayah)
@@ -201,7 +176,7 @@ export default function Dashboard() {
             "tahun": data.tahun
         })
         console.log(data)
-        // await timeout(1000); //for 1 sec delay
+
         try{
             var res;
             if(tingkat === "Nasional"){
@@ -232,8 +207,6 @@ export default function Dashboard() {
             alert("Data Sudah Disimpan")
             return setLoading(false)
         }
-
-        let uhh, ahls, arls, ppd, iuhh, ipthn, iplrn, ipm, gwr, id_wilayah, tahunData;
 
         dataUpload.map((data, index) => {
             uploadData(data, index)
