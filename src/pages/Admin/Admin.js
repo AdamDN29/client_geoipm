@@ -11,7 +11,7 @@ import Data_Admin from '../../components/fragments/Data_Admin/Data_Admin';
 
 
 //import component Bootstrap React
-import { Row, Col, ListGroup, Tab, NavDropdown } from 'react-bootstrap'
+import { Row, Col, ListGroup, Tab } from 'react-bootstrap'
 
 export default function Admin() {
 
@@ -77,19 +77,7 @@ export default function Admin() {
 
                 {/* Content */}
                 <Col className={styles.colStyle}>
-                   {/* <Row className={styles.rowStyle}>
-                        <div className={styles.avatarField}>
-                            <NavDropdown className={styles.avatarDropdown}
-                                title={
-                                    <FontAwesomeIcon icon={faCircleUser} style={{color: "#2a2e2e",}} className={styles.avatar}/>
-                                }
-                                >
-                                
 
-                                <NavDropdown.Item onClick={logoutHandler} className={styles.logout_nav}>Log Out</NavDropdown.Item>
-                            </NavDropdown>
-                        </div>
-                   </Row> */}
                    <Row className={styles.rowStyle}>
                         <Tab.Content className={styles.contentStyle}>
                             <Tab.Pane eventKey="#dashboard"><Dashboard /></Tab.Pane>

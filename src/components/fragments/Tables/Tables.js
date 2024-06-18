@@ -13,194 +13,9 @@ import kab_kotAPI from "../../../api/kab_kotAPI";
 
 export default function Tables({contentChanger, dataChanger, tableFlag, textTingkat, textTahun, dataTable, actionFlag, refreshFlag}) {
     
-    // const [currentPage, setCurrentPage] = useState(1)
-
     useEffect (() => {
         console.log(dataTable)
     },[])
-
-    // const styleHeader = () => {
-    //     return {
-    //         textAlign: "center", backgroundColor: "#B8D9A0"
-    //     }
-    // }
-    // Tabel IPM
-    // const column1 = [
-    //     {
-    //         dataField: 'no',
-    //         text: 'No ',
-    //         headerStyle: styleHeader,
-    //         formatter: (cell, row, rowIndex) => {
-    //             let rowNumber = (currentPage - 1) * 10 + (rowIndex + 1);
-    //             return <span>{rowNumber}</span>;
-    //         }
-    //     },
-    //     {
-    //         dataField: 'id',
-    //         text: 'Id ',
-    //         hidden: !actionFlag,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"nama_wilayah",
-    //         text:"Nama Wilayah ",
-    //         sort: true,
-    //         style: {textAlign: "left"},
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"tahun",
-    //         text:"Tahun ",
-    //         // hidden: flag3,
-    //         sort: true,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"uhh",
-    //         text:"UHH ",
-    //         sort: true,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"ahls",
-    //         text:"AHLS ",
-    //         sort: true,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"arls",
-    //         text:"ARLS ",
-    //         sort: true,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"ppd",
-    //         text:"PPD",
-    //         sort: true,
-    //         formatter: (cell) => {
-    //             return  "Rp." + separatorNumber(cell * 1000);
-    //         },
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"iuhh",
-    //         text:"IUHH ",
-    //         sort: true,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"ipthn",
-    //         text:"IPTHN ",
-    //         sort: true,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"iplrn",
-    //         text:"IPLRN ",
-    //         sort: true,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"ipm",
-    //         text:"IPM ",
-    //         sort: true,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"gwr",
-    //         text:"GWR ",
-    //         sort: true,
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"id",
-    //         text:"Action",
-    //         hidden: !actionFlag,
-    //         formatter: (cell, row, rowIndex) => {
-    //             return(
-    //                 <Row className={styles.action}>
-    //                     <Col className={styles.action}>
-    //                         <button className={styles.buttons} onClick={() => EditData(cell)} >
-    //                                 <FontAwesomeIcon icon={faEdit} />
-    //                         </button>
-    //                     </Col>
-    //                     <Col className={styles.action}>
-    //                         <button className={styles.buttons} onClick={() => DeleteData(cell)} >
-    //                                 <FontAwesomeIcon icon={faTrash} />
-    //                         </button>
-    //                     </Col>
-    //                 </Row>
-    //             )
-    //         },
-    //         headerStyle: styleHeader
-    //     },
-    // ]
-    // Tabel Wilayah
-    // const column2 = [
-    //     {
-    //         dataField: 'no',
-    //         text: 'No ',
-    //         headerStyle: styleHeader,
-    //         formatter: (cell, row, rowIndex) => {
-    //             let rowNumber = (currentPage - 1) * 10 + (rowIndex + 1);
-    //             return <span>{rowNumber}</span>;
-    //         }
-    //     },
-    //     {
-    //         dataField: 'id',
-    //         text: 'Id ',
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"nama_wilayah",
-    //         text:"Nama Wilayah ",
-    //         sort: true,
-    //         style: {textAlign: "left"},
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"latitude",
-    //         text:"Latitude",
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"longitude",
-    //         text:"Longitude",
-    //         headerStyle: styleHeader
-    //     },
-    //     {
-    //         dataField:"id",
-    //         text:"Action",
-    //         hidden: !actionFlag,
-    //         formatter: (cell, row, rowIndex) => {
-    //             return(
-    //                 <Row className={styles.action}>
-    //                     <Col>
-    //                         <button className={styles.buttons} onClick={() => EditData(cell)} >
-    //                                 <FontAwesomeIcon icon={faEdit} />
-    //                         </button>
-    //                     </Col>
-    //                     {/* <Col className={styles.action}>
-    //                         <button className={styles.buttons} onClick={() => DeleteData(cell)} >
-    //                                 <FontAwesomeIcon icon={faTrash} />
-    //                         </button>
-    //                     </Col> */}
-    //                 </Row>
-    //             )
-    //         },
-    //         headerStyle: styleHeader
-    //     },
-    // ]
-    // const options = {
-    //     paginationSize : 10,
-    //     hideSizePerPage : true,
-    //     showTotal: true,
-    //     onPageChange: page => {
-    //         setCurrentPage(page);
-    //     },
-    //     page: currentPage
-    //     // firstPageText: "First",
-    // }
 
     function EditData (value) {
         console.log(value)  
@@ -314,69 +129,50 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                     </div>
                     <p> Menampilkan {dataTable.length} Data</p>
                 </div>
-                
-                // <BootstrapTable 
-                //     keyField="no" 
-                //     data={dataTable} 
-                //     columns={column1} 
-                //     classes={styles.tableStyles}
-                //     pagination={paginationFactory(options)}
-                //     striped hover condensed
-                //     style={{paddingLeft: "0px"}}
-                // />
              
             ):(
                 <div className="table_container" >
-                <div style={stylesTable}> 
-                <Table striped bordered hover responsive="sm" className={styles.tableStyles} >
-                    <thead style={stylesHeaderBody}>
-                        <tr style={stylesHeader}>
-                            <th style={stylesHeader}>No</th>
+                    <div style={stylesTable}> 
+                    <Table striped bordered hover responsive="sm" className={styles.tableStyles} >
+                        <thead style={stylesHeaderBody}>
+                            <tr style={stylesHeader}>
+                                <th style={stylesHeader}>No</th>
+                                {
+                                    columnsWilayah.map((column, i) =>
+                                        (<th key={i} style={stylesHeader}>{column}</th>) )
+                                }
+                                {
+                                    actionFlag ? (<th style={stylesHeader} >Action</th>):(<></>)
+                                }
+                            </tr>
+                        </thead>    
+                        <tbody>  
                             {
-                                columnsWilayah.map((column, i) =>
-                                    (<th key={i} style={stylesHeader}>{column}</th>) )
-                            }
-                            {
-                                actionFlag ? (<th style={stylesHeader} >Action</th>):(<></>)
-                            }
-                        </tr>
-                    </thead>    
-                    <tbody>  
-                        {
-                            dataTable.map((data,i) =>(
-                                <tr key={i}>
-                                    <td>{i+1}</td>
-                                    {actionFlag ? (<td>{data.id}</td>):(<></>)}
-                                    <td style={stylesNameRow}>{data.nama_wilayah} </td>                         
-                                    <td>{data?.latitude}</td>
-                                    <td>{data?.longitude}</td>
-                                    {
-                                        actionFlag ? (
-                                        <>
-                                            <td>
-                                                 <button className={styles.buttons} onClick={() => EditData(data.id)} >
-                                                    <FontAwesomeIcon icon={faEdit} />
-                                                </button>
-                                            </td>
-                                        </>):(<></>)
-                                    }
-                                </tr>
-                            ))
-                        } 
-                    </tbody>                   
-                </Table>  
+                                dataTable.map((data,i) =>(
+                                    <tr key={i}>
+                                        <td>{i+1}</td>
+                                        {actionFlag ? (<td>{data.id}</td>):(<></>)}
+                                        <td style={stylesNameRow}>{data.nama_wilayah} </td>                         
+                                        <td>{data?.latitude}</td>
+                                        <td>{data?.longitude}</td>
+                                        {
+                                            actionFlag ? (
+                                            <>
+                                                <td>
+                                                    <button className={styles.buttons} onClick={() => EditData(data.id)} >
+                                                        <FontAwesomeIcon icon={faEdit} />
+                                                    </button>
+                                                </td>
+                                            </>):(<></>)
+                                        }
+                                    </tr>
+                                ))
+                            } 
+                        </tbody>                   
+                    </Table>  
+                    </div>
+                    <p> Menampilkan {dataTable.length} Data</p>
                 </div>
-                <p> Menampilkan {dataTable.length} Data</p>
-            </div>
-                // <BootstrapTable 
-                //     keyField="no" 
-                //     data={dataTable} 
-                //     columns={column2} 
-                //     classes={styles.tableStyles}
-                //     pagination={paginationFactory(options)}
-                //     striped hover condensed
-                //     style={{paddingLeft: "0px"}}
-                // />
             )}
         </>
     );

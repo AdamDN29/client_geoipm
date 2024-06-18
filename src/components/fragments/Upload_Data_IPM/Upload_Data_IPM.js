@@ -232,9 +232,6 @@ export default function Dashboard() {
                 <Row>
                     <h2>Upload Data IPM</h2>
                 </Row>
-                {/* <Row>
-                    <p>Upload data IPM melalui <b>file Excel</b> berdasarkan template yang telah disediakan</p>
-                </Row> */}
 
                 <Row className={styles.rowSection}>
                         <Col className={styles.colStyle}>
@@ -318,51 +315,6 @@ export default function Dashboard() {
                     <Col>
                     
                     {status?(<>
-                            {/* <div className='sheetContainer' style={{maxHeight: 'auto'}}>
-                            <div className='sheetExcel' style={{maxHeight: '500px', overflowY: "scroll"}}>
-                                
-                                <table >
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Nama Wilayah</th>
-                                            <th>Tahun</th>
-                                            <th>UHH</th>
-                                            <th>AHLS</th>
-                                            <th>ARLS</th>
-                                            <th>PPD</th>
-                                            <th>IUHH</th>
-                                            <th>IPTHN</th>
-                                            <th>IPLRN</th>
-                                            <th>IPM</th>
-                                            <th>GWR</th>
-                                           
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {dataUpload.map((item, index) => {
-                                            return (
-                                            <tr>
-                                                <td>{item.id_wilayah}</td>
-                                                <td>{item.nama_wilayah}</td>
-                                                <td>{item.tahun}</td>
-                                                <td>{item.uhh}</td>
-                                                <td>{item.ahls}</td>
-                                                <td>{item.arls}</td>
-                                                <td>{item.ppd}</td>
-                                                <td>{item.iuhh}</td>
-                                                <td>{item.ipthn}</td>
-                                                <td>{item.iplrn}</td>
-                                                <td>{item.ipm}</td>
-                                                <td>{item.prediksi_gwr}</td>
-                                                
-                                            </tr>
-                                            );
-                                        })}
-                                    </tbody>
-                                </table>
-                            </div>
-                            </div> */}
                             <div className="table_container" >
                                 <div style={stylesTable}> 
                                 <Table striped bordered hover responsive="sm" className={styles.tableStyles} >

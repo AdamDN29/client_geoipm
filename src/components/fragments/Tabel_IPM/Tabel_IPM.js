@@ -195,6 +195,7 @@ export default function Tabel_IPM() {
 
     if(refresh === true){
         fetchData();
+        getListYear(tingkat);
         setRefresh(false);
     }
 
