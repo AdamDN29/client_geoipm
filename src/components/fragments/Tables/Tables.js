@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useMemo } from "react";
 import styles from "./styles.module.css";
-import { Row, Col, Table} from "react-bootstrap";
+import { Table} from "react-bootstrap";
 import separatorNumber from "../../../hook/separatorNumber";
 
 import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import 'react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 
 import ipm_provinsiAPI from "../../../api/ipm_provinsiAPI";
 import ipm_kab_kotAPI from "../../../api/ipm_kab_kotAPI";
