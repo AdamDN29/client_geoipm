@@ -117,7 +117,27 @@ export default function Table_Data() {
         }else{
             setTextTingkat(tingkat);
             setTextTahun(tahun);
-            setDataTable(res.data.data);
+
+            var temp = res.data.data;
+            var dataTemp = [];
+            if(temp[0] === undefined){
+                dataTemp = [temp];
+            }else{
+                dataTemp = temp;
+            }
+            console.log("DataTemp:", dataTemp)
+
+            dataTemp = dataTemp.map(function(obj,i) {
+
+                if(tingkat === "Nasional"){
+                    obj['nama_wilayah'] = obj.Provinsi.nama_provinsi;
+                }else{
+                    obj['nama_wilayah'] = obj.Kabupaten_Kotum.nama_kabupaten_kota;
+                }
+                return obj;
+            })
+            
+            setDataTable(dataTemp);
             setStatus(true);
             
             setFound(true);

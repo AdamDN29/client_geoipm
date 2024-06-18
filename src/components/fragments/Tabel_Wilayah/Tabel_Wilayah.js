@@ -87,11 +87,28 @@ export default function Tabel_Wilayah() {
             setStatus(false);
             setFound(false);
         }else{
+            var temp = res.data.data;
+            var dataTemp = [];
+            if(temp[0] === undefined){
+                dataTemp = [temp];
+            }else{
+                dataTemp = temp;
+            }
+            console.log("DataTemp:", dataTemp)
+
+            dataTemp = dataTemp.map(function(obj,i) {
+
+                if(tingkat === "Nasional"){
+                    obj['nama_wilayah'] = obj.nama_provinsi;
+                }else{
+                    obj['nama_wilayah'] = obj.nama_kabupaten_kota;
+                }
+                return obj;
+            })
+            setDataTable(dataTemp); 
             setFound(true);
-            setTextTingkat(tingkat);
-            setDataTable(res.data.data); 
-            setStatus(true);
-              
+            setTextTingkat(tingkat);          
+            setStatus(true);     
         }
         setLoading(false);
     }

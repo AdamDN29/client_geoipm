@@ -7,9 +7,11 @@ import provinsiAPI from '../../../api/provinsiAPI';
 import kab_kotAPI from '../../../api/kab_kotAPI';
 import ipm_provinsiAPI from "../../../api/ipm_provinsiAPI";
 import ipm_kab_kotAPI from "../../../api/ipm_kab_kotAPI";
+import ImgAsset from '../../../assets';
+
 
 //import component Bootstrap React
-import { Container, Row, Col, Form, Button, Spinner } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, Spinner, Table } from 'react-bootstrap'
 
 export default function Dashboard() {
 
@@ -217,8 +219,13 @@ export default function Dashboard() {
         setTotalUpload(0)
         setLoading(false);
     }
-      
-      
+    const columnsIPM = ["ID Wilayah", "Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "GWR"]
+    const stylesTable = {maxHeight: '510px', overflowY: "scroll"}
+    const stylesHeaderBody = {position: "sticky", top: "-5px" }
+    const stylesHeader = {textAlign: 'center', backgroundColor: '#B8D9A0'}
+    const stylesNameRow = {textAlign: 'left'}
+
+
     return (
         <section>
             <Container >
@@ -311,7 +318,7 @@ export default function Dashboard() {
                     <Col>
                     
                     {status?(<>
-                            <div className='sheetContainer' style={{maxHeight: 'auto'}}>
+                            {/* <div className='sheetContainer' style={{maxHeight: 'auto'}}>
                             <div className='sheetExcel' style={{maxHeight: '500px', overflowY: "scroll"}}>
                                 
                                 <table >
@@ -355,11 +362,54 @@ export default function Dashboard() {
                                     </tbody>
                                 </table>
                             </div>
+                            </div> */}
+                            <div className="table_container" >
+                                <div style={stylesTable}> 
+                                <Table striped bordered hover responsive="sm" className={styles.tableStyles} >
+                                    <thead style={stylesHeaderBody}>
+                                        <tr style={stylesHeader}>
+                                            {
+                                                columnsIPM.map((column, i) =>
+                                                    (<th key={i} style={stylesHeader}>{column}</th>) )
+                                            }
+                                        </tr>
+                                    </thead>    
+                                    <tbody>  
+                                        {
+                                            dataUpload.map((data,i) =>(
+                                                <tr key={i}>
+                                                    <td>{data.id_wilayah}</td>
+                                                    <td style={stylesNameRow}>{data.nama_wilayah} </td>                         
+                                                    <td>{data.tahun}</td>
+                                                    <td>{data?.uhh}</td>
+                                                    <td>{data?.ahls}</td>
+                                                    <td>{data?.arls}</td>
+                                                    <td>{data?.ppd}</td>  
+                                                    <td>{data?.iuhh}</td>
+                                                    <td>{data?.ipthn}</td>
+                                                    <td>{data?.iplrn}</td>
+                                                    <td>{data?.ipm}</td>
+                                                    <td>{data?.prediksi_gwr}</td>
+                                                </tr>
+                                            ))
+                                        } 
+                                    </tbody>                   
+                                </Table>  
+                                </div>
+                                <p> Menampilkan {dataUpload.length} Data</p>
                             </div>
-                            
-                     
-                           
-                        </>):(<></>)
+                        </>):
+                        (<>
+                            <center>
+                                <img
+                                    src = {ImgAsset.Search_Image}
+                                    width="250"
+                                    height="300"
+                                    alt="Search"  
+                                />
+                               <p className={styles.titleSection}>Silahkan Upload Data</p>
+                            </center>
+                        </>)
                         }
                     </Col>
                 </Row>

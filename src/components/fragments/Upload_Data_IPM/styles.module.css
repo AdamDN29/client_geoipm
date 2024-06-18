@@ -101,14 +101,6 @@
 }
 
 .sheetExcel{
-    /* height: 50% !important; */
-   /* overflow: auto;
-   height: 50%;
-   color: #B8D9A0;
-   overflow-y: scroll;
-   max-height: 500px !important;
-   display: block; */
-
     max-height:440px !important;
 		width:215px;
 		background-color:#bd2222;		
@@ -118,85 +110,16 @@
 		margin-left:-5px;
 }
 
-table{
+/* table{
     max-height: 100% !important;
     width: 100% !important;
-    /* flex-flow: column; */  
-    /* overflow: auto;
-    display: block; */
 }
 
 table, th, td {
     border: 1px solid;
-    /* text-align: center; */
+
   }
   
 tbody td, thead th {
     width: auto;  
-}
-/* table tbody,
-table thead {
-    display: block;
-    
-} */
-
-
-/* table tbody {
-    height: 400px;
-    
-    overflow-y: scroll !important;   
-    overflow-x: hidden;  
-
-} */
-/* tbody td,
-thead th {
-    width: 200px;
-    border-right: 2px solid black;
-} */
-
-
-/* 
-
-table {
-    width: 100%;
-
-   
-    border-spacing: 0;
-    border: 2px solid black;
-}
-
-
-table tbody,
-table thead {
-    display: block;
-}
-
-thead tr th {
-     height: 40px;
-    line-height: 40px; 
-} 
-
-table tbody {
-
-
-    height: 400px;
-
-   
-    overflow-y: auto;
-
-    overflow-x: hidden;
-}
-
-tbody {
-    border-top: 2px solid black;
-}
-
-tbody td,
-thead th {
-    width: 200px;
-    border-right: 2px solid black;
-}
-
-td {
-    text-align: center;
 } */
