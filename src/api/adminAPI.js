@@ -13,7 +13,7 @@ const adminAPI = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data
     };
-      return fetch(`${baseURL}/admin/login`, requestOptions)
+      return fetch(`${baseURL}admin/login`, requestOptions)
       .then(response => response.json())
   },
 
@@ -27,7 +27,7 @@ const adminAPI = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data
     };
-      return fetch(`${baseURL}/admin/update/${id}`, requestOptions)
+      return fetch(`${baseURL}admin/update/${id}`, requestOptions)
       .then(response => response.json())
   },
 
@@ -37,7 +37,7 @@ const adminAPI = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data
     };
-      return fetch(`${baseURL}/admin/updatepass/${id}`, requestOptions)
+      return fetch(`${baseURL}admin/updatepass/${id}`, requestOptions)
       .then(response => response.json())
   }
 };
