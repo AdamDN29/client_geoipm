@@ -50,7 +50,6 @@ export default function Login() {
     
     const submitForm = async (e) => {
         e.preventDefault();
-        console.log(data)
         setIsLoading(true);
         try {
             if(data.email === "" || data.password === ""){

@@ -139,7 +139,7 @@ export default function Table_Data() {
             
             setDataTable(dataTemp);
             setStatus(true);
-            
+            setLoading(false);
             setFound(true);
             if (tahun === 'all'){
                 setTextTitle(wilayah)
