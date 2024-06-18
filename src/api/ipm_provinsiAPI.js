@@ -30,7 +30,7 @@ const ipm_provinsiAPI = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data
     };
-      return fetch(`${baseURL}/ipm_provinsi/update/${id}`, requestOptions)
+      return fetch(`${baseURL}ipm_provinsi/update/${id}`, requestOptions)
       .then(response => response.json())
   },
   createDataIPM(provinsi_Id, data) {
@@ -39,7 +39,7 @@ const ipm_provinsiAPI = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data
     };
-      return fetch(`${baseURL}/ipm_provinsi/create/${provinsi_Id}`, requestOptions)
+      return fetch(`${baseURL}ipm_provinsi/create/${provinsi_Id}`, requestOptions)
       .then(response => response.json())
   },
   deleteDataIPM(id) {

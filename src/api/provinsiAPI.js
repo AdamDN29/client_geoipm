@@ -15,7 +15,7 @@ const provinsiAPI = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data
     };
-      return fetch(`${baseURL}/provinsi/update/${id}`, requestOptions)
+      return fetch(`${baseURL}provinsi/update/${id}`, requestOptions)
       .then(response => response.json())
   },
 

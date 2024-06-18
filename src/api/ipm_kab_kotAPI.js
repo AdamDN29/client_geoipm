@@ -33,7 +33,7 @@ const ipm_kab_kotAPI = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data
     };
-      return fetch(`${baseURL}/ipm_kabupaten_kota/update/${id}`, requestOptions)
+      return fetch(`${baseURL}ipm_kabupaten_kota/update/${id}`, requestOptions)
       .then(response => response.json())
   },
   createDataIPM(kabupaten_kota_Id, data) {
@@ -42,7 +42,7 @@ const ipm_kab_kotAPI = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data
     };
-      return fetch(`${baseURL}/ipm_kabupaten_kota/create/${kabupaten_kota_Id}`, requestOptions)
+      return fetch(`${baseURL}ipm_kabupaten_kota/create/${kabupaten_kota_Id}`, requestOptions)
       .then(response => response.json())
   },
   deleteDataIPM(id) {

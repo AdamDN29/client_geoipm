@@ -18,7 +18,7 @@ const kab_kotAPI = {
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: data
     };
-      return fetch(`${baseURL}/kabupaten_kota/update/${id}`, requestOptions)
+      return fetch(`${baseURL}kabupaten_kota/update/${id}`, requestOptions)
       .then(response => response.json())
   },
 
