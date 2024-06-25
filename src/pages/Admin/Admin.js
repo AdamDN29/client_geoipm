@@ -6,7 +6,7 @@ import ImgAsset from '../../assets'
 import Dashboard from '../../components/fragments/Dashboard/Dashboard';
 import Tabel_Wilayah from '../../components/fragments/Tabel_Wilayah/Tabel_Wilayah';
 import Tabel_IPM from '../../components/fragments/Tabel_IPM/Tabel_IPM';
-import Upload_Data_IPM from '../../components/fragments/Upload_Data_IPM';
+import Unggah_Data_IPM from '../../components/fragments/Unggah_Data_IPM';
 import Data_Admin from '../../components/fragments/Data_Admin/Data_Admin';
 
 
@@ -60,8 +60,8 @@ export default function Admin() {
                                     <ListGroup.Item action href="#tabel_ipm" className={styles.listItem}>
                                         Tabel Data IPM
                                     </ListGroup.Item>
-                                    <ListGroup.Item action href="#upload_data_ipm" className={styles.listItem}>
-                                        Upload Data IPM
+                                    <ListGroup.Item action href="#unggah_data_ipm" className={styles.listItem}>
+                                        Unggah Data IPM
                                     </ListGroup.Item>
                                     <ListGroup.Item action href="#data_admin" className={styles.listItem}>
                                         Data Admin
@@ -83,7 +83,7 @@ export default function Admin() {
                             <Tab.Pane eventKey="#dashboard"><Dashboard /></Tab.Pane>
                             <Tab.Pane eventKey="#tabel_wilayah"><Tabel_Wilayah /></Tab.Pane>
                             <Tab.Pane eventKey="#tabel_ipm"><Tabel_IPM /></Tab.Pane>
-                            <Tab.Pane eventKey="#upload_data_ipm"><Upload_Data_IPM /></Tab.Pane>
+                            <Tab.Pane eventKey="#unggah_data_ipm"><Unggah_Data_IPM /></Tab.Pane>
                             <Tab.Pane eventKey="#data_admin"><Data_Admin userId={userId}/></Tab.Pane>
                         </Tab.Content>                      
                    </Row>

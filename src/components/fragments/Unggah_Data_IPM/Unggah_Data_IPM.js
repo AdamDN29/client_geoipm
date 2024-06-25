@@ -13,7 +13,7 @@ import ImgAsset from '../../../assets';
 //import component Bootstrap React
 import { Container, Row, Col, Form, Button, Spinner, Table } from 'react-bootstrap'
 
-export default function Dashboard() {
+export default function Unggah_Data_IPM() {
 
     const [tingkat, setTingkat] = useState("Nasional");
     const [tahun, setTahun] = useState("");
@@ -124,7 +124,7 @@ export default function Dashboard() {
        const saveProcess = await saveFile(dataConvert); 
     }
       
-
+    
       const handleConvert = (event) => {
         let fileObj = event.target.files[0];
         getLast();
@@ -220,7 +220,7 @@ export default function Dashboard() {
         setLoading(false);
     }
     const columnsIPM = ["ID Wilayah", "Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "GWR"]
-    const stylesTable = {maxHeight: '510px', overflowY: "scroll"}
+    const stylesTable = {maxHeight: '500px', overflowY: "scroll"}
     const stylesHeaderBody = {position: "sticky", top: "-5px" }
     const stylesHeader = {textAlign: 'center', backgroundColor: '#B8D9A0'}
     const stylesNameRow = {textAlign: 'left'}
@@ -230,7 +230,7 @@ export default function Dashboard() {
         <section>
             <Container >
                 <Row>
-                    <h2>Upload Data IPM</h2>
+                    <h2>Unggah Data IPM</h2>
                 </Row>
 
                 <Row className={styles.rowSection}>
@@ -287,7 +287,7 @@ export default function Dashboard() {
                         </Col>
                 </Row>
                 <Row>
-                    <Col xs={1}><h5>Upload</h5></Col>
+                    <Col xs={1}><h5>Unggah</h5></Col>
                     <Col >
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                                         <Form.Control
@@ -359,7 +359,7 @@ export default function Dashboard() {
                                     height="300"
                                     alt="Search"  
                                 />
-                               <p className={styles.titleSection}>Silahkan Upload Data</p>
+                               <p className={styles.titleSection}>Silahkan Unggah Data</p>
                             </center>
                         </>)
                         }

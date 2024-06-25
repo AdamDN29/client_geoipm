@@ -82,7 +82,7 @@ export default function Dashboard() {
                 <Row>
                     <p><b>Total Data Wilayah:</b> Mengelola Data Wilayah Provinsi dan Kabupaten/Kota</p>
                     <p><b>Total Data IPM:</b> Mengelola Data IPM Provinsi dan Kabupaten/Kota</p>
-                    <p><b>Upload data IPM:</b> Upload Data melalui file Excel berdasarkan template yang telah disediakan</p>
+                    <p><b>Unggah data IPM:</b> Unggah Data melalui file Excel berdasarkan template yang telah disediakan</p>
                     <p><b>Data Admin:</b> Mengelola Data Akun Admin yang sedang digunakan</p>
                 </Row>
                 

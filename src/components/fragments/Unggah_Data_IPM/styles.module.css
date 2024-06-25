@@ -78,7 +78,7 @@
 .tableStyles{
     /* max-height: 10vh !important; */
     /* height: 40vh !important; */
-    height: 100%;
+    height: 90%;
     overflow: scroll;
     font-size: 13px !important;
     text-align: center !important;
@@ -90,7 +90,7 @@
 }
 
 .sheetContainer{
-    width:515px;
+    width:500px;
     float:left;
     padding:0 0 0 5px;
     position:relative;
@@ -101,7 +101,7 @@
 }
 
 .sheetExcel{
-    max-height:440px !important;
+    max-height:430px !important;
 		width:215px;
 		background-color:#bd2222;		
         overflow:scroll;
