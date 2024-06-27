@@ -1,8 +1,5 @@
 import React from 'react';
-
-//import component Bootstrap React
-import { Container, Row, Col, Button } from 'react-bootstrap'
-
+import { Container, Row, Col } from 'react-bootstrap'
 import ImgAsset from '../../assets'
 import styles from './styles.module.css';
 import Navbars from '../../components/fragments/Navbars';
@@ -89,15 +86,7 @@ export default function Homepage() {
                             </Row>
                         </Col>
                     </Row>
-                    
-                    {/* <Row className={styles.rowContent}>
-                        <Col className={styles.colButton}>
-                            <Button  variant="light" className={styles.buttons} href='/peta_ipm'>  
-                                    Peta IPM
-                            </Button>
-                        </Col>
-                    </Row> */}
-                    {/* Content 2 Diagram IPM*/}
+                    {/* Content 2 Diagram Pergitungan IPM*/}
                     <Row className={styles.rowContent}>
                         <Col>
                             <Row>
@@ -151,13 +140,7 @@ export default function Homepage() {
                             </Row>
                         </Col>
                     </Row>
-                    {/* <Row className={styles.rowContent}>
-                        <Col className={styles.colButton}>
-                            <Button  variant="light" className={styles.buttons} href='/peta_gwr'>  
-                                    Peta GWR
-                            </Button>
-                        </Col>
-                    </Row> */}
+
                 </div>
             </section>        
         </Container>

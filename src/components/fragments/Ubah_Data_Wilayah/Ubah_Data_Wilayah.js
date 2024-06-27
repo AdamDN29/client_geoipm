@@ -116,16 +116,18 @@ export default function Ubah_Data_Wilayah({
 
             if(dataFlag === 0){
               if(tingkat === "Nasional"){
-                res = await provinsiAPI.createDataIPM(id_wilayah, dataKu);
+                res = await provinsiAPI.createDataWilayah(dataKu);
               }else{
-                res = await kab_kotAPI.createDataIPM(id_wilayah, dataKu);
+                res = await kab_kotAPI.createDataWilayah(dataKu);
               }
+              console.log("Create Data")
             }else{
               if(tingkatFlag === "Nasional"){
                 res = await provinsiAPI.editDataWilayah(preload.id, dataKu);
               }else{
                 res = await kab_kotAPI.editDataWilayah(preload.id, dataKu);
               }
+              console.log("Edit Data")
             }
             
             console.log(res)

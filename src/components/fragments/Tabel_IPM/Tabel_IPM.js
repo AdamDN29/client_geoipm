@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 
 import styles from './styles.module.css';
 import ImgAsset from '../../../assets';
-import provinsiAPI from '../../../api/provinsiAPI';
-import kab_kotAPI from '../../../api/kab_kotAPI';
 import ipm_provinsiAPI from '../../../api/ipm_provinsiAPI';
 import ipm_kab_kotAPI from '../../../api/ipm_kab_kotAPI';
 import Tables from '../Tables/Tables';
@@ -12,18 +10,14 @@ import Ubah_Data_IPM from '../Ubah_Data_IPM/Ubah_Data_IPM';
 //import component Bootstrap React
 import { Container, Row, Col, Button, Spinner } from 'react-bootstrap'
 
-export default function Tabel_IPM() {
-    
-    const [dataProvinsi, setDataProvinsi] = useState([]);
-    const [dataKabKot, setDataKabKot] = useState([]);
-    
+export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag, tempTingkat, refreshStatus}) {
+       
     const [tingkat, setTingkat] = useState("Nasional");
     const [tahun, setTahun] = useState("all");
     const [provinsi, setProvinsi] = useState("all");
     const [kabkot, setKabKot] = useState("");
 
-    const [listYear, setListYear] = useState([]);
-    const [listKabKot, setListKabKot] = useState([]);
+    const [tempKabKot, setTempKabKot] = useState([]);
 
     const [dataTable, setDataTable] = useState([]);
 
@@ -34,21 +28,11 @@ export default function Tabel_IPM() {
 
     const [textTingkat, setTextTingkat] = useState("Nasional");
     const [textTahun, setTextTahun] = useState("");
-    const [textTitle, setTextTitle] = useState("");
 
     const [content, setContent] = useState("show");
     const [dataFlag, setDataFlag] = useState(null);
     const [refresh, setRefresh] = useState(false);
-
-    useEffect(() => {
-        getDataWilayah();
-        getListYear(tingkat);
-        setLoading(false);
-        
-    }, [])
-
-    
-
+  
     function findProv(array, name) {
         return array.find((element) => {
             return element.nama_provinsi === name
@@ -61,19 +45,6 @@ export default function Tabel_IPM() {
         })
     }
 
-    const getListYear = async (dataTingkat) => {
-        console.log("Tingkat: ",dataTingkat)
-        let temp;
-        if(dataTingkat === "Nasional"){
-            temp = await ipm_provinsiAPI.getDataProvinsiYear();
-        }else{
-            temp = await ipm_kab_kotAPI.getDataKabKotYear();
-        }
-        console.log("List Year :", temp.data.data)
-        setListYear(temp.data.data);
-        console.log("Get List Year")
-    }
-
     const fetchData = async () => {
         let res;
         setStatus(false);
@@ -82,25 +53,20 @@ export default function Tabel_IPM() {
         if (tingkat === "Nasional"){    
             if(provinsi === "all"){
                 res = await ipm_provinsiAPI.getAllDataProvinsi(tahun);
-                setTextTitle("Seluruh Provinsi di Indonesia")
             }else{
-                const temp = findProv(dataProvinsi, provinsi);
+                const temp = findProv(listProvinsi, provinsi);
                 res = await ipm_provinsiAPI.getOneDataProvinsi(temp.id, tahun);
-                setTextTitle(provinsi)
             }
         }else{ 
             if (provinsi === "all"){
                 res = await ipm_kab_kotAPI.getAllDataKabKot(tahun); 
-                setTextTitle("Seluruh Kabupaten/Kota di Indonesia")
             }else{
                 if(kabkot === "all"){   
-                    const temp = findProv(dataProvinsi, provinsi);
-                    res = await ipm_kab_kotAPI.getManyDataKabKot(temp.id, tahun);
-                    setTextTitle("Seluruh Kabupaten/Kota di " + provinsi)   
+                    const temp = findProv(listProvinsi, provinsi);
+                    res = await ipm_kab_kotAPI.getManyDataKabKot(temp.id, tahun); 
                 }else{   
-                    const temp = findKabKot(dataKabKot, kabkot);
-                    res = await ipm_kab_kotAPI.getOneDataKabKot(temp.id, tahun);  
-                    setTextTitle(kabkot);  
+                    const temp = findKabKot(listKabKot, kabkot);
+                    res = await ipm_kab_kotAPI.getOneDataKabKot(temp.id, tahun);   
                 }
             } 
             
@@ -138,24 +104,16 @@ export default function Tabel_IPM() {
         setLoading(false);
     }
 
-    const getDataWilayah = async () => {
-        const prov = await provinsiAPI.getAllProvinsi();
-        const kabkot = await kab_kotAPI.getAllKabKot();
-        setDataProvinsi(prov.data.data);
-        setDataKabKot(kabkot.data.data);
-    }
-
-    const tingkatHandler =  (e) => {
-        setTingkat(e.target.value)
-        getListYear(e.target.value)          
+    const tingkatHandler =  (e) => {  
+        setTingkat(e.target.value);
+        tempTingkat(e.target.value);
+        yearFlag(true);       
         if(e.target.value === "Provinsi"){
-            // setStatusProv(false);  
             setProvinsi("all"); 
             setKabKot("");    
             setStatusKabKot(true);   
             
         }else{
-            // setStatusProv(true);
             setStatusKabKot(true);
             setProvinsi("all");
             setKabKot("");
@@ -171,14 +129,14 @@ export default function Tabel_IPM() {
         }else{
             let temp = [];
 
-            let provFlag = findProv(dataProvinsi, e.target.value); 
+            let provFlag = findProv(listProvinsi, e.target.value); 
 
-            dataKabKot.forEach((data) => {
+            listKabKot.forEach((data) => {
                 if (data.provinsi_Id === provFlag.id){
                     temp.push(data);
                 } 
             })
-            setListKabKot(temp);
+            setTempKabKot(temp);
             
             if(tingkat === "Nasional"){setStatusKabKot(true);}
             else{setKabKot("all"); setStatusKabKot(false);}
@@ -194,8 +152,8 @@ export default function Tabel_IPM() {
     }
 
     if(refresh === true){
+        refreshStatus(true)
         fetchData();
-        getListYear(tingkat);
         setRefresh(false);
     }
 
@@ -241,7 +199,7 @@ export default function Tabel_IPM() {
                                      onChange={provinsiHandler} value={provinsi} 
                                 >
                                     <option value="all" selected>Seluruh Provinsi</option>
-                                        { dataProvinsi && dataProvinsi.map((data, i) => {
+                                        { listProvinsi && listProvinsi.map((data, i) => {
                                             let nama = data.nama_provinsi;
                                             return(<option key={i} value={nama}>{nama}</option>)
                                     })}
@@ -253,7 +211,7 @@ export default function Tabel_IPM() {
                                 >
                                     <option value="" selected disabled hidden>Pilih Kabupaten/Kota</option>
                                     <option value="all" >Seluruh Kabupaten/Kota</option>
-                                        { listKabKot && listKabKot.map((data, i) => {
+                                        { tempKabKot && tempKabKot.map((data, i) => {
                                             let nama = data.nama_kabupaten_kota;
                                             return(<option key={i} value={nama}>{nama}</option>)
                                         })}
@@ -281,11 +239,6 @@ export default function Tabel_IPM() {
                         </Row>
                     </Col>
                 </Row>
-                {/* <Row className={styles.rowSection}>
-                    <div className={styles.titleSection}>Tabel Data Wilayah {" "} 
-                        {textTitle}
-                    </div>
-                </Row> */}
                 <Row>
                     { status ?(
                             <Tables contentChanger={setContent} dataChanger={setDataFlag} tableFlag={"showIPM"} textTingkat={textTingkat} textTahun={textTahun} dataTable={dataTable} actionFlag={true} refreshFlag={setRefresh}/>
@@ -316,7 +269,7 @@ export default function Tabel_IPM() {
             )        
         }else if (content === "create"){
             return(
-                <Ubah_Data_IPM contentChanger={setContent} dataFlag={0} tingkatFlag={textTingkat} tahunFlag={textTahun} dataProvinsi={dataProvinsi} dataKabKot={dataKabKot} refreshFlag={setRefresh}/>
+                <Ubah_Data_IPM contentChanger={setContent} dataFlag={0} tingkatFlag={textTingkat} tahunFlag={textTahun} dataProvinsi={listProvinsi} dataKabKot={listKabKot} refreshFlag={setRefresh}/>
             )
         }
     }

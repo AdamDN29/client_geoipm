@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import styles from './styles.module.css';
 import ImgAsset from '../../assets'
@@ -8,7 +8,10 @@ import Tabel_Wilayah from '../../components/fragments/Tabel_Wilayah/Tabel_Wilaya
 import Tabel_IPM from '../../components/fragments/Tabel_IPM/Tabel_IPM';
 import Unggah_Data_IPM from '../../components/fragments/Unggah_Data_IPM';
 import Data_Admin from '../../components/fragments/Data_Admin/Data_Admin';
-
+import provinsiAPI from '../../api/provinsiAPI';
+import kab_kotAPI from '../../api/kab_kotAPI';
+import ipm_provinsiAPI from '../../api/ipm_provinsiAPI';
+import ipm_kab_kotAPI from '../../api/ipm_kab_kotAPI';
 
 //import component Bootstrap React
 import { Row, Col, ListGroup, Tab } from 'react-bootstrap'
@@ -24,12 +27,52 @@ export default function Admin() {
         window.location.href = "/homepage";
     }
 
+    const [dataProvinsi, setDataProvinsi] = useState([]);
+    const [dataKabKot, setDataKabKot] = useState([]);
+    const [refreshStatus, setRefreshStatus] = useState(false);
+    const [listYear, setListYear] = useState([]);
+    const [yearFlag, setYearFlag] = useState(false);
+    const [tempTingkat, setTempTingkat] = useState("Nasional");
+
+    useEffect(() => {
+        getDataWilayah(); 
+        getListYear(tempTingkat);
+        
+    }, [])
+
+    const getDataWilayah = async () => {
+        const prov = await provinsiAPI.getAllProvinsi();
+        const kabkot = await kab_kotAPI.getAllKabKot();
+        setDataProvinsi(prov.data.data);
+        setDataKabKot(kabkot.data.data);
+    }
+
     const logoutHandler = () => {
         if (window.confirm('Apakah Anda Yakin Ingin Logout?')) {
             sessionStorage.clear();
             alert("Anda Berhasil Logout");
             window.location.href = "/homepage";
         } 
+    }
+
+    const getListYear = async (dataTingkat) => {
+        let temp;
+        if(dataTingkat === "Nasional"){
+            temp = await ipm_provinsiAPI.getDataProvinsiYear();
+        }else{
+            temp = await ipm_kab_kotAPI.getDataKabKotYear();
+        }
+        setListYear(temp.data.data);
+    }
+
+    if(refreshStatus === true){
+        getDataWilayah();
+        setRefreshStatus(false);
+    }
+
+    if(yearFlag === true){
+        getListYear(tempTingkat);
+        setYearFlag(false);
     }
 
     return (
@@ -81,9 +124,9 @@ export default function Admin() {
                    <Row className={styles.rowStyle}>
                         <Tab.Content className={styles.contentStyle}>
                             <Tab.Pane eventKey="#dashboard"><Dashboard /></Tab.Pane>
-                            <Tab.Pane eventKey="#tabel_wilayah"><Tabel_Wilayah /></Tab.Pane>
-                            <Tab.Pane eventKey="#tabel_ipm"><Tabel_IPM /></Tab.Pane>
-                            <Tab.Pane eventKey="#unggah_data_ipm"><Unggah_Data_IPM /></Tab.Pane>
+                            <Tab.Pane eventKey="#tabel_wilayah"><Tabel_Wilayah listProvinsi={dataProvinsi} listKabKot={dataKabKot} refreshStatus={setRefreshStatus}/></Tab.Pane>
+                            <Tab.Pane eventKey="#tabel_ipm"><Tabel_IPM listProvinsi={dataProvinsi} listKabKot={dataKabKot} listYear={listYear} yearFlag={setYearFlag} tempTingkat={setTempTingkat} refreshStatus={setRefreshStatus}/></Tab.Pane>
+                            <Tab.Pane eventKey="#unggah_data_ipm"><Unggah_Data_IPM yearFlag={setYearFlag}/></Tab.Pane>
                             <Tab.Pane eventKey="#data_admin"><Data_Admin userId={userId}/></Tab.Pane>
                         </Tab.Content>                      
                    </Row>

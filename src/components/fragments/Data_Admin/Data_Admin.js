@@ -45,9 +45,7 @@ const passwordReducer = (currentState, action) => {
     }
 }
 
-export default function Data_Admin({userId}) {
-    console.log(userId)
-    
+export default function Data_Admin({userId}) {   
     const [preload, setPreLoad] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const ref1 = useRef("");

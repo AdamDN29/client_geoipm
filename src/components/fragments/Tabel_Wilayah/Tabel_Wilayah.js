@@ -10,16 +10,13 @@ import Ubah_Data_Wilayah from '../Ubah_Data_Wilayah/Ubah_Data_Wilayah';
 //import component Bootstrap React
 import { Container, Row, Col, Button, Spinner } from 'react-bootstrap'
 
-export default function Tabel_Wilayah() {
-    
-    const [dataProvinsi, setDataProvinsi] = useState([]);
-    const [dataKabKot, setDataKabKot] = useState([]);
-    
+export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus}) {   
+   
     const [tingkat, setTingkat] = useState("Nasional");
     const [provinsi, setProvinsi] = useState("all");
     const [kabkot, setKabKot] = useState("");
 
-    const [listKabKot, setListKabKot] = useState([]);
+    const [tempKabKot, setTempKabKot] = useState([]);
 
     const [dataTable, setDataTable] = useState([]);
 
@@ -29,16 +26,10 @@ export default function Tabel_Wilayah() {
     const [statusKabKot, setStatusKabKot] = useState(true);
 
     const [textTingkat, setTextTingkat] = useState("Nasional");
-    const [textTitle, setTextTitle] = useState("");
 
     const [content, setContent] = useState("show");
     const [dataFlag, setDataFlag] = useState(null);
     const [refresh, setRefresh] = useState(false);
-
-    useEffect(() => {
-        getDataWilayah();
-        setLoading(false);
-    }, [])
 
     function findProv(array, name) {
         return array.find((element) => {
@@ -60,25 +51,20 @@ export default function Tabel_Wilayah() {
         if (tingkat === "Nasional"){    
             if(provinsi === "all"){
                 res = await provinsiAPI.getAllProvinsi();
-                setTextTitle("Seluruh Provinsi di Indonesia")
             }else{
-                const temp = findProv(dataProvinsi, provinsi);
+                const temp = findProv(listProvinsi, provinsi);
                 res = await provinsiAPI.getOneProvinsi(temp.id)
-                setTextTitle(provinsi)
             }
         }else{ 
             if (provinsi === "all"){
                 res = await kab_kotAPI.getAllKabKot();
-                setTextTitle("Seluruh Kabupaten/Kota di Indonesia")
             }else{
                 if(kabkot === "all"){   
-                    const temp = findProv(dataProvinsi, provinsi);
+                    const temp = findProv(listProvinsi, provinsi);
                     res = await kab_kotAPI.getKabKotbyProvinsi(temp.id);
-                    setTextTitle("Seluruh Kabupaten/Kota di " + provinsi)   
                 }else{   
-                    const temp = findKabKot(dataKabKot, kabkot);
-                    res = await kab_kotAPI.getOneKabKot(temp.id);
-                    setTextTitle(kabkot);  
+                    const temp = findKabKot(listKabKot, kabkot);
+                    res = await kab_kotAPI.getOneKabKot(temp.id); 
                 }
             }     
         }
@@ -113,22 +99,13 @@ export default function Tabel_Wilayah() {
         setLoading(false);
     }
 
-    const getDataWilayah = async () => {
-        const prov = await provinsiAPI.getAllProvinsi();
-        const kabkot = await kab_kotAPI.getAllKabKot();
-        setDataProvinsi(prov.data.data);
-        setDataKabKot(kabkot.data.data);
-    }
-
     const tingkatHandler =  (e) => {
         setTingkat(e.target.value)         
-        if(e.target.value === "Provinsi"){
-            // setStatusProv(false);  
+        if(e.target.value === "Provinsi"){  
             setProvinsi("all"); 
             setKabKot("");    
             setStatusKabKot(true);    
         }else{
-            // setStatusProv(true);
             setStatusKabKot(true);
             setProvinsi("all");
             setKabKot("");
@@ -144,14 +121,14 @@ export default function Tabel_Wilayah() {
         }else{
             let temp = [];
 
-            let provFlag = findProv(dataProvinsi, e.target.value); 
+            let provFlag = findProv(listProvinsi, e.target.value); 
 
-            dataKabKot.forEach((data) => {
+            listKabKot.forEach((data) => {
                 if (data.provinsi_Id === provFlag.id){
                     temp.push(data);
                 } 
             })
-            setListKabKot(temp);
+            setTempKabKot(temp);
             
             if(tingkat === "Nasional"){setStatusKabKot(true);}
             else{setKabKot("all"); setStatusKabKot(false);}
@@ -163,6 +140,7 @@ export default function Tabel_Wilayah() {
     }
 
     if(refresh === true){
+        refreshStatus(true)
         fetchData();
         setRefresh(false);
     }
@@ -187,9 +165,9 @@ export default function Tabel_Wilayah() {
                                     <p className={styles.dropdownTitle}>Pilih Kabupaten/Kota</p>
                                 </Col>
                                 <Col xs={2}>
-                                    {/* <Button variant="light" className={styles.buttons} onClick={() => setContent("create")}>
+                                    <Button variant="light" className={styles.buttons} onClick={() => setContent("create")}>
                                         Tambah Data
-                                    </Button>   */}
+                                    </Button>  
                                 </Col>
                             </Row>
                             <Row>
@@ -206,7 +184,7 @@ export default function Tabel_Wilayah() {
                                         onChange={provinsiHandler} value={provinsi} 
                                     >
                                         <option value="all" selected>Seluruh Provinsi</option>
-                                            { dataProvinsi && dataProvinsi.map((data, i) => {
+                                            { listProvinsi && listProvinsi.map((data, i) => {
                                                 let nama = data.nama_provinsi;
                                                 return(<option key={i} value={nama}>{nama}</option>)
                                         })}
@@ -218,7 +196,7 @@ export default function Tabel_Wilayah() {
                                     >
                                         <option value="" selected disabled hidden>Pilih Kabupaten/Kota</option>
                                         <option value="all" >Seluruh Kabupaten/Kota</option>
-                                            { listKabKot && listKabKot.map((data, i) => {
+                                            { tempKabKot && tempKabKot.map((data, i) => {
                                                 let nama = data.nama_kabupaten_kota;
                                                 return(<option key={i} value={nama}>{nama}</option>)
                                             })}
@@ -273,7 +251,7 @@ export default function Tabel_Wilayah() {
 
         }else if(content === "create"){
             return(
-                <Ubah_Data_Wilayah contentChanger={setContent} dataFlag={0} tingkatFlag={textTingkat} dataProvinsi={dataProvinsi} dataKabKot={dataKabKot} refreshFlag={setRefresh}/>
+                <Ubah_Data_Wilayah contentChanger={setContent} dataFlag={0} tingkatFlag={textTingkat} dataProvinsi={listProvinsi} dataKabKot={listKabKot} refreshFlag={setRefresh}/>
             )
         }
 

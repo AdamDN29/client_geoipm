@@ -13,7 +13,7 @@ import ImgAsset from '../../../assets';
 //import component Bootstrap React
 import { Container, Row, Col, Form, Button, Spinner, Table } from 'react-bootstrap'
 
-export default function Unggah_Data_IPM() {
+export default function Unggah_Data_IPM({yearFlag}) {
 
     const [tingkat, setTingkat] = useState("Nasional");
     const [tahun, setTahun] = useState("");
@@ -218,9 +218,10 @@ export default function Unggah_Data_IPM() {
         alert("Data Berhasil Ditambahkan ")
         setTotalUpload(0)
         setLoading(false);
+        yearFlag(true);
     }
     const columnsIPM = ["ID Wilayah", "Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "GWR"]
-    const stylesTable = {maxHeight: '500px', overflowY: "scroll"}
+    const stylesTable = {maxHeight: '29.5rem', overflowY: "scroll"}
     const stylesHeaderBody = {position: "sticky", top: "-5px" }
     const stylesHeader = {textAlign: 'center', backgroundColor: '#B8D9A0'}
     const stylesNameRow = {textAlign: 'left'}

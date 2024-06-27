@@ -41,9 +41,9 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                 }    
             }else{
                 if(textTingkat === "Nasional"){
-                    res = await provinsiAPI.deleteData(parseInt(value));
+                    res = await provinsiAPI.deleteDataWilayah(parseInt(value));
                 }else{
-                    res = await kab_kotAPI.deleteData(parseInt(value));
+                    res = await kab_kotAPI.deleteDataWilayah(parseInt(value));
                 }    
             }  
             console.log(res)
@@ -56,9 +56,7 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
         }catch(error){
             alert("Data Gagal Dihapus")
         }
-    }
-
-    
+    }  
 
     const columnsIPM = ["Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "GWR"]
     const columnsWilayah = ["ID", "Nama Wilayah", "Latitude", "Longitude"]
@@ -142,7 +140,7 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                                         (<th key={i} style={stylesHeader}>{column}</th>) )
                                 }
                                 {
-                                    actionFlag ? (<th style={stylesHeader} >Action</th>):(<></>)
+                                    actionFlag ? (<th style={stylesHeader} colSpan={2}>Action</th>):(<></>)
                                 }
                             </tr>
                         </thead>    
@@ -161,6 +159,11 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                                                 <td>
                                                     <button className={styles.buttons} onClick={() => EditData(data.id)} >
                                                         <FontAwesomeIcon icon={faEdit} />
+                                                    </button>
+                                                </td>
+                                                <td>
+                                                    <button className={styles.buttons} onClick={() => DeleteData(data.id)} >
+                                                        <FontAwesomeIcon icon={faTrash} />
                                                     </button>
                                                 </td>
                                             </>):(<></>)

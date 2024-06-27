@@ -284,24 +284,6 @@ export default function GWR_Maps() {
                                     </select>
                                 </div>
                             </Row>
-                             {/* Pilih Data */}
-                            {/* <Row>
-                                <div className={styles.dropdownField}>
-                                    <p className={styles.dropdownTitle}>Data</p>
-                                    <select name="Data" id="Data" className={styles.dropdownStyle}
-                                        onChange={dataTypeHandler} value={dataType}
-                                    >
-                                        <option value="ipm">Indeks Pembangunan Manusia (IPM)</option>
-                                        <option value="uhh">Umur Harapan Hidup (UHH)</option>
-                                        <option value="ahls">Angka Harapan Lama Sekolah (AHLS)</option>
-                                        <option value="arls">Angka Rata-Rata Lama Sekolah (ARLS)</option>
-                                        <option value="ppd">Pendapatan PerKapita Disesuaikan (PPD)</option>
-                                        <option value="iuhh">Indeks Umur Harapan Hidup (IUHH)</option>
-                                        <option value="ipthn">Indeks Pengetahuan (IPTHN)</option>
-                                        <option value="iplrn">Indeks Pengeluaran (IPLRN)</option>
-                                    </select>
-                                </div>
-                            </Row> */}
                             {/* Button */}
                             <Row>
                                 <Button onClick={fetchData} variant="light" className={styles.buttons} disabled={loading}>  

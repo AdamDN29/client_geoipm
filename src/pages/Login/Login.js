@@ -152,7 +152,7 @@ export default function Login() {
                                     disabled={isLoading}
                                     className={styles.buttons}
                                     type="submit"
-                                    // onClick={submitForm}
+                                    onClick={submitForm}
                                 >
                                     {isLoading === false ? (
                                     <>Login</>           
@@ -176,17 +176,6 @@ export default function Login() {
                     </Card>
                 </div>
             </center>
-            {/* <Row>
-                <Col md="{60}">
-                    <Card className="border-0 rounded shadow-sm">
-                        <Card.Body className="p-4">
-                        <h1>Login</h1>
-                        <p class="lead">Test Login <strong>GeoIPM</strong></p>
-                        
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row> */}
             
         </Container>
         </div>

@@ -18,6 +18,18 @@ const provinsiAPI = {
       return fetch(`${baseURL}provinsi/update/${id}`, requestOptions)
       .then(response => response.json())
   },
+  createDataWilayah(data) {
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: data
+    };
+      return fetch(`${baseURL}provinsi/create/`, requestOptions)
+      .then(response => response.json())
+  },
+  deleteDataWilayah(id) {
+    return Api.delete(`/provinsi/delete/${id}`).catch((err) => {console.log(err);}); 
+  }
 
 };
 

@@ -214,8 +214,7 @@ export default function IPM_Maps() {
           } else {
             layer.options.fillColor = '#FFDE78';  //#E1FB41
           }
-        }    
-        
+        }     
     
         layer.on("click", function () {
         })
