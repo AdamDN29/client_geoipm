@@ -197,6 +197,7 @@ export default function Modal_Result(props) {
                                     <tr style={stylesHeader}>
                                         <th style={stylesHeader}>No</th>
                                         <th style={stylesHeader}>Nama Wilayah</th>
+                                        <th style={stylesHeader}>Model GWR</th>
                                         <th style={stylesHeader}>Est Intercept</th>
                                         <th style={stylesHeader}>Est IUHH</th>
                                         <th style={stylesHeader}>Est IPTHN</th>
@@ -218,7 +219,8 @@ export default function Modal_Result(props) {
                                             return(
                                             <tr key={i}>
                                                 <td>{i+1}</td>
-                                                <td style={stylesNameRow}>{nama_wilayah} </td>                         
+                                                <td style={stylesNameRow}>{nama_wilayah} </td>      
+                                                <td>{data?.intercept + "+" + data?.iuhh + "+" + data?.ipthn + "+" + data?.iplrn}</td>                  
                                                 <td>{data?.intercept}</td>
                                                 <td>{data?.iuhh}</td>
                                                 <td>{data?.ipthn}</td>
