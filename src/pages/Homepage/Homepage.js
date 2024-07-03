@@ -135,9 +135,9 @@ export default function Homepage() {
                                             Berbeda dengan GWR yang menggunakan satu bandwidth untuk seluruh variabel independennya.
                                             <br/><br/>
 
-                                            Nilai IPM juga dapat dimodelkan menggunakan metode MGWR ini berdasarkan nilai IUHH, IPTHN, dan IPLRN.
+                                            <b>Nilai IPM </b>juga dapat dimodelkan menggunakan <b>metode MGWR</b> ini berdasarkan <b>nilai IUHH, IPTHN, dan IPLRN</b>.
                                             Hasil estimasi parameter (variabel independen) pun dapat dipetakan.
-                                            Hasil pemodelan data IPM dengan metode MGWR ini dapat ditemukan pada <a href="/peta_gwr" className={styles.linkText} >Peta GWR</a>
+                                            Hasil pemodelan GWR dengan metode MGWR pada data IPM ini dapat ditemukan pada <a href="/peta_gwr" className={styles.linkText} >Peta GWR</a>
                                         </p>
                                     </Row>
                                 </Col>

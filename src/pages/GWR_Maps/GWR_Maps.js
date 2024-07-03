@@ -137,7 +137,7 @@ export default function GWR_Maps() {
                 setTextDataType(tempText.text);
                 setTextDataTingkat(tingkat);
                 setTempDataTingkat(tempTingkat)
-                setTextDataTahun((parseInt(tahun) + 1));
+                setTextDataTahun(tahun);
                 
                 console.log(dataType.toUpperCase())
                 setCenterMap([-2.5, 117.55]);   
