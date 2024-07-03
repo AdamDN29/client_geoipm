@@ -495,7 +495,7 @@ export default function Ubah_Data_IPM({
               </Form.Group>
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label className="label_form">
-                  Prediksi GWR
+                  Model GWR
                 </Form.Label>
                 <Form.Control
                   size="sm"

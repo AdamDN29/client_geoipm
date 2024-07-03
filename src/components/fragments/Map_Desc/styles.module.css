@@ -69,11 +69,19 @@
   .high{
     background-color: #00B8A9;
   }
-  
+  .mid_high{
+    background-color: #80CB91;
+  }
   .between{
     background-color: #FFDE78;
   }
-  
+  .mid_low{
+    background-color: #FD905D;
+  }
   .low{
     background-color: #F6416C;
   }
+
+  
+
+  

@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 //import component Bootstrap React
 import { Container, Row, Col, Button, Spinner } from 'react-bootstrap'
 
-import Leaflet from 'leaflet'
 import {
     MapContainer,
     TileLayer,
@@ -12,6 +11,7 @@ import {
     GeoJSON,
     Tooltip,
     ZoomControl,
+    LayersControl, LayerGroup
 } from 'react-leaflet';
 
 import styles from './styles.module.css';
@@ -29,10 +29,7 @@ import ChangeView from '../../hook/ChangeView';
 
 const arrayText = [ 
     {title:"ipm", text:"Indeks Pembangunan Manusia"}, 
-    {title:"uhh", text:"Umur Harapan Hidup"}, 
-    {title:"ahls", text:"Angka Harapan Lama Sekolah"}, 
-    {title:"arls", text:"Angka Rata-Rata Lama Sekolah"}, 
-    {title:"ppd", text:"Pendapatan PerKapita Disesuaikan"}, 
+    {title:"intercept", text:"Intercept"}, 
     {title:"iuhh", text:"Indeks Umur Harapan Hidup"}, 
     {title:"ipthn", text:"Indeks Pengetahuan"}, 
     {title:"iplrn", text:"Indeks Pengeluaran"}, 
@@ -42,7 +39,7 @@ export default function GWR_Maps() {
 
     const [tingkat, setTingkat] = useState("Nasional");
     const [tahun, setTahun] = useState(2022);
-    const [dataType, setdataType] = useState("ipm");
+    const [dataType, setdataType] = useState("intercept");
 
     const [geojson, setGeojson] = useState([]);
     const [dataMap, setDataMap] = useState([]);
@@ -109,34 +106,30 @@ export default function GWR_Maps() {
         if(geojsonKey !== key){
             if(tingkat === 'Nasional'){
                 console.log("Cari Data Tingkat Nasional")     
-                // res = await ipm_provinsiAPI.getDataProvinsi(dataType, tahun);
-                // console.log(res.data)  
-                resCalc = await calculationAPI.getCalcProvinsi("gwr", tahun);               
+                resCalc = await calculationAPI.getCalcGWRProvinsi(dataType, tahun);               
                 console.log(resCalc.data)   
                 resGWR = await calculationAPI.getGWRProvinsi(tahun);   
-                console.log(resGWR.data)   
+                console.log(resGWR.data)  
                 setGeojson(prov_map);   
                 tempTingkat = "Provinsi"
             }else{
-                console.log("Cari Data Tingkat Provinsi")
-                // res = await ipm_kab_kotAPI.getDataKabKot(dataType, tahun);
-                // console.log(res.data)  
-                resCalc = await calculationAPI.getCalcProvinsi("gwr", tahun);                      
+                console.log("Cari Data Tingkat Provinsi") 
+                resCalc = await calculationAPI.getCalcGWRKabKot(dataType, tahun);                      
                 console.log(resCalc.data)
                 resGWR = await calculationAPI.getGWRKabKot(tahun);
-                console.log(resGWR.data)   
+                console.log(resGWR.data) 
                 setGeojson(kab_kot_map);   
                 tempTingkat = "Kabupaten/Kota"
             }
             setDataMap(resGWR.data.data);
             setDataCalc(resCalc.data.data);   
 
-            if(res !== null){
+            if(resCalc !== null){
                 setTextDataDesc(dataType.toUpperCase());
                 setStatus(true);
                 
                 setgeojsonKey(key);
-                setTextTooltip(dataType)
+                setTextTooltip(dataType.toUpperCase())
                 console.log("Status Aktif")
                 console.log("GeoJSON Key: ", key)
 
@@ -152,8 +145,7 @@ export default function GWR_Maps() {
                 setSelectedMap("");
                 setLoading(false);
             }
-        }else{return setLoading(false);}
-          
+        }else{return setLoading(false);}         
     };
 
     const tingkatHandler =  (e) => {
@@ -200,7 +192,7 @@ export default function GWR_Maps() {
     };
     
     const onEachRegion = (regionMap, layer) => {
-        let dataRegion;
+        let dataRegion, value, regionName;
         
         if(tingkat === "Nasional"){
             dataRegion = dataMap.find((element) => {
@@ -211,26 +203,44 @@ export default function GWR_Maps() {
                 return element.kabupaten_kota_Id === regionMap.id
             })
         }
+
+        if(dataType === "iuhh"){value = dataRegion.iuhh}
+        else if(dataType === "ipthn"){value = dataRegion.ipthn}
+        else if(dataType === "iplrn"){value = dataRegion.iplrn}
+        else {value = dataRegion.intercept}
        
-        if (dataRegion !== undefined) {            
-          if (dataRegion.value > dataCalc.max) {
-            layer.options.fillColor = '#00B8A9';  //#73D737
-          } else if (dataRegion.value < dataCalc.min) {
-            layer.options.fillColor = '#F6416C';  //#FB4141       
-          } else {
-            layer.options.fillColor = '#FFDE78';  //#E1FB41
-          }
-        }    
-        
-    
+        if (dataRegion !== undefined) {  
+            if(value < dataCalc.Q1){
+                layer.options.fillColor = '#FB4141'
+            }
+            else if(value > dataCalc.Q1 && value < dataCalc.Q2){
+                layer.options.fillColor = '#FD905D'
+            }   
+            else if(value > dataCalc.Q2 && value < dataCalc.Q3){
+                layer.options.fillColor = '#E1FB41'
+            }    
+            else if(value > dataCalc.Q3 && value < dataCalc.Q4){
+                layer.options.fillColor = '#80CB91'
+            }
+            else if(value > dataCalc.Q4){
+                layer.options.fillColor = '#73D737'
+            }
+        } 
+        if(tingkat === "Nasional"){
+            regionName = dataRegion.Provinsi.nama_provinsi
+        }else{
+            regionName = dataRegion.Kabupaten_Kotum.nama_kabupaten_kota
+        }
+
         layer.on("click", function () {
+            layer.bindPopup(` <p><b>${regionName}</b></br>Estimasi ${textTooltip} : ${value}</p> `);
         })
     
         layer.on("mouseover", function (e){
             const target = e.target;
             target.setStyle({
                 color: 'black',
-                fillOpacity: 0.9,
+                fillOpacity: 0.95,
                 weight: 2
             })
         })
@@ -238,7 +248,7 @@ export default function GWR_Maps() {
         layer.on("mouseout", function (e){
             const target = e.target;
             target.setStyle({
-                fillOpacity: 0.7,
+                fillOpacity: 0.8,
                 color: 'black',
                 weight: 2
             })
@@ -281,6 +291,20 @@ export default function GWR_Maps() {
                                         {listYear && listYear.map((data) => {
                                             return(<option value={data.tahun}>{data.tahun}</option>)
                                         })}
+                                    </select>
+                                </div>
+                            </Row>
+                             {/* Pilih Data */}
+                             <Row>
+                                <div className={styles.dropdownField}>
+                                    <p className={styles.dropdownTitle}>Parameter</p>
+                                    <select name="Data" id="Data" className={styles.dropdownStyle}
+                                        onChange={dataTypeHandler} value={dataType}
+                                    >
+                                        <option value="intercept">Intercept</option>
+                                        <option value="iuhh">Indeks Umur Harapan Hidup (IUHH)</option>
+                                        <option value="ipthn">Indeks Pengetahuan (IPTHN)</option>
+                                        <option value="iplrn">Indeks Pengeluaran (IPLRN)</option>
                                     </select>
                                 </div>
                             </Row>
@@ -346,7 +370,7 @@ export default function GWR_Maps() {
                             <Row className={styles.rowMap}>
                                 <div className={styles.mapTitle}>Peta {'  '}
                                      {'  '}
-                                    {status === true ?(<>Prediksi Indeks Pembangunan Manusia Tingkat {tempDataTingkat} di </>):(<></>)}{' '}
+                                    {status === true ?(<>Estimasi Parameter {textDataType} Tingkat {tempDataTingkat} di </>):(<></>)}{' '}
                                     Indonesia 
                                      {' '}
                                     {status === true ?(<>Tahun {textDataTahun}</>):(<></>)}
@@ -363,9 +387,12 @@ export default function GWR_Maps() {
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         />
 
-                                   
+                                        <LayersControl position="topright">
+                                            <LayersControl.Overlay checked name="Marker">
+                                                <LayerGroup>
+                                           
                                         {dataMap && dataMap.map((i, idx) => {
-                                            let namaWilayah, latitude, longitude, valueData, valueIPM, diff;
+                                            let namaWilayah, latitude, longitude, value;
                                             if (textDataTingkat === "Nasional"){
                                                 namaWilayah = i.Provinsi?.nama_provinsi;
                                                 latitude = i.Provinsi?.latitude;
@@ -375,27 +402,24 @@ export default function GWR_Maps() {
                                                 latitude = i.Kabupaten_Kotum?.latitude;
                                                 longitude = i.Kabupaten_Kotum?.longitude;
                                             }
-                                            valueData = i.value;
-                                            valueIPM = i.ipm;
-                                            diff = (i.value - i.ipm).toFixed(3);
+                                            if(dataType === "iuhh"){value = i.iuhh}
+                                            else if(dataType === "ipthn"){value = i.ipthn}
+                                            else if(dataType === "iplrn"){value = i.iplrn}
+                                            else {value = i.intercept}
+
+                                            value = value.toFixed(5)
                                         return(
                                             <>
+
                                                 <Marker key={idx}
                                                     position={[latitude || '', longitude || '']}
-                                                    eventHandlers={{
-                                                    click: () => {
-                                                        // handleClick(i.ProvinsiId, i.Provinsi?.nama_provinsi)
-                                                    },
-                                                    }}
                                                 >
                                                     <Tooltip>
                                                     <b>{namaWilayah}</b>
                                                     <p>
-                                                        {valueData !== null || valueData !== undefined ||valueData !== 0 ?(
+                                                        {value !== null || value !== undefined ||value !== 0 ?(
                                                             <>
-                                                                <>IPM {textDataTahun} : {valueData}</><br></br>
-                                                                <>IPM {textDataTahun -1} : {valueIPM}</><br></br>
-                                                                <>Selisih     : {diff}</>
+                                                                <>Estimasi {textTooltip} : {value}</><br></br>
                                                             </>
                                                         ):(<>Data tidak tersedia</>)}                                           
                                                     </p>
@@ -404,8 +428,10 @@ export default function GWR_Maps() {
                                             </>
                                             
                                         )})}
+                                                </LayerGroup>
+                                            </LayersControl.Overlay> 
+                                        </LayersControl>
 
-                             
                                         {   status === true ?(
                                             <>
                                                 <GeoJSON
@@ -418,13 +444,12 @@ export default function GWR_Maps() {
                                             </>
                                             ):(<></>)
                                         }                                     
-                                        <ZoomControl position="topright" />
-                                        
+                                        <ZoomControl position="topleft" />                           
                                     </MapContainer>
 
                                     {/* Map Desc */}
                                     {status === true ?(
-                                        <Map_Desc handleClickSet={true} max={dataCalc.max} min={dataCalc.min} dataType={textDataDesc}/>
+                                        <Map_Desc handleClickSet={true} Q1={dataCalc.Q1} Q2={dataCalc.Q2} Q3={dataCalc.Q3} Q4={dataCalc.Q4} dataType={textDataDesc}/>
                                     ):(<></>)}
                                     
                                 </div>  
@@ -440,12 +465,12 @@ export default function GWR_Maps() {
                 <Modal_Result
                     show={modalShow}
                     onHide={() => setModalShow(false)}
-                    max={dataCalc.max}
-                    min={dataCalc.min}
+                    max={0} min={0}
+                    Q1={dataCalc.Q1} Q2={dataCalc.Q2} Q3={dataCalc.Q3} Q4={dataCalc.Q4}
                     data={dataMap}
                     tingkat={textDataTingkat}
                     tahun={textDataTahun}
-                    textDataType={'Prediksi'}
+                    textDataType={textDataType}
                     dataType={textDataDesc}
                 />      
             </>):(<></>)}

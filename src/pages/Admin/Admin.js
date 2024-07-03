@@ -51,7 +51,7 @@ export default function Admin() {
         if (window.confirm('Apakah Anda Yakin Ingin Logout?')) {
             sessionStorage.clear();
             alert("Anda Berhasil Logout");
-            window.location.href = "/homepage";
+            window.location.href = "/login";
         } 
     }
 

@@ -3,14 +3,15 @@ import { useState, useEffect } from "react";
 
 //import component Bootstrap React
 import { Container, Row, Col, Button, Spinner  } from 'react-bootstrap'
-import Leaflet from 'leaflet'
 import {
     MapContainer,
     TileLayer,
     Marker,
     GeoJSON,
     Tooltip,
+    Popup,
     ZoomControl,
+    LayersControl, LayerGroup
 } from 'react-leaflet';
 
 import styles from './styles.module.css';
@@ -130,7 +131,7 @@ export default function IPM_Maps() {
                 setStatus(true);
                 
                 setgeojsonKey(key);
-                setTextTooltip(dataType)
+                setTextTooltip(dataType.toUpperCase())
                 console.log("Status Aktif")
                 console.log("GeoJSON Key: ", key)
 
@@ -194,7 +195,7 @@ export default function IPM_Maps() {
     };
     
     const onEachRegion = (regionMap, layer) => {
-        let dataRegion;
+        let dataRegion, regionName;
         
         if(tingkat === "Nasional"){
             dataRegion = dataMap.find((element) => {
@@ -214,16 +215,22 @@ export default function IPM_Maps() {
           } else {
             layer.options.fillColor = '#FFDE78';  //#E1FB41
           }
-        }     
-    
+        }        
+        if(tingkat === "Nasional"){
+            regionName = dataRegion.Provinsi.nama_provinsi
+        }else{
+            regionName = dataRegion.Kabupaten_Kotum.nama_kabupaten_kota
+        }
+
         layer.on("click", function () {
+            layer.bindPopup(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${dataRegion.value}</p> `);
         })
     
         layer.on("mouseover", function (e){
             const target = e.target;
             target.setStyle({
                 color: 'black',
-                fillOpacity: 0.9,
+                fillOpacity: 0.95,
                 weight: 2
             })
         })
@@ -231,12 +238,14 @@ export default function IPM_Maps() {
         layer.on("mouseout", function (e){
             const target = e.target;
             target.setStyle({
-                fillOpacity: 0.7,
+                fillOpacity: 0.8,
                 color: 'black',
                 weight: 2
             })
-        })  
+        }) 
     };
+
+  
 
     return (
         <div>
@@ -350,6 +359,7 @@ export default function IPM_Maps() {
                                     </>
                                 ):(<></>)
                             }
+
                             
                         </Col>
                         {/* Map Section */}
@@ -372,7 +382,9 @@ export default function IPM_Maps() {
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         />
-
+                                        <LayersControl position="topright">
+                                            <LayersControl.Overlay checked name="Marker">
+                                                <LayerGroup>
                                    
                                         {dataMap && dataMap.map((i, idx) => {
                                             let namaWilayah, latitude, longitude, valueData;
@@ -405,7 +417,7 @@ export default function IPM_Maps() {
                                                     <b>{namaWilayah}</b>
                                                     <p>
                                                         {valueData !== null || valueData !== undefined ||valueData !== 0 ?(
-                                                            <>{textTooltip.toUpperCase()} : {valueData}</>
+                                                            <>{textTooltip} : {valueData}</>
                                                         ):(<>Data tidak tersedia</>)}                                           
                                                     </p>
                                                     </Tooltip>
@@ -413,7 +425,9 @@ export default function IPM_Maps() {
                                             </>
                                             
                                         )})}
-
+                                                </LayerGroup>
+                                            </LayersControl.Overlay> 
+                                        </LayersControl>
                              
                                         {   status === true ?(
                                             <>
@@ -427,7 +441,7 @@ export default function IPM_Maps() {
                                             </>
                                             ):(<></>)
                                         }                                     
-                                        <ZoomControl position="topright" />
+                                        <ZoomControl position="topleft" />
                                         
                                     </MapContainer>
 

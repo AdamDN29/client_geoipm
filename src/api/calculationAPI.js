@@ -16,6 +16,12 @@ const calculationAPI = {
   getGWRKabKot(tahun) {
     return Api.get(`/data/getGWRKabKot/${tahun}`).catch((err) => {console.log(err);});
   },
+  getCalcGWRProvinsi(dataType, tahun) {
+    return Api.get(`/data/getCalcGWRProvinsi/${dataType}/${tahun}`).catch((err) => {console.log(err);});
+  },
+  getCalcGWRKabKot(dataType, tahun) {
+    return Api.get(`/data/getCalcGWRKabKot/${dataType}/${tahun}`).catch((err) => {console.log(err);});
+  },
 };
 
 export default calculationAPI;

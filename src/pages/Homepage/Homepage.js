@@ -57,16 +57,16 @@ export default function Homepage() {
                             <Row> <h5 className={styles.subtitle}>Komponen Penyusun IPM</h5></Row>
                             <Row>
                                 <ul className={styles.ulStyles}>
-                                    <li><b className={styles.boldP}>Indeks Umur Harapan Hidup</b></li>
+                                    <li><b className={styles.boldP}>Indeks Umur Harapan Hidup (IUHH)</b> </li>
                                         <ul>
                                             <li>Indikator Umur Harapan Hidup Saat Lahir (UHH)</li>
                                         </ul>
-                                    <li><b className={styles.boldP}>Indeks Pengetahuan</b></li>
+                                    <li><b className={styles.boldP}>Indeks Pengetahuan (IPTHN)</b></li>
                                         <ul>
                                             <li>Indikator Angka Harapan Lama Sekolah (AHLS)</li>
                                             <li>Indikator Angka Rata-rata Lama Sekolah (ARLS)</li>
                                         </ul>
-                                    <li><b className={styles.boldP}>Indeks Pengeluaran</b></li>
+                                    <li><b className={styles.boldP}>Indeks Pengeluaran (IPLRN)</b></li>
                                         <ul>
                                             <li>Indikator Pengeluaran Riil Per Kapita yang Disesuaikan per tahun</li>
                                         </ul>
@@ -117,12 +117,27 @@ export default function Homepage() {
                                             <i className={styles.boldP}>Geographycally Weighted Regression</i> (GWR) adalah 
                                             metode yang digunakan dalam mengeksplorasi dan menganalisis data spasial (data geografis),
                                             serta memodelkan hubungan data spasial. Hal ini dilakukan untuk mengetahui pengaruh suatu wilayah terhadap
-                                            wilayah lainnya berdasarkan data spasial seperti kedekatan letak geografisnya. <br/><br/>
-                                            Metode GWR ini digunakan untuk mengetahui bagaimana pengaruh suatu wilayah terhadap wilayah lainnya berkaitan 
-                                            dengan indeks pembangunan manusia di Indonesia pada tingkat provinsi dan tingkat kabupaten/kota.<br/><br/>
-                                            Metode GWR ini juga digunakan untuk melakukan <i>regression</i> atau prediksi nilai IPM untuk tahun berikutnya. 
-                                            Nilai hasil prediksi tersebut dapat dikelompokan seperti pada data IPM. 
-                                            Hasil pengelompokan nilai Prediksi IPM berdasarkan hasil GWR dapat ditemukan pada <a href="/peta_gwr" className={styles.linkText} >Peta GWR</a>
+                                            wilayah lainnya berdasarkan data spasial seperti kedekatan letak geografisnya. 
+                                            <br/><br/>
+
+                                            Metode GWR ini  digunakan untuk memodelkan hubungan suatu nilai variabel <b>(variabel dependen)</b> berdasarkan nilai variabel lainnya <b>(variabel independen)</b>.
+                                            Contohnya adalah untuk <b>memodelkan nilai IPM </b> berdasarkan <b> nilai IUHH, IPTHN, dan IPLRN</b>. 
+                                            <br/><br/>
+
+                                            Pada GWR, variabel independen tersebut akan diolah dan dimodelkan menggunakan data spasial berupa <b><i>latitude dan logitude</i></b>, serta <b><i>bandwidth</i></b> atau jangkauan. 
+                                            <b><i> Bandwidth</i></b>  ini berperan penting karena akan mempengaruhi estimasi variabel independen dari pemodelan GWR.
+                                            Oleh karena itu, dilakukan pencarian satu bandwidth optimum untuk mendapatkan hasil terbaik. 
+                                            <br/><br/>
+
+                                            Salah satu metode GWR adalah <b><i>Multiscale Geographycally Weighted Regression</i> (MGWR)</b>.
+                                            Perbedaan antara metode GWR dengan MGWR adalah pada penggunaan bandwidth.<br/>
+                                            Pada metode MGWR, setiap variabel independen memiliki bandwidth masing - masing.
+                                            Berbeda dengan GWR yang menggunakan satu bandwidth untuk seluruh variabel independennya.
+                                            <br/><br/>
+
+                                            Nilai IPM juga dapat dimodelkan menggunakan metode MGWR ini berdasarkan nilai IUHH, IPTHN, dan IPLRN.
+                                            Hasil estimasi parameter (variabel independen) pun dapat dipetakan.
+                                            Hasil pemodelan data IPM dengan metode MGWR ini dapat ditemukan pada <a href="/peta_gwr" className={styles.linkText} >Peta GWR</a>
                                         </p>
                                     </Row>
                                 </Col>

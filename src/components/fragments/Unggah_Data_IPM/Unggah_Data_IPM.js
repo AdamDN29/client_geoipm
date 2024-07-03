@@ -99,7 +99,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
                 "ipthn": "",
                 "iplrn": "",
                 "ipm": "",
-                "prediksi_gwr": "",
+                "model_gwr": "",
             }
         })
         console.log(dataKu);
@@ -174,7 +174,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
             "ipthn": parseFloat(data.ipthn),
             "iplrn": parseFloat(data.iplrn),
             "ipm": parseFloat(data.ipm),
-            "gwr": data.prediksi_gwr,
+            "gwr": data.model_gwr,
             "tahun": data.tahun
         })
         console.log(data)
@@ -342,7 +342,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
                                                     <td>{data?.ipthn}</td>
                                                     <td>{data?.iplrn}</td>
                                                     <td>{data?.ipm}</td>
-                                                    <td>{data?.prediksi_gwr}</td>
+                                                    <td>{data?.model_gwr}</td>
                                                 </tr>
                                             ))
                                         } 
