@@ -33,7 +33,7 @@ export default function Table_Data() {
 
     const [status, setStatus] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [found, setFound] = useState(true);
+    const [found, setFound] = useState(false);
     const [statusKabKot, setStatusKabKot] = useState(true);
 
     const [textTingkat, setTextTingkat] = useState("Nasional");
@@ -342,10 +342,10 @@ export default function Table_Data() {
                                                 // className={styles.search_image}
                                                 alt="Search"  
                                             />
-                                             { found ? <p className={styles.titleSection}>Silahkan Pilih Data</p> :
+                                             { loading ? <p className={styles.titleSection}>Loading...</p> :
                                                 <>
                                                     {
-                                                        loading ? <p className={styles.titleSection}>Loading...</p>:
+                                                        !found ? <p className={styles.titleSection}>Silahkan Pilih Data</p>:
                                                         <p className={styles.titleSection}>Data Tidak Ditemukan</p>
                                                     }
                                                 </>    
