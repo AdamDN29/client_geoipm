@@ -195,7 +195,7 @@ export default function IPM_Maps() {
     };
     
     const onEachRegion = (regionMap, layer) => {
-        let dataRegion, regionName;
+        let dataRegion, regionName, value;
         
         if(tingkat === "Nasional"){
             dataRegion = dataMap.find((element) => {
@@ -222,8 +222,14 @@ export default function IPM_Maps() {
             regionName = dataRegion.Kabupaten_Kotum.nama_kabupaten_kota
         }
 
+        if(dataType === "ahls" || dataType === "arls" || dataType === "uhh"){
+            value = dataRegion.value + " Tahun"
+        }else if(dataType === "ppd"){
+            value = "Rp. " + (separatorNumber(dataRegion.value * 1000))
+        }else{value = dataRegion.value}
+
         layer.on("click", function () {
-            layer.bindPopup(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${dataRegion.value}</p> `);
+            layer.bindPopup(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${value}</p> `);
         })
     
         layer.on("mouseover", function (e){
