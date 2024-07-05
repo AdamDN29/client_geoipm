@@ -232,9 +232,9 @@ export default function GWR_Maps() {
             regionName = dataRegion.Kabupaten_Kotum.nama_kabupaten_kota
         }
 
-        layer.on("click", function () {
-            layer.bindPopup(` <p><b>${regionName}</b></br>Estimasi ${textTooltip} : ${value}</p> `);
-        })
+        // layer.on("click", function () {
+        //     layer.bindPopup(` <p><b>${regionName}</b></br>Estimasi ${textTooltip} : ${value}</p> `);
+        // })
     
         layer.on("mouseover", function (e){
             const target = e.target;

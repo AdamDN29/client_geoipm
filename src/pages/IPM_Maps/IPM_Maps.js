@@ -228,9 +228,9 @@ export default function IPM_Maps() {
             value = "Rp. " + (separatorNumber(dataRegion.value * 1000))
         }else{value = dataRegion.value}
 
-        layer.on("click", function () {
-            layer.bindPopup(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${value}</p> `);
-        })
+        // layer.on("click", function () {
+        //     layer.bindPopup(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${value}</p> `);
+        // })
     
         layer.on("mouseover", function (e){
             const target = e.target;
