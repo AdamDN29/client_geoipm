@@ -241,8 +241,9 @@ export default function GWR_Maps() {
             target.setStyle({
                 color: 'black',
                 fillOpacity: 0.95,
-                weight: 2
+                weight: 4
             })
+            layer.bindTooltip(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${value}</p> `);
         })
     
         layer.on("mouseout", function (e){
