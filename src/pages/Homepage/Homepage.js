@@ -4,8 +4,21 @@ import ImgAsset from '../../assets'
 import styles from './styles.module.css';
 import Navbars from '../../components/fragments/Navbars';
 import Footers from '../../components/fragments/Footers/Footers.js';
+import ipm_provinsiAPI from '../../api/ipm_provinsiAPI';
 
 export default function Homepage() {
+    const [listYear, setListYear] = useState([]);
+
+    useEffect(() => {
+        getListYear("Nasional");
+    }, [])
+
+    const getListYear = async (dataTingkat) => {
+        let temp = await ipm_provinsiAPI.getDataProvinsiYear();
+        setListYear(temp.data.data);
+        console.log("Get List Year")
+    }
+
     return (
         <div>
         <Container fluid>
