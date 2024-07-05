@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from "react";
 import { Container, Row, Col } from 'react-bootstrap'
 import ImgAsset from '../../assets'
 import styles from './styles.module.css';
