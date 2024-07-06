@@ -141,15 +141,15 @@ export default function Admin() {
                             
                             <div className={styles.menuFeature}>
                                 <p className={styles.textAdmin}> Menu Fitur</p>
-                                <ListGroup>
-                                    <ListGroup.Item action onClick={() => navigate('/homepage')} className={styles.listItem}>
-                                        Homepage
-                                    </ListGroup.Item>
+                                <ListGroup>                                   
                                     <ListGroup.Item action onClick={() => navigate('/peta_ipm')} className={styles.listItem}>
                                         Peta IPM
                                     </ListGroup.Item>
                                     <ListGroup.Item action onClick={() => navigate('/peta_gwr')} className={styles.listItem}>
                                         Peta MGWR
+                                    </ListGroup.Item>
+                                    <ListGroup.Item action onClick={() => navigate('/tabel_data')} className={styles.listItem}>
+                                        Tabel Data
                                     </ListGroup.Item>
 
                                 </ListGroup>                  

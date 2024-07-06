@@ -49,7 +49,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
         let res;
         setLoading(true);
         setFound(false);
-        if(tahun === "" || tahun < 2000){
+        if(tahun === "" || tahun < 2000 || tahun > 2099){
             alert("Silahkan Isi Tahun dengan benar")
             return setLoading(false);
         }
@@ -140,20 +140,25 @@ export default function Unggah_Data_IPM({yearFlag}) {
             // setDataUpload(JSON.stringify(json, null, 2));
             console.log(json)
             let temp;
-            if(json[0].nama_wilayah.includes("Provinsi")){
-                temp = "Nasional"
-                setTingkat("Nasional")
-            }else{
-                temp = "Provinsi"
-                setTingkat("Provinsi")
+            try{
+                if(json[0].nama_wilayah.includes("Provinsi")){
+                    temp = "Nasional"
+                    setTingkat("Nasional")
+                }else{
+                    temp = "Provinsi"
+                    setTingkat("Provinsi")
+                }
+                console.log(temp)
+                getLast(temp);
+                
+                setDataUpload(json)
+                setFlag(false)
+                setTotalUpload(0)
+                setStatus(true)
+            }catch{
+                alert("File tidak sesuai template!")
             }
-            console.log(temp)
-            getLast(temp);
-            
-            setDataUpload(json)
-            setFlag(false)
-            setTotalUpload(0)
-            setStatus(true)
+           
           };
           reader.readAsBinaryString(fileObj);
         }
@@ -295,6 +300,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
                                         size="sm"
                                         name="file"
                                         type="file" 
+                                        accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                                         onChange={(event) => handleConvert(event)}
                                         />
                                     </Form.Group>
@@ -365,10 +371,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
                         </>)
                         }
                     </Col>
-                </Row>
-               
-                
-                
+                </Row>           
             </Container>
         </section>
     );

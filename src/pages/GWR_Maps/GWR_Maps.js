@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 //import component Bootstrap React
 import { Container, Row, Col, Button, Spinner } from 'react-bootstrap'
-
+import Select from 'react-select'
 import {
     MapContainer,
     TileLayer,
@@ -18,14 +18,13 @@ import styles from './styles.module.css';
 import Navbars from '../../components/fragments/Navbars';
 import kab_kot_map from '../../data/kab_kot_features.json';
 import prov_map from '../../data/prov_features.json';
-import provinsiAPI from '../../api/provinsiAPI';
-import kab_kotAPI from '../../api/kab_kotAPI';
 import ipm_provinsiAPI from '../../api/ipm_provinsiAPI';
 import ipm_kab_kotAPI from '../../api/ipm_kab_kotAPI';
 import calculationAPI from '../../api/calculationAPI';
 import Map_Desc from '../../components/fragments/Map_Desc/Map_Desc';
 import Modal_Result from '../../components/fragments/Modal_Result/Modal_Result';
 import ChangeView from '../../hook/ChangeView';
+import findRegion from '../../hook/findRegion';
 
 const arrayText = [ 
     {title:"ipm", text:"Indeks Pembangunan Manusia"}, 
@@ -82,16 +81,6 @@ export default function GWR_Maps() {
     function findArrayElementByTitle(array, title) {
         return array.find((element) => {
             return element.title === title
-        })
-    }
-
-    function findRegion(array, name) {
-        return array.find((element) => {
-            if (textDataTingkat === "Nasional"){
-                return element.Provinsi.nama_provinsi === name
-            }else{
-                return element.Kabupaten_Kotum.nama_kabupaten_kota === name
-            }
         })
     }
 
@@ -163,7 +152,7 @@ export default function GWR_Maps() {
     }
 
     const positionHandler =  (e) => {
-        let position = findRegion(dataMap, e.target.value)
+        let position = findRegion(dataMap, e, textDataTingkat)
         let latitude, longitude, zoomOption;
         if (textDataTingkat === "Nasional"){
             latitude = position.Provinsi.latitude;
@@ -176,7 +165,7 @@ export default function GWR_Maps() {
         }
         setCenterMap([latitude, longitude]);   
         setZoomMap(zoomOption);
-        setSelectedMap(e.target.value);
+        setSelectedMap(e);
     }
 
     const resetMap = () => {
@@ -231,10 +220,6 @@ export default function GWR_Maps() {
         }else{
             regionName = dataRegion.Kabupaten_Kotum.nama_kabupaten_kota
         }
-
-        // layer.on("click", function () {
-        //     layer.bindPopup(` <p><b>${regionName}</b></br>Estimasi ${textTooltip} : ${value}</p> `);
-        // })
     
         layer.on("mouseover", function (e){
             const target = e.target;
@@ -243,7 +228,7 @@ export default function GWR_Maps() {
                 fillOpacity: 0.95,
                 weight: 4
             })
-            layer.bindTooltip(` <p><b>${regionName}</b><br />Estimasi ${textTooltip} : ${value}</p> `);
+            layer.bindTooltip(` <p><b>${regionName}</b><br />Estimasi ${textTooltip} : ${value}</p> `, {direction: "center"}).openTooltip();
         })
     
         layer.on("mouseout", function (e){
@@ -255,6 +240,14 @@ export default function GWR_Maps() {
             })
         })  
     };
+
+    const selectOptionMenu = (option) =>{
+        if(textDataTingkat === "Nasional"){
+            return option.Provinsi.nama_provinsi
+        }else{
+            return option.Kabupaten_Kotum.nama_kabupaten_kota
+        }
+    }
 
     return (
         <div>
@@ -329,25 +322,14 @@ export default function GWR_Maps() {
                                         <div className={styles.titleSection}></div>
                                         <div className={styles.dropdownField}>
                                             <p className={styles.dropdownTitle}>Cari Wilayah</p>
-                                            <select name="tingkat" id="tingkat" className={styles.dropdownStyle}
-                                                onChange={positionHandler} value={selectedMap}
-                                            >
-                                                <option value="" selected disabled hidden>Pilih Wilayah</option>
-                                                {
-                                                    dataMap.map((data) => {
-                                                        let nama;
-                                                        if(textDataTingkat === "Nasional"){
-                                                            nama = data.Provinsi.nama_provinsi;
-                                                        }else{
-                                                            nama = data.Kabupaten_Kotum.nama_kabupaten_kota;
-                                                        }
-                                                        return(
-                                                            <option value={nama}>{nama}</option>
-                                                        )
-                                                    })
-                                                }
-                                                  
-                                            </select>
+                                             <Select 
+                                                getOptionLabel={option => selectOptionMenu(option)}
+                                                getOptionValue={option => selectOptionMenu(option)}
+                                                options={dataMap}
+                                                onChange={(e) => positionHandler(e)}
+                                                className={styles.selectRegion}
+                                                placeholder="Pilih Wilayah"
+                                            />
                                         </div>
                                     </Row>
                                     <Row>

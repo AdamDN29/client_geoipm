@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Container, Row, Col } from 'react-bootstrap'
 import ImgAsset from '../../assets'
 import styles from './styles.module.css';
@@ -8,16 +8,13 @@ import Footers from '../../components/fragments/Footers/Footers.js';
 import ipm_provinsiAPI from '../../api/ipm_provinsiAPI';
 
 export default function Homepage() {
-    const [listYear, setListYear] = useState([]);
 
     useEffect(() => {
         getListYear("Nasional");
     }, [])
 
-    const getListYear = async (dataTingkat) => {
+    const getListYear = async () => {
         let temp = await ipm_provinsiAPI.getDataProvinsiYear();
-        setListYear(temp.data.data);
-        console.log("Get List Year")
     }
 
     return (
@@ -122,36 +119,35 @@ export default function Homepage() {
                         <Col>
                             
                             <Row>
-                                <Col>
+                                <Col xs={6}>
                                 <Row>
-                                    <h5 className={styles.title2}><i>Geographycally Weighted Regression</i> (GWR)</h5>
+                                    <h5 className={styles.title2}><i>Multiscale Geographycally Weighted Regression</i> (MGWR)</h5>
                                 </Row>
                                     <Row>
                                         <p>
-                                            <i className={styles.boldP}>Geographycally Weighted Regression</i> (GWR) adalah 
+                                            <i className={styles.boldP}>Multiscale Geographycally Weighted Regression</i> (GWR) adalah 
                                             metode yang digunakan dalam mengeksplorasi dan menganalisis data spasial (data geografis),
                                             serta memodelkan hubungan data spasial. Hal ini dilakukan untuk mengetahui pengaruh suatu wilayah terhadap
                                             wilayah lainnya berdasarkan data spasial seperti kedekatan letak geografisnya. 
                                             <br/><br/>
 
-                                            Metode GWR ini  digunakan untuk memodelkan hubungan suatu nilai variabel <b>(variabel dependen)</b> berdasarkan nilai variabel lainnya <b>(variabel independen)</b>.
+                                            Metode MGWR ini digunakan untuk memodelkan hubungan suatu nilai variabel <b>(variabel dependen)</b> berdasarkan nilai variabel lainnya <b>(variabel independen)</b>.
                                             Contohnya adalah untuk <b>memodelkan nilai IPM </b> berdasarkan <b> nilai IUHH, IPTHN, dan IPLRN</b>. 
                                             <br/><br/>
 
-                                            Pada GWR, variabel independen tersebut akan diolah dan dimodelkan menggunakan data spasial berupa <b><i>latitude dan logitude</i></b>, serta <b><i>bandwidth</i></b> atau jangkauan. 
-                                            <b><i> Bandwidth</i></b>  ini berperan penting karena akan mempengaruhi estimasi variabel independen dari pemodelan GWR.
-                                            Oleh karena itu, dilakukan pencarian satu bandwidth optimum untuk mendapatkan hasil terbaik. 
+                                            Pada MGWR, variabel independen tersebut akan diolah dan dimodelkan menggunakan data spasial berupa <b><i>latitude dan logitude</i></b>, serta <b>pembobot</b>. 
+                                            <b> Pembobot</b>  ini berperan penting karena akan mempengaruhi estimasi variabel independen.
                                             <br/><br/>
 
-                                            Salah satu metode GWR adalah <b><i>Multiscale Geographycally Weighted Regression</i> (MGWR)</b>.
+                                            {/* Salah satu metode GWR adalah <b><i>Multiscale Geographycally Weighted Regression</i> (MGWR)</b>.
                                             Perbedaan antara metode GWR dengan MGWR adalah pada penggunaan bandwidth.<br/>
                                             Pada metode MGWR, setiap variabel independen memiliki bandwidth masing - masing.
                                             Berbeda dengan GWR yang menggunakan satu bandwidth untuk seluruh variabel independennya.
-                                            <br/><br/>
+                                            <br/><br/> */}
 
                                             <b>Nilai IPM </b>juga dapat dimodelkan menggunakan <b>metode MGWR</b> ini berdasarkan <b>nilai IUHH, IPTHN, dan IPLRN</b>.
                                             Hasil estimasi parameter (variabel independen) pun dapat dipetakan.
-                                            Hasil pemodelan GWR dengan metode MGWR pada data IPM ini dapat ditemukan pada <a href="/peta_gwr" className={styles.linkText} >Peta GWR</a>
+                                            Hasil pemodelan dengan metode MGWR pada data IPM ini dapat ditemukan pada <a href="/peta_gwr" className={styles.linkText} >Peta GWR</a>
                                         </p>
                                     </Row>
                                 </Col>

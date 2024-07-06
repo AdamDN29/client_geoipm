@@ -3,13 +3,13 @@ import { useState, useEffect } from "react";
 
 //import component Bootstrap React
 import { Container, Row, Col, Button, Spinner  } from 'react-bootstrap'
+import Select from 'react-select'
 import {
     MapContainer,
     TileLayer,
     Marker,
     GeoJSON,
     Tooltip,
-    Popup,
     ZoomControl,
     LayersControl, LayerGroup
 } from 'react-leaflet';
@@ -25,6 +25,7 @@ import Map_Desc from '../../components/fragments/Map_Desc/Map_Desc';
 import Modal_Result from '../../components/fragments/Modal_Result/Modal_Result';
 import ChangeView from '../../hook/ChangeView';
 import separatorNumber from '../../hook/separatorNumber';
+import findRegion from '../../hook/findRegion';
 
 const arrayText = [ 
     {title:"ipm", text:"Indeks Pembangunan Manusia"}, 
@@ -87,15 +88,7 @@ export default function IPM_Maps() {
         })
     }
 
-    function findRegion(array, name) {
-        return array.find((element) => {
-            if (textDataTingkat === "Nasional"){
-                return element.Provinsi.nama_provinsi === name
-            }else{
-                return element.Kabupaten_Kotum.nama_kabupaten_kota === name
-            }
-        })
-    }
+    
 
     const fetchData = async () => {
         console.log("Pilih Peta \nTingkat: ", tingkat, "\nTahun: ", tahun, "\nData: ", dataType)
@@ -154,19 +147,12 @@ export default function IPM_Maps() {
     const tingkatHandler =  (e) => {
         setTingkat(e.target.value)   
         console.log(tingkat);
-        getListYear(e.target.value);
-    }
-
-    const tahunHandler =  (e) => {
-        setTahun(e.target.value)   
-    }
-
-    const dataTypeHandler =  (e) => {
-        setdataType(e.target.value)   
+        getListYear(e.target.value);     
     }
 
     const positionHandler =  (e) => {
-        let position = findRegion(dataMap, e.target.value)
+        let position = findRegion(dataMap, e, textDataTingkat)
+        console.log(position)
         let latitude, longitude, zoomOption;
         if (textDataTingkat === "Nasional"){
             latitude = position.Provinsi.latitude;
@@ -179,7 +165,7 @@ export default function IPM_Maps() {
         }
         setCenterMap([latitude, longitude]);   
         setZoomMap(zoomOption);
-        setSelectedMap(e.target.value);
+        setSelectedMap(e);
     }
 
     const resetMap = () => {
@@ -227,10 +213,6 @@ export default function IPM_Maps() {
         }else if(dataType === "ppd"){
             value = "Rp. " + (separatorNumber(dataRegion.value * 1000))
         }else{value = dataRegion.value}
-
-        // layer.on("click", function () {
-        //     layer.bindPopup(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${value}</p> `);
-        // })
     
         layer.on("mouseover", function (e){
             const target = e.target;
@@ -239,7 +221,7 @@ export default function IPM_Maps() {
                 fillOpacity: 0.95,
                 weight: 4
             })
-            layer.bindTooltip(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${value}</p> `);
+            layer.bindTooltip(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${value}</p> `, {direction: "center"}).openTooltip();
         })
     
         layer.on("mouseout", function (e){
@@ -251,6 +233,14 @@ export default function IPM_Maps() {
             })
         }) 
     };
+
+    const selectOptionMenu = (option) =>{
+        if(textDataTingkat === "Nasional"){
+            return option.Provinsi.nama_provinsi
+        }else{
+            return option.Kabupaten_Kotum.nama_kabupaten_kota
+        }
+    }
 
   
 
@@ -285,7 +275,7 @@ export default function IPM_Maps() {
                                 <div className={styles.dropdownField}>
                                     <p className={styles.dropdownTitle}>Tahun</p>
                                     <select name="Tahun" id="Tahun" className={styles.dropdownStyle}
-                                        onChange={tahunHandler} value={tahun}
+                                        onChange={(e) => setTahun(e.target.value)} value={tahun}
                                     >
                                         {listYear && listYear.map((data) => {
                                             return(<option value={data.tahun}>{data.tahun}</option>)
@@ -298,7 +288,7 @@ export default function IPM_Maps() {
                                 <div className={styles.dropdownField}>
                                     <p className={styles.dropdownTitle}>Data</p>
                                     <select name="Data" id="Data" className={styles.dropdownStyle}
-                                        onChange={dataTypeHandler} value={dataType}
+                                        onChange={(e) => setdataType(e.target.value)} value={dataType}
                                     >
                                         <option value="ipm">Indeks Pembangunan Manusia (IPM)</option>
                                         <option value="uhh">Umur Harapan Hidup (UHH)</option>
@@ -331,25 +321,15 @@ export default function IPM_Maps() {
                                         <div className={styles.titleSection}></div>
                                         <div className={styles.dropdownField}>
                                             <p className={styles.dropdownTitle}>Cari Wilayah</p>
-                                            <select name="tingkat" id="tingkat" className={styles.dropdownStyle}
-                                                onChange={positionHandler} value={selectedMap}
-                                            >
-                                                <option value="" selected disabled hidden>Pilih Wilayah</option>
-                                                {
-                                                    dataMap.map((data) => {
-                                                        let nama;
-                                                        if(textDataTingkat === "Nasional"){
-                                                            nama = data.Provinsi.nama_provinsi;
-                                                        }else{
-                                                            nama = data.Kabupaten_Kotum.nama_kabupaten_kota;
-                                                        }
-                                                        return(
-                                                            <option value={nama}>{nama}</option>
-                                                        )
-                                                    })
-                                                }
-                                                  
-                                            </select>
+                                            <Select 
+                                                getOptionLabel={option => selectOptionMenu(option)}
+                                                getOptionValue={option => selectOptionMenu(option)}
+                                                options={dataMap}
+                                                onChange={(e) => positionHandler(e)}
+                                                className={styles.selectRegion}
+                                                placeholder="Pilih Wilayah"
+                                                // isDisabled="true"
+                                            />
                                         </div>
                                     </Row>
                                     <Row>
