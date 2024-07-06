@@ -54,7 +54,7 @@ export default function GWR_Maps() {
     const [tempDataTingkat, setTempDataTingkat] = useState("");
     const [textDataTahun, setTextDataTahun] = useState("");
     const [textDataDesc, setTextDataDesc] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [modalShow, setModalShow] = useState(false);
 
     const [centerMap, setCenterMap] = useState([-2.5, 117.55]);
@@ -63,6 +63,7 @@ export default function GWR_Maps() {
 
     useEffect(() => {
         getListYear(tingkat);
+        setLoading(false);
     }, [])
 
     const getListYear = async (dataTingkat) => {
@@ -157,11 +158,11 @@ export default function GWR_Maps() {
         if (textDataTingkat === "Nasional"){
             latitude = position.Provinsi.latitude;
             longitude = position.Provinsi.longitude;
-            zoomOption = 8;
+            zoomOption = 9;
         } else{
             latitude = position.Kabupaten_Kotum.latitude;
             longitude = position.Kabupaten_Kotum.longitude;
-            zoomOption = 10;
+            zoomOption = 11;
         }
         setCenterMap([latitude, longitude]);   
         setZoomMap(zoomOption);
@@ -371,7 +372,7 @@ export default function GWR_Maps() {
                                         />
 
                                         <LayersControl position="topright">
-                                            <LayersControl.Overlay checked name="Marker">
+                                            <LayersControl.Overlay name="Marker">
                                                 <LayerGroup>
                                            
                                         {dataMap && dataMap.map((i, idx) => {

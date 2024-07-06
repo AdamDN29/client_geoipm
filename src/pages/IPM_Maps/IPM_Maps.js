@@ -26,6 +26,7 @@ import Modal_Result from '../../components/fragments/Modal_Result/Modal_Result';
 import ChangeView from '../../hook/ChangeView';
 import separatorNumber from '../../hook/separatorNumber';
 import findRegion from '../../hook/findRegion';
+import { Map, map } from 'leaflet';
 
 const arrayText = [ 
     {title:"ipm", text:"Indeks Pembangunan Manusia"}, 
@@ -58,7 +59,7 @@ export default function IPM_Maps() {
     const [tempDataTingkat, setTempDataTingkat] = useState("");
     const [textDataTahun, setTextDataTahun] = useState("");
     const [textDataDesc, setTextDataDesc] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [modalShow, setModalShow] = useState(false);
 
     const [centerMap, setCenterMap] = useState([-2.5, 117.55]);
@@ -67,6 +68,7 @@ export default function IPM_Maps() {
 
     useEffect(() => {
         getListYear(tingkat);
+        setLoading(false);
     }, [])
 
     const getListYear = async (dataTingkat) => {
@@ -213,6 +215,11 @@ export default function IPM_Maps() {
         }else if(dataType === "ppd"){
             value = "Rp. " + (separatorNumber(dataRegion.value * 1000))
         }else{value = dataRegion.value}
+
+        layer.on("click", function (e){
+            const target = e.target;
+            target.fitBounds(target.getBounds())
+        }) 
     
         layer.on("mouseover", function (e){
             const target = e.target;
@@ -370,7 +377,7 @@ export default function IPM_Maps() {
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         />
                                         <LayersControl position="topright">
-                                            <LayersControl.Overlay checked name="Marker">
+                                            <LayersControl.Overlay name="Marker">
                                                 <LayerGroup>
                                    
                                         {dataMap && dataMap.map((i, idx) => {

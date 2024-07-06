@@ -139,7 +139,7 @@ export default function Admin() {
                                 </ListGroup>                  
                             </div>
                             
-                            <div className={styles.menuFeature}>
+                            {/* <div className={styles.menuFeature}>
                                 <p className={styles.textAdmin}> Menu Fitur</p>
                                 <ListGroup>                                   
                                     <ListGroup.Item action onClick={() => navigate('/peta_ipm')} className={styles.listItem}>
@@ -153,7 +153,7 @@ export default function Admin() {
                                     </ListGroup.Item>
 
                                 </ListGroup>                  
-                            </div>
+                            </div> */}
                         </center>
                     </div>
                 </Col>
