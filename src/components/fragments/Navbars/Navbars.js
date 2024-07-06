@@ -1,20 +1,18 @@
 import React from 'react'
-import { useState } from "react";
+import { useState, useContext } from "react";
 import ImgAsset from '../../../assets'
 import styles from './styles.module.css';
 
 //import component Bootstrap React
 import { Navbar, Nav, Button } from 'react-bootstrap'
 import { Link } from "react-router-dom";
+import { UserContext } from "../../../context/UserContext";
 
 export default function Navbars () {
-    const [userId, setUserId] = useState(() => {
-        const localData = sessionStorage.getItem("id");
-        return localData ? localData : null;
-    });
+    const { user } = useContext(UserContext);
     
 	const loginAdmin = () => {
-        if (userId !== null){
+        if (user){
             // window.location.href = "/admin";
             window.open("/admin");
         }else{
@@ -97,7 +95,7 @@ export default function Navbars () {
                                 className={styles.buttons}
                                 onClick={(loginAdmin)}
                             >
-                            {userId !== null? <>Dashboard</>:<>Login Admin</>}
+                            {user ? <>Dashboard</>:<>Login Admin</>}
                         </Button>
                     </Nav>
                 </Navbar.Collapse>

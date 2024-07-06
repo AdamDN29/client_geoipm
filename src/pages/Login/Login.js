@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useReducer } from 'react';
 import styles from './styles.module.css';
 import ImgAsset from '../../assets';
 import adminAPI from '../../api/adminAPI';
+import { UserContext } from '../../context/UserContext';
 
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,8 +11,6 @@ import * as yup from 'yup';
 
 //import component Bootstrap React
 import { Card, Container, Alert, Form, Button, Spinner } from 'react-bootstrap'
-
-const UserContext = createContext("");
 
 const loginSchema = yup.object().shape({
     email: yup.string().email().required('Email wajib diisi'),
@@ -65,30 +64,33 @@ export default function Login() {
             })
             const res = await adminAPI.login(dataKu);
             if(res.success){
-            //   setUser(res.data.data);
+              console.log(res.data)
               setMessage(res.message)
+              setUser(res.data)
               setAlertVariant("success")
-              setAlert(true);
-              toDashboard(res);
+              setAlert(true);          
+            //   toDashboard(res);
+              window.location.href = "/admin";
               
             }else if(!res.success){
                 setMessage(res.message)
                 setAlertVariant("danger")
                 setAlert(true);
             }
-          } catch (error) {
-            setMessage(error.response.data.message)
+        } catch (error) {
+            console.log("ERROR")
+            // setMessage(error.res.message)
             setAlertVariant("danger")
             setAlert(true)
-          }
+        }
         setIsLoading(false);
     }
 
-    const toDashboard = (res) =>{
-        sessionStorage.setItem("id", res.data.idAdmin);
-        sessionStorage.setItem("user", res.data.username);
-        window.location.href = "/admin";
-    }
+    // const toDashboard = (res) =>{
+    //     sessionStorage.setItem("id", res.data.idAdmin);
+    //     sessionStorage.setItem("user", res.data.username);
+    //     window.location.href = "/admin";
+    // }
 
     return (
         <div>

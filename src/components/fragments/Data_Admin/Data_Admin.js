@@ -45,7 +45,7 @@ const passwordReducer = (currentState, action) => {
     }
 }
 
-export default function Data_Admin({userId}) {   
+export default function Data_Admin({userData}) {   
     const [preload, setPreLoad] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const ref1 = useRef("");
@@ -56,7 +56,7 @@ export default function Data_Admin({userId}) {
     const [pass, dispatch2] = useReducer(passwordReducer, initialStatePassword);
 
     useEffect(() => {
-        getDataAdmin(userId);
+        getDataAdmin(userData.idAdmin);
     },[])
 
 
@@ -69,16 +69,6 @@ export default function Data_Admin({userId}) {
 		e.preventDefault();
         setIsLoading(true);
         console.log(user);
-
-        // const formData = new FormData();
-		// formData.append("id", preload.id);
-
-		// if (user.username !== ""){
-		// 	formData.append("username", user.username);
-		// }
-		// if (user.nama !== ""){
-		// 	formData.append("nama", user.nama);
-		// }
 
         let username, nama;
 
@@ -117,37 +107,35 @@ export default function Data_Admin({userId}) {
             
         }
         else{
-            if(pass.password === preload.password){
-                if(pass.newpassword === pass.confirmpassword){
+            if(pass.newpassword === pass.confirmpassword){
 
-                    const data = new URLSearchParams({
-                        "id": preload.id,
-                        "password": pass.newpassword
-                    })
-                    console.log(data)
+                const data = new URLSearchParams({
+                    "id": preload.id,
+                    "oldpassword": pass.password,
+                    "newpassword": pass.newpassword
+                })
+                console.log(data)
 
-                    try{
-                        const res = await adminAPI.editPassAdmin(preload.id, data);
-                        console.log(res)
-                        if (res.success) {
-                            setIsLoading(false);
-                            alert("Password Baru Berhasil di Simpan")
-                            ref1.current.value = '';
-                            ref2.current.value = '';
-                            ref3.current.value = '';
-                        }
-                    }catch(error){
-                        alert("Password Baru Gagal di Simpan")
+                try{
+                    const res = await adminAPI.editPassAdmin(preload.id, data);
+                    console.log(res)
+                    if (res.success) {
+                        setIsLoading(false);
+                        alert("Password Baru Berhasil di Simpan")   
                         ref1.current.value = '';
                         ref2.current.value = '';
-                        ref3.current.value = '';
+                        ref3.current.value = ''; 
+                    }else {
+                        alert("Password Lama Tidak Sesuai")  
                     }
-                }else{
-                    alert("Password Baru dan Kofirmasi Password Harus Sama!")
-                }           
+                }catch(error){
+                    alert("Password Baru Gagal di Simpan")
+
+                }
             }else{
-                alert("Password Lama Tidak Sesuai!")
-            }
+                alert("Password Baru dan Kofirmasi Password Harus Sama!")
+            } 
+                    
         }
         setIsLoading(false);   
     }

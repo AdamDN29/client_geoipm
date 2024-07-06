@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useMemo } from 'react';
 import {
   BrowserRouter as Router,
   Routes,
@@ -6,6 +6,8 @@ import {
 } from "react-router-dom";
 
 import { Spinner } from 'react-bootstrap'
+import { useLocalStorage } from "./hook/useLocalStorage";
+import { UserContext } from "./context/UserContext";
 import PrivateRoute from './hook/PrivateRoute';
 
 import { routes } from "./config/routes";
@@ -20,8 +22,17 @@ const Admin = React.lazy(() => import("./pages/Admin"));
 const Login = React.lazy(() => import("./pages/Login"));
 
 function App() {
+  const [user, setUser] = useLocalStorage("user");
+  const userProvider = useMemo(
+    () => ({
+      user,
+      setUser,
+    }),
+    [user, setUser]
+  );
 
   return (
+    <UserContext.Provider value={userProvider}>
     <Suspense fallback={
       <div>
           <center>
@@ -42,10 +53,11 @@ function App() {
             <Route element={<About />} exact path={routes.ABOUT()}/>
 
             <Route element={<Login />} exact path={routes.LOGIN()} />
-            <Route element={<PrivateRoute><Admin /></PrivateRoute>} exact path={routes.ADMIN()}/>
+            <Route element={<PrivateRoute user={user}><Admin /></PrivateRoute>} exact path={routes.ADMIN()}/>
           </Routes>
         </Router>
       </Suspense>
+      </UserContext.Provider>
   )
 }
 

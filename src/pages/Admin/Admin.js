@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 
 import styles from './styles.module.css';
 import ImgAsset from '../../assets'
@@ -12,18 +12,21 @@ import provinsiAPI from '../../api/provinsiAPI';
 import kab_kotAPI from '../../api/kab_kotAPI';
 import ipm_provinsiAPI from '../../api/ipm_provinsiAPI';
 import ipm_kab_kotAPI from '../../api/ipm_kab_kotAPI';
+import { UserContext } from "../../context/UserContext";
 
 //import component Bootstrap React
 import { Row, Col, ListGroup, Tab } from 'react-bootstrap'
+import adminAPI from '../../api/adminAPI';
 
 export default function Admin() {
 
-    const [userId, setUserId] = useState(() => {
-        const localData = sessionStorage.getItem("id");
-        return localData ? localData : null;
-    });
+    // const [userId, setUserId] = useState(() => {
+    //     const localData = sessionStorage.getItem("id");
+    //     return localData ? localData : null;
+    // });
+    const { user, setUser } = useContext(UserContext);
 
-    if(userId === null){
+    if(user === null){
         window.location.href = "/homepage";
     }
 
@@ -47,12 +50,33 @@ export default function Admin() {
         setDataKabKot(kabkot.data.data);
     }
 
-    const logoutHandler = () => {
-        if (window.confirm('Apakah Anda Yakin Ingin Logout?')) {
-            sessionStorage.clear();
-            alert("Anda Berhasil Logout");
-            window.location.href = "/login";
-        } 
+    // const logoutHandler = () => {
+    //     if (window.confirm('Apakah Anda Yakin Ingin Logout?')) {
+    //         sessionStorage.clear();
+    //         alert("Anda Berhasil Logout");
+    //         window.location.href = "/login";
+    //     } 
+    // }
+
+    const logoutHandler = async () => {
+        if (window.confirm('Apakah Anda Yakin Ingin Logout?')) {           
+            
+            try {
+                const res = await adminAPI.logout();
+                if (res.data.success) {
+                    alert("Anda Berhasil Logout");
+                    setUser(null);
+                    sessionStorage.clear();
+                    window.location.href = "/login";
+                }
+              } catch (error) {
+                console.log(error);
+              }
+        }     
+      };
+
+    const navigate = (href) => {
+        window.open(href, '_blank');
     }
 
     const getListYear = async (dataTingkat) => {
@@ -114,9 +138,26 @@ export default function Admin() {
                                     </ListGroup.Item>
                                 </ListGroup>                  
                             </div>
+                            
+                            <div className={styles.menuFeature}>
+                                <p className={styles.textAdmin}> Menu Fitur</p>
+                                <ListGroup>
+                                    <ListGroup.Item action onClick={() => navigate('/homepage')} className={styles.listItem}>
+                                        Homepage
+                                    </ListGroup.Item>
+                                    <ListGroup.Item action onClick={() => navigate('/peta_ipm')} className={styles.listItem}>
+                                        Peta IPM
+                                    </ListGroup.Item>
+                                    <ListGroup.Item action onClick={() => navigate('/peta_gwr')} className={styles.listItem}>
+                                        Peta MGWR
+                                    </ListGroup.Item>
+
+                                </ListGroup>                  
+                            </div>
                         </center>
                     </div>
                 </Col>
+
 
                 {/* Content */}
                 <Col className={styles.colStyle}>
@@ -127,11 +168,12 @@ export default function Admin() {
                             <Tab.Pane eventKey="#tabel_wilayah"><Tabel_Wilayah listProvinsi={dataProvinsi} listKabKot={dataKabKot} refreshStatus={setRefreshStatus}/></Tab.Pane>
                             <Tab.Pane eventKey="#tabel_ipm"><Tabel_IPM listProvinsi={dataProvinsi} listKabKot={dataKabKot} listYear={listYear} yearFlag={setYearFlag} tempTingkat={setTempTingkat} refreshStatus={setRefreshStatus}/></Tab.Pane>
                             <Tab.Pane eventKey="#unggah_data_ipm"><Unggah_Data_IPM yearFlag={setYearFlag}/></Tab.Pane>
-                            <Tab.Pane eventKey="#data_admin"><Data_Admin userId={userId}/></Tab.Pane>
+                            <Tab.Pane eventKey="#data_admin"><Data_Admin userData={user}/></Tab.Pane>
                         </Tab.Content>                      
                    </Row>
                 </Col>
-            </Row>    
+            </Row>   
+             
         </Tab.Container>
         </div>
     );

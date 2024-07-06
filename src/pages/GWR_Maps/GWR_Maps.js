@@ -39,7 +39,7 @@ export default function GWR_Maps() {
 
     const [tingkat, setTingkat] = useState("Nasional");
     const [tahun, setTahun] = useState(2022);
-    const [dataType, setdataType] = useState("intercept");
+    const [dataType, setdataType] = useState("iuhh");
 
     const [geojson, setGeojson] = useState([]);
     const [dataMap, setDataMap] = useState([]);
@@ -243,7 +243,7 @@ export default function GWR_Maps() {
                 fillOpacity: 0.95,
                 weight: 4
             })
-            layer.bindTooltip(` <p><b>${regionName}</b><br />Nilai ${textTooltip} : ${value}</p> `);
+            layer.bindTooltip(` <p><b>${regionName}</b><br />Estimasi ${textTooltip} : ${value}</p> `);
         })
     
         layer.on("mouseout", function (e){
@@ -301,11 +301,11 @@ export default function GWR_Maps() {
                                     <p className={styles.dropdownTitle}>Parameter</p>
                                     <select name="Data" id="Data" className={styles.dropdownStyle}
                                         onChange={dataTypeHandler} value={dataType}
-                                    >
-                                        <option value="intercept">Intercept</option>
+                                    >  
                                         <option value="iuhh">Indeks Umur Harapan Hidup (IUHH)</option>
                                         <option value="ipthn">Indeks Pengetahuan (IPTHN)</option>
                                         <option value="iplrn">Indeks Pengeluaran (IPLRN)</option>
+                                        <option value="intercept">Intercept</option>
                                     </select>
                                 </div>
                             </Row>
