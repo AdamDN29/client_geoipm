@@ -26,7 +26,6 @@ import Modal_Result from '../../components/fragments/Modal_Result/Modal_Result';
 import ChangeView from '../../hook/ChangeView';
 import separatorNumber from '../../hook/separatorNumber';
 import findRegion from '../../hook/findRegion';
-import { Map, map } from 'leaflet';
 
 const arrayText = [ 
     {title:"ipm", text:"Indeks Pembangunan Manusia"}, 
@@ -184,7 +183,6 @@ export default function IPM_Maps() {
     
     const onEachRegion = (regionMap, layer) => {
         let dataRegion, regionName, value;
-        
         if(tingkat === "Nasional"){
             dataRegion = dataMap.find((element) => {
                 return element.provinsi_Id === regionMap.id
@@ -218,7 +216,9 @@ export default function IPM_Maps() {
 
         layer.on("click", function (e){
             const target = e.target;
-            target.fitBounds(target.getBounds())
+            console.log(layer.getBounds())
+            // layer.fitBounds(layer.getBounds())
+            // map.setView([dataRegion.Provinsi.latitude, dataRegion.Provinsi.longitude])
         }) 
     
         layer.on("mouseover", function (e){
@@ -248,8 +248,6 @@ export default function IPM_Maps() {
             return option.Kabupaten_Kotum.nama_kabupaten_kota
         }
     }
-
-  
 
     return (
         <div>
@@ -376,8 +374,10 @@ export default function IPM_Maps() {
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         />
+
+
                                         <LayersControl position="topright">
-                                            <LayersControl.Overlay name="Marker">
+                                            <LayersControl.Overlay checked name="Marker">
                                                 <LayerGroup>
                                    
                                         {dataMap && dataMap.map((i, idx) => {
@@ -422,7 +422,7 @@ export default function IPM_Maps() {
                                                 </LayerGroup>
                                             </LayersControl.Overlay> 
                                         </LayersControl>
-                             
+                                        
                                         {   status === true ?(
                                             <>
                                                 <GeoJSON

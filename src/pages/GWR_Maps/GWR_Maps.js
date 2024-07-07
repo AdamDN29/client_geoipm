@@ -144,14 +144,6 @@ export default function GWR_Maps() {
         getListYear(e.target.value);
     }
 
-    const tahunHandler =  (e) => {
-        setTahun(e.target.value)   
-    }
-
-    const dataTypeHandler =  (e) => {
-        setdataType(e.target.value)   
-    }
-
     const positionHandler =  (e) => {
         let position = findRegion(dataMap, e, textDataTingkat)
         let latitude, longitude, zoomOption;
@@ -166,7 +158,7 @@ export default function GWR_Maps() {
         }
         setCenterMap([latitude, longitude]);   
         setZoomMap(zoomOption);
-        setSelectedMap(e);
+        // setSelectedMap(e);
     }
 
     const resetMap = () => {
@@ -194,9 +186,9 @@ export default function GWR_Maps() {
             })
         }
 
-        if(dataType === "iuhh"){value = dataRegion.iuhh}
-        else if(dataType === "ipthn"){value = dataRegion.ipthn}
-        else if(dataType === "iplrn"){value = dataRegion.iplrn}
+        if(textDataDesc === "IUHH"){value = dataRegion.iuhh}
+        else if(textDataDesc === "IPTHN"){value = dataRegion.ipthn}
+        else if(textDataDesc === "IPLRN"){value = dataRegion.iplrn}
         else {value = dataRegion.intercept}
        
         if (dataRegion !== undefined) {  
@@ -281,7 +273,7 @@ export default function GWR_Maps() {
                                 <div className={styles.dropdownField}>
                                     <p className={styles.dropdownTitle}>Tahun Data</p>
                                     <select name="Tahun" id="Tahun" className={styles.dropdownStyle}
-                                        onChange={tahunHandler} value={tahun}
+                                        onChange={(e) => setTahun(e.target.value)} value={tahun}
                                     >
                                         {listYear && listYear.map((data) => {
                                             return(<option value={data.tahun}>{data.tahun}</option>)
@@ -294,7 +286,7 @@ export default function GWR_Maps() {
                                 <div className={styles.dropdownField}>
                                     <p className={styles.dropdownTitle}>Parameter</p>
                                     <select name="Data" id="Data" className={styles.dropdownStyle}
-                                        onChange={dataTypeHandler} value={dataType}
+                                        onChange={(e) => setdataType(e.target.value)} value={dataType}
                                     >  
                                         <option value="iuhh">Indeks Umur Harapan Hidup (IUHH)</option>
                                         <option value="ipthn">Indeks Pengetahuan (IPTHN)</option>
@@ -370,9 +362,10 @@ export default function GWR_Maps() {
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         />
+                                        
 
                                         <LayersControl position="topright">
-                                            <LayersControl.Overlay name="Marker">
+                                            <LayersControl.Overlay checked name="Marker">
                                                 <LayerGroup>
                                            
                                         {dataMap && dataMap.map((i, idx) => {
@@ -427,7 +420,8 @@ export default function GWR_Maps() {
                                                 
                                             </>
                                             ):(<></>)
-                                        }                                     
+                                        }    
+                                                                         
                                         <ZoomControl position="topleft" />                           
                                     </MapContainer>
 
