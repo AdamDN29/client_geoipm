@@ -254,7 +254,7 @@ export default function GWR_Maps() {
                         {/* Choose Map Section */}
                         <Col md={2}>
                             <Row>
-                                <div className={styles.titleSection}>Pilih Peta GWR</div>
+                                <div className={styles.titleSection}>Pilih Peta MGWR</div>
                             </Row>
                             {/* Pilih Tingkat */}
                             <Row>

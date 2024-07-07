@@ -90,7 +90,7 @@ export default function Modal_Result(props) {
             </Modal.Title>
         </Modal.Header>
             <Modal.Body className={styles.header}>
-                <p className={styles.dataTitle}><b>Data {max === 0? (<>Estimasi Parameter Model GWR</>):<>{textDataType}</>} Tingkat {tingkat === "Nasional" ? (<>Provinsi</>):(<>Kabupaten/Kota</>)} Tahun {tahun}</b></p>
+                <p className={styles.dataTitle}><b>Data {max === 0? (<>Estimasi Parameter Model MGWR</>):<>{textDataType}</>} Tingkat {tingkat === "Nasional" ? (<>Provinsi</>):(<>Kabupaten/Kota</>)} Tahun {tahun}</b></p>
                 <p><Row classNames={styles.row1} >
                     <Col>Total Data : {data.length} </Col>
                     {max !== 0?(<>
@@ -197,7 +197,7 @@ export default function Modal_Result(props) {
                                     <tr style={stylesHeader}>
                                         <th style={stylesHeader}>No</th>
                                         <th style={stylesHeader}>Nama Wilayah</th>
-                                        <th style={stylesHeader}>Model GWR</th>
+                                        <th style={stylesHeader}>Model MGWR</th>
                                         <th style={stylesHeader}>Est Intercept</th>
                                         <th style={stylesHeader}>Est IUHH</th>
                                         <th style={stylesHeader}>Est IPTHN</th>
@@ -237,7 +237,7 @@ export default function Modal_Result(props) {
                             </div>
                         </Row>
                         <Row>
-                            <p>Perhitungan IPM Prediksi berdasarkan model GWR <br/>
+                            <p>Perhitungan IPM Prediksi berdasarkan model MGWR <br/>
                             IPM Prediksi = Intercept + (IUHH * Estimasi IUHH) + (IPTHN * Estimasi IPTHN) + (IPLRN * Estimasi IPLRN)
                             </p>   
                         </Row>

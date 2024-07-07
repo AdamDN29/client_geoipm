@@ -58,7 +58,7 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
         }
     }  
 
-    const columnsIPM = ["Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "Model GWR"]
+    const columnsIPM = ["Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "Model MGWR"]
     const columnsWilayah = ["ID", "Nama Wilayah", "Latitude", "Longitude"]
 
     const stylesTable = {maxHeight: '510px', overflowY: "scroll"}

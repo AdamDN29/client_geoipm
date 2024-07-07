@@ -188,17 +188,10 @@ export default function Table_Data() {
         }
     }
 
-    const kabkotHandler =  (e) => {
-        setKabKot(e.target.value)   
-    }
-
-    const tahunHandler =  (e) => {
-        setTahun(e.target.value);   
-    }
-
     const resetFilter = () => {
         setDataTable([]);
         setStatus(false);
+        setFound(false);
         setTextTingkat("")
         setTextTahun("")
         setTextTitle("")
@@ -262,7 +255,7 @@ export default function Table_Data() {
                                         <div className={styles.dropdownField}>
                                             <p className={styles.dropdownTitle}>Kabupaten/Kota</p>
                                             <select name="kabkot" id="kabkot" className={styles.dropdownStyle}
-                                                onChange={kabkotHandler} value={kabkot} disabled={statusKabKot}
+                                                onChange={(e) => setKabKot(e.target.value)} value={kabkot} disabled={statusKabKot}
                                             >
                                                 <option value="" selected disabled hidden>Pilih Kabupaten/Kota</option>
                                                 <option value="all" >Seluruh Kabupaten/Kota</option>
@@ -285,7 +278,7 @@ export default function Table_Data() {
                                 <div className={styles.dropdownField}>
                                     <p className={styles.dropdownTitle}>Tahun</p>
                                     <select name="Tahun" id="Tahun" className={styles.dropdownStyle}
-                                        onChange={tahunHandler} value={tahun}
+                                        onChange={(e) => setTahun(e.target.value)} value={tahun}
                                     >
                                         <option value="all">Seluruh Tahun</option>
                                         {listYear && listYear.map((data, i) => {

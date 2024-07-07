@@ -74,7 +74,7 @@ export default function Navbars () {
                                 className={`d-inline-block ${styles.nav_icon_img}`}
                                 alt="Icon Updates"
                             />
-                            <span className={styles.nav_icon_text}>Peta GWR</span>
+                            <span className={styles.nav_icon_text}>Peta MGWR</span>
                         </Nav.Link>
                         {/* Menu Table Data */}
                         <Nav.Link as={Link} to="/tabel_data" className={`nav-link ${styles.nav_icon_field}`}>
