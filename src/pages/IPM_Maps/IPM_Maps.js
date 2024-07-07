@@ -393,7 +393,10 @@ export default function IPM_Maps() {
                                             }
                                             if (textDataDesc === "PPD"){
                                                 valueData = "Rp. " + separatorNumber(i.value * 1000);
-                                            }else{
+                                            }else if(textDataDesc === "AHLS" || textDataDesc === "ARLS" || textDataDesc === "UHH"){
+                                                valueData = i.value + " Tahun";
+                                            }
+                                            else{
                                                 valueData = i.value;
                                             }
 

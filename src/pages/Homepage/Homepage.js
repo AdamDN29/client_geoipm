@@ -39,15 +39,17 @@ export default function Homepage() {
                                     <b className={styles.boldP}> umur panjang dan hidup sehat </b> (<i>a long and healthy life</i>), 
                                     <b className={styles.boldP}> pengetahuan</b> (<i>knowledge</i>), serta 
                                     <b className={styles.boldP}> standar hidup layak</b> (<i>decent standard of living</i>). <br/><br/>
+
+                                    IPM bertujuan untuk menentukan tingkat <b className={styles.boldP}>pembangunan kualitas hidup manusia </b> pada suatu wilayah. 
+                                    Sehingga IPM dapat digunakan untuk menentukan <b className={styles.boldP}>pengelompokan wilayah</b>  di Indonesia.
+                                    Pengelompokan wilayah tersebut dapat ditemukan pada <a href="/peta_ipm" className={styles.linkText} >Peta IPM</a>  <br/><br/>
                                     
                                     IPM dihitung berdasarkan <b className={styles.boldP}> nilai indeks </b> dari perhitungan <b className={styles.boldP}>indikator</b> masing - masing dimensi utama. Di Indonesia, 
                                     <b className={styles.boldP}> indeks umur harapan hidup</b> mewakili dimensi umur panjang dan hidup sehat,
                                     <b className={styles.boldP}> indeks pengetahuan</b> mewakili dimensi pengetahuan, dan
-                                    <b className={styles.boldP}> indeks pengeluaran</b> mewakili dimensi standar hidup layak. <br/><br/>
+                                    <b className={styles.boldP}> indeks pengeluaran</b> mewakili dimensi standar hidup layak.
 
-                                    IPM dapat menentukan tingkat <b className={styles.boldP}>pembangunan kualitas hidup manusia </b> pada suatu wilayah. 
-                                    Sehingga IPM dapat digunakan untuk menentukan <b className={styles.boldP}>pengelompokan wilayah</b>  di Indonesia.
-                                    Pengelompokan wilayah tersebut dapat ditemukan pada <a href="/peta_ipm" className={styles.linkText} >Peta IPM</a>
+                                    
                                 </p>
                             </Row>
                         </Col>
@@ -125,7 +127,7 @@ export default function Homepage() {
                                 </Row>
                                     <Row>
                                         <p>
-                                            <i className={styles.boldP}>Multiscale Geographycally Weighted Regression</i> (GWR) adalah 
+                                            <i className={styles.boldP}>Multiscale Geographycally Weighted Regression</i> (MGWR) adalah 
                                             metode yang digunakan dalam mengeksplorasi dan menganalisis data spasial (data geografis),
                                             serta memodelkan hubungan data spasial. Hal ini dilakukan untuk mengetahui pengaruh suatu wilayah terhadap
                                             wilayah lainnya berdasarkan data spasial seperti kedekatan letak geografisnya. 
