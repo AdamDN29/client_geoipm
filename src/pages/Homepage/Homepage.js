@@ -135,11 +135,12 @@ export default function Homepage() {
 
                                             Metode MGWR ini digunakan untuk memodelkan hubungan suatu nilai variabel <b>(variabel dependen)</b> berdasarkan nilai variabel lainnya <b>(variabel independen)</b>.
                                             Contohnya adalah untuk <b>memodelkan nilai IPM </b> berdasarkan <b> nilai IUHH, IPTHN, dan IPLRN</b>. 
+                                            Pemodelan dilakukan menggunakan data spasial berupa <b><i>latitude dan logitude</i></b>, serta <b>pembobot</b>. 
                                             <br/><br/>
 
-                                            Pada MGWR, variabel independen tersebut akan diolah dan dimodelkan menggunakan data spasial berupa <b><i>latitude dan logitude</i></b>, serta <b>pembobot</b>. 
+                                            {/* Pada MGWR, variabel independen tersebut akan diolah dan dimodelkan menggunakan data spasial berupa <b><i>latitude dan logitude</i></b>, serta <b>pembobot</b>. 
                                             <b> Pembobot</b>  ini berperan penting karena akan mempengaruhi estimasi variabel independen.
-                                            <br/><br/>
+                                            <br/><br/> */}
 
                                             {/* Salah satu metode GWR adalah <b><i>Multiscale Geographycally Weighted Regression</i> (MGWR)</b>.
                                             Perbedaan antara metode GWR dengan MGWR adalah pada penggunaan bandwidth.<br/>
@@ -149,7 +150,7 @@ export default function Homepage() {
 
                                             <b>Nilai IPM </b>juga dapat dimodelkan menggunakan <b>metode MGWR</b> ini berdasarkan <b>nilai IUHH, IPTHN, dan IPLRN</b>.
                                             Hasil estimasi parameter (variabel independen) pun dapat dipetakan.
-                                            Hasil pemodelan dengan metode MGWR pada data IPM ini dapat ditemukan pada <a href="/peta_gwr" className={styles.linkText} >Peta GWR</a>
+                                            Hasil pemodelan dengan metode MGWR pada data IPM ini dapat ditemukan pada <a href="/peta_gwr" className={styles.linkText} >Peta MGWR</a>
                                         </p>
                                     </Row>
                                 </Col>

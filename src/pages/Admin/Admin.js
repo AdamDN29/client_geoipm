@@ -20,10 +20,6 @@ import adminAPI from '../../api/adminAPI';
 
 export default function Admin() {
 
-    // const [userId, setUserId] = useState(() => {
-    //     const localData = sessionStorage.getItem("id");
-    //     return localData ? localData : null;
-    // });
     const { user, setUser } = useContext(UserContext);
 
     if(user === null){
@@ -49,14 +45,6 @@ export default function Admin() {
         setDataProvinsi(prov.data.data);
         setDataKabKot(kabkot.data.data);
     }
-
-    // const logoutHandler = () => {
-    //     if (window.confirm('Apakah Anda Yakin Ingin Logout?')) {
-    //         sessionStorage.clear();
-    //         alert("Anda Berhasil Logout");
-    //         window.location.href = "/login";
-    //     } 
-    // }
 
     const logoutHandler = async () => {
         if (window.confirm('Apakah Anda Yakin Ingin Logout?')) {           
