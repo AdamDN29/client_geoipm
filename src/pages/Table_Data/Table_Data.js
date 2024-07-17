@@ -112,9 +112,11 @@ export default function Table_Data() {
                 }   
             }          
         }
-        if (res.data.succes === false){
+        console.log(res.data)
+        if (res.data.sucess === false){
             setStatus(false);
-            setFound(false);
+            setFound(true);
+            console.log("Data Tidak Ditemukan")
         }else{
             setTextTingkat(tingkat);
             setTextTahun(tahun);
@@ -131,9 +133,9 @@ export default function Table_Data() {
             dataTemp = dataTemp.map(function(obj,i) {
 
                 if(tingkat === "Nasional"){
-                    obj['nama_wilayah'] = obj.Provinsi.nama_provinsi;
+                    obj['nama_wilayah'] = obj?.Provinsi.nama_provinsi;
                 }else{
-                    obj['nama_wilayah'] = obj.Kabupaten_Kotum.nama_kabupaten_kota;
+                    obj['nama_wilayah'] = obj?.Kabupaten_Kotum.nama_kabupaten_kota;
                 }
                 return obj;
             })
