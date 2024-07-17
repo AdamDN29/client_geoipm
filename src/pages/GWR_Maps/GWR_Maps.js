@@ -62,6 +62,7 @@ export default function GWR_Maps() {
     const [selectedMap, setSelectedMap] = useState("");
 
     useEffect(() => {
+        setLoading(true);
         getListYear(tingkat);
         setLoading(false);
     }, [])

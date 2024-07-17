@@ -66,6 +66,7 @@ export default function IPM_Maps() {
     const [selectedMap, setSelectedMap] = useState("");
 
     useEffect(() => {
+        setLoading(true);
         getListYear(tingkat);
         setLoading(false);
     }, [])

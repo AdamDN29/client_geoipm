@@ -41,6 +41,7 @@ export default function Table_Data() {
     const [textTitle, setTextTitle] = useState("");
     
     useEffect(() => {
+        setLoading(true);
         getDataWilayah();
         getListYear(tingkat);
         setLoading(false);
