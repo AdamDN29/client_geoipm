@@ -244,7 +244,7 @@ export default function Ubah_Data_Wilayah({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="latitude"
                   defaultValue={preload.latitude}
                   onBlur={(e) =>
@@ -258,7 +258,7 @@ export default function Ubah_Data_Wilayah({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="longitude"
                   defaultValue={preload.longitude}
                   onBlur={(e) =>

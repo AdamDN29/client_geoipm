@@ -18,7 +18,7 @@ const initialState = {
   ipthn: "",
   iplrn: "",
   ipm: "",
-  gwr: "",
+  mgwr: "",
 };
 
 const listYear = [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
@@ -45,8 +45,8 @@ const reducer = (currentState, action) => {
       return { ...currentState, iplrn: action.payload };
     case "ipm":
       return { ...currentState, ipm: action.payload };
-    case "gwr":
-      return { ...currentState, gwr: action.payload };
+    case "mgwr":
+      return { ...currentState, mgwr: action.payload };
     default:
       return currentState;
   }
@@ -107,7 +107,7 @@ export default function Ubah_Data_IPM({
         ipthn: res.data.data.ipthn,
         iplrn: res.data.data.iplrn,
         ipm: res.data.data.ipm,
-        gwr: res.data.data.gwr,
+        mgwr: res.data.data.mgwr,
         });
         setTempPPD(addCommas(removeNonNumeric((res.data.data.ppd * 1000))));
     };
@@ -117,7 +117,7 @@ export default function Ubah_Data_IPM({
         setIsLoading(true);
         console.log(data);
 
-        let uhh, ahls, arls, ppd, iuhh, ipthn, iplrn, ipm, gwr, id_wilayah, tahunData;
+        let uhh, ahls, arls, ppd, iuhh, ipthn, iplrn, ipm, mgwr, id_wilayah, tahunData;
 
         if (data.uhh !== "" || dataFlag === 0){
             uhh = data.uhh;
@@ -151,9 +151,9 @@ export default function Ubah_Data_IPM({
             ipm = data.ipm;
         }else{ipm = preload.ipm}
 
-        if (data.gwr !== "" || dataFlag === 0){
-          gwr = data.gwr;
-        }else{gwr = preload.gwr}
+        if (data.mgwr !== "" || dataFlag === 0){
+          mgwr = data.mgwr;
+        }else{mgwr = preload.mgwr}
 
         if(dataFlag === 0){
           if (tingkat === "Nasional"){
@@ -185,7 +185,7 @@ export default function Ubah_Data_IPM({
             "ipthn": parseFloat(ipthn),
             "iplrn": parseFloat(iplrn),
             "ipm": parseFloat(ipm),
-            "gwr": gwr,
+            "mgwr": mgwr,
             "tahun": tahunData
         })
 
@@ -377,7 +377,7 @@ export default function Ubah_Data_IPM({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="uhh"
                   defaultValue={preload.uhh}
                   onBlur={(e) =>
@@ -391,7 +391,7 @@ export default function Ubah_Data_IPM({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="ppd"
                   placeholder="10000 (Rp.10.000.000)"
                   defaultValue={preload.ppd}
@@ -414,7 +414,7 @@ export default function Ubah_Data_IPM({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="ahls"
                   defaultValue={preload.ahls}
                   onBlur={(e) =>
@@ -428,7 +428,7 @@ export default function Ubah_Data_IPM({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="arls"
                   defaultValue={preload.arls}
                   onBlur={(e) =>
@@ -443,7 +443,7 @@ export default function Ubah_Data_IPM({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="iuhh"
                   defaultValue={preload.iuhh}
                   onBlur={(e) =>
@@ -457,7 +457,7 @@ export default function Ubah_Data_IPM({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="ipthn"
                   defaultValue={preload.ipthn}
                   onBlur={(e) =>
@@ -471,7 +471,7 @@ export default function Ubah_Data_IPM({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="iplrn"
                   defaultValue={preload.iplrn}
                   onBlur={(e) =>
@@ -485,7 +485,7 @@ export default function Ubah_Data_IPM({
                 </Form.Label>
                 <Form.Control
                   size="sm"
-                  type="text"
+                  type="number"
                   name="ipm"
                   defaultValue={preload.ipm}
                   onBlur={(e) =>
@@ -500,10 +500,10 @@ export default function Ubah_Data_IPM({
                 <Form.Control
                   size="sm"
                   type="text"
-                  name="gwr"
-                  defaultValue={preload.gwr}
+                  name="mgwr"
+                  defaultValue={preload.mgwr}
                   onBlur={(e) =>
-                    dispatch({ type: "gwr", payload: e.target.value })
+                    dispatch({ type: "mgwr", payload: e.target.value })
                   }
                 />
               </Form.Group>

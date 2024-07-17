@@ -30,7 +30,7 @@ const exportData = ({excelData, fileName, tingkat, flag}) =>{
                 "IPTHN": data.ipthn,
                 "IPLRN": data.iplrn,
                 "IPM": data.ipm,
-                "Model GWR": data.gwr
+                "Model MGWR": data.mgwr
             }
         })
         console.log(dataKu);

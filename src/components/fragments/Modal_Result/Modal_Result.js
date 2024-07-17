@@ -185,7 +185,7 @@ export default function Modal_Result(props) {
                                         })
                                     }
                                 </div>
-                                <Row><p className={styles.totalList}>{dataType} <span>{`< ${text1}${roundedMax}` || '...'}{text2}</span> </p></Row>
+                                <Row><p className={styles.totalList}>{dataType} <span>{`< ${text1}${roundedMin}` || '...'}{text2}</span> </p></Row>
                                 <Row><p className={styles.totalList}>Total : {kel3.length} ({percenKel3}%)</p></Row>   
                             </Col>
                         </Row>

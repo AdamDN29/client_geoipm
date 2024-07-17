@@ -103,7 +103,7 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                                         <td>{data?.ipthn}</td>
                                         <td>{data?.iplrn}</td>
                                         <td>{data?.ipm}</td>
-                                        <td>{data?.gwr}</td>
+                                        <td>{data?.mgwr}</td>
                                         {
                                             actionFlag ? (
                                             <>

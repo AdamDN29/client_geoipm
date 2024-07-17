@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import styles from './styles.module.css'
 import * as FileSaver from 'file-saver';
@@ -27,11 +27,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
     const [lastData, setLastData] = useState();
     const [dataTable, setDataTable] = useState([]);
     const [dataUpload, setDataUpload] = useState([]);
-    const [totalUpload, setTotalUpload] = useState(0);
 
-    useEffect(() => {
-        
-    },[])
 
     const getLast = async (temp) => {
         let res;
@@ -99,7 +95,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
                 "ipthn": "",
                 "iplrn": "",
                 "ipm": "",
-                "model_gwr": "",
+                "model_mgwr": "",
             }
         })
         console.log(dataKu);
@@ -153,7 +149,6 @@ export default function Unggah_Data_IPM({yearFlag}) {
                 
                 setDataUpload(json)
                 setFlag(false)
-                setTotalUpload(0)
                 setStatus(true)
             }catch{
                 alert("File tidak sesuai template!")
@@ -164,8 +159,9 @@ export default function Unggah_Data_IPM({yearFlag}) {
         }
       };
 
+    
+
     const uploadData = async (data, index) => {
-        let temp = totalUpload + 1;
         let id_wilayah = parseInt(data.id_wilayah)
         let idTemp = lastData.data.data.id + index + 1;
         console.log(idTemp)
@@ -179,58 +175,64 @@ export default function Unggah_Data_IPM({yearFlag}) {
             "ipthn": parseFloat(data.ipthn),
             "iplrn": parseFloat(data.iplrn),
             "ipm": parseFloat(data.ipm),
-            "gwr": data.model_gwr,
+            "mgwr": data.model_mgwr,
             "tahun": data.tahun
         })
         console.log(data)
 
         try{
-            var res;
+            let res;
             if(tingkat === "Nasional"){
                 console.log("Tambah Provinsi")
                 res = await ipm_provinsiAPI.createDataIPM(id_wilayah, dataKu);
-              }else{
+            }else{
                 console.log("Tambah Kabkot")
                 res = await ipm_kab_kotAPI.createDataIPM(id_wilayah, dataKu);
-              }
+            }
             
-            console.log(res)
-            if (res.success) {
-                setTotalUpload(temp);
+            if (res.success === true) {
+                console.log("Success")
+                return 1;
                 
             }else if(res.success === false && res.flag === true){
-              alert(res.message)
+              alert("Data IPM ke-" + data.id_wilayah + " Gagal Disimpan \n" + res.message)
+              return 0;
             }
 
         }catch(error){
             alert("Data IPM " + data.nama_wilayah + "Gagal Disimpan")
+            return 0;
         }
     }
 
     const SimpanData = async () => {
         setLoading(true)
-
         if(flag){
             alert("Data Sudah Disimpan")
             return setLoading(false)
         }
 
-        dataUpload.map((data, index) => {
-            uploadData(data, index)
-            
-        })
+        let temp = dataUpload.map(async (data, index) => {
+            let count = await uploadData(data, index);
+            return count;
+        }) 
+
+        const results = await Promise.all(temp);      
+        const countTotal = results.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+       
+        console.log(results)
+        
         setFlag(true)
-        alert("Data Berhasil Ditambahkan ")
-        setTotalUpload(0)
         setLoading(false);
         yearFlag(true);
+        alert("Data Berhasil Ditambahkan : " + countTotal + " dari " + dataUpload.length)  
     }
+
     const columnsIPM = ["ID Wilayah", "Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "MGWR"]
     const stylesTable = {maxHeight: '29.5rem', overflowY: "scroll"}
     const stylesHeaderBody = {position: "sticky", top: "-5px" }
     const stylesHeader = {textAlign: 'center', backgroundColor: '#B8D9A0'}
     const stylesNameRow = {textAlign: 'left'}
-
 
     return (
         <section>
@@ -348,7 +350,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
                                                     <td>{data?.ipthn}</td>
                                                     <td>{data?.iplrn}</td>
                                                     <td>{data?.ipm}</td>
-                                                    <td>{data?.model_gwr}</td>
+                                                    <td>{data?.model_mgwr}</td>
                                                 </tr>
                                             ))
                                         } 

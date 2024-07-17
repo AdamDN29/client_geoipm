@@ -53,23 +53,23 @@ export default function Map_Desc(props) {
         </>):(<>
             <div>
               <div className={styles.high}/>
-              <p><span>{dataType} {`> ${text1}${roundedQ4}` || '...'}{text2}</span> </p>  
+              <p><span>Est {dataType} {`> ${text1}${roundedQ4}` || '...'}{text2}</span> </p>  
             </div>
             <div>
               <div className={styles.mid_high}/>
-              <p> <span>{text1}{roundedQ3 || '...'} ≤ {dataType} ≤ {text1}{roundedQ4 || '...'}{text2}</span> </p>  
+              <p> <span>{text1}{roundedQ3 || '...'} ≤ Est {dataType} ≤ {text1}{roundedQ4 || '...'}{text2}</span> </p>  
             </div>
             <div>
               <div className={styles.between}/>
-              <p> <span>{text1}{roundedQ2 || '...'} ≤ {dataType} ≤ {text1}{roundedQ3 || '...'}{text2}</span> </p>  
+              <p> <span>{text1}{roundedQ2 || '...'} ≤ Est {dataType} ≤ {text1}{roundedQ3 || '...'}{text2}</span> </p>  
             </div>
             <div>
               <div className={styles.mid_low}/>
-              <p> <span>{text1}{roundedQ1 || '...'} ≤ {dataType} ≤ {text1}{roundedQ2 || '...'}{text2}</span> </p>  
+              <p> <span>{text1}{roundedQ1 || '...'} ≤ Est {dataType} ≤ {text1}{roundedQ2 || '...'}{text2}</span> </p>  
             </div>
             <div>
               <div className={styles.low}/>
-              <p><span>{dataType} {`< ${text1}${roundedQ1}` || '...'}{text2}</span></p>  
+              <p><span>Est {dataType} {`< ${text1}${roundedQ1}` || '...'}{text2}</span></p>  
             </div> 
         </>)}
       </div>
