@@ -187,10 +187,10 @@ export default function GWR_Maps() {
             })
         }
 
-        if(textDataDesc === "IUHH"){value = dataRegion.iuhh}
-        else if(textDataDesc === "IPTHN"){value = dataRegion.ipthn}
-        else if(textDataDesc === "IPLRN"){value = dataRegion.iplrn}
-        else {value = dataRegion.intercept}
+        if(textDataDesc === "IUHH"){value = dataRegion?.iuhh}
+        else if(textDataDesc === "IPTHN"){value = dataRegion?.ipthn}
+        else if(textDataDesc === "IPLRN"){value = dataRegion?.iplrn}
+        else {value = dataRegion?.intercept}
        
         if (dataRegion !== undefined) {  
             if(value < dataCalc.Q1){
@@ -210,9 +210,9 @@ export default function GWR_Maps() {
             }
         } 
         if(tingkat === "Nasional"){
-            regionName = dataRegion.Provinsi.nama_provinsi
+            regionName = dataRegion?.Provinsi.nama_provinsi
         }else{
-            regionName = dataRegion.Kabupaten_Kotum.nama_kabupaten_kota
+            regionName = dataRegion?.Kabupaten_Kotum.nama_kabupaten_kota
         }
     
         layer.on("mouseover", function (e){

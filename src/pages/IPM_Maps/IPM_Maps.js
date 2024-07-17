@@ -195,29 +195,28 @@ export default function IPM_Maps() {
         }
        
         if (dataRegion !== undefined) {            
-          if (dataRegion.value > dataCalc.max) {
+          if (dataRegion?.value > dataCalc.max) {
             layer.options.fillColor = '#00B8A9';  //#73D737
-          } else if (dataRegion.value < dataCalc.min) {
+          } else if (dataRegion?.value < dataCalc.min) {
             layer.options.fillColor = '#F6416C';  //#FB4141       
           } else {
             layer.options.fillColor = '#FFDE78';  //#E1FB41
           }
         }        
         if(tingkat === "Nasional"){
-            regionName = dataRegion.Provinsi.nama_provinsi
+            regionName = dataRegion?.Provinsi.nama_provinsi
         }else{
-            regionName = dataRegion.Kabupaten_Kotum.nama_kabupaten_kota
+            regionName = dataRegion?.Kabupaten_Kotum.nama_kabupaten_kota
         }
 
         if(dataType === "ahls" || dataType === "arls" || dataType === "uhh"){
-            value = dataRegion.value + " Tahun"
+            value = dataRegion?.value + " Tahun"
         }else if(dataType === "ppd"){
-            value = "Rp. " + (separatorNumber(dataRegion.value * 1000))
-        }else{value = dataRegion.value}
+            value = "Rp. " + (separatorNumber(dataRegion?.value * 1000))
+        }else{value = dataRegion?.value}
 
         layer.on("click", function (e){
             const target = e.target;
-            console.log(layer.getBounds())
             // layer.fitBounds(layer.getBounds())
             // map.setView([dataRegion.Provinsi.latitude, dataRegion.Provinsi.longitude])
         }) 

@@ -200,7 +200,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
             }
 
         }catch(error){
-            alert("Data IPM " + data.nama_wilayah + "Gagal Disimpan")
+            alert("Data IPM " + data.nama_wilayah + " Gagal Disimpan \n" + error.message)
             return 0;
         }
     }
