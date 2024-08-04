@@ -155,7 +155,7 @@ export default function GWR_Maps() {
         }
         setCenterMap([position.Wilayah.latitude, position.Wilayah.longitude]);   
         setZoomMap(zoomOption);
-        // setSelectedMap(e);
+        setSelectedMap(e);
     }
 
     const resetMap = () => {
