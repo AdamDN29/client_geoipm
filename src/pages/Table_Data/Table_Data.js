@@ -136,9 +136,9 @@ export default function Table_Data() {
             setLoading(false);
             setFound(true);
             if (tahun === 'all'){
-                setTextTitle(wilayah)
+                setTextTitle("IPM " + wilayah)
             }else{
-                setTextTitle(wilayah + " Tahun " + tahun)
+                setTextTitle("IPM " + wilayah + " Tahun " + tahun)
             }
         }   
         setLoading(false);       
@@ -217,8 +217,8 @@ export default function Table_Data() {
                                     <select name="tingkat" id="tingkat" className={styles.dropdownStyle}
                                         onChange={tingkatHandler} value={tingkat}
                                     >
-                                          <option value="Provinsi">Cari Provinsi</option>
-                                          <option value="Kabupaten/Kota">Cari Kabupaten/Kota</option>
+                                          <option value="Provinsi">Tingkat Provinsi</option>
+                                          <option value="Kabupaten/Kota">Tingkat Kabupaten/Kota</option>
                                     </select>
                                 </div>
                             </Row>
@@ -310,7 +310,7 @@ export default function Table_Data() {
                         {/* Table Data Section */}
                         <Col className={styles.colData}>
                             <Row >
-                                <div className={styles.titleSection}>Tabel Data IPM {" "} 
+                                <div className={styles.titleSection}>Tabel Data {" "} 
                                     {textTitle}
                                 </div>
                             </Row>

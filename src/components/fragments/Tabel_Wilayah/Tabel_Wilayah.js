@@ -128,7 +128,7 @@ export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus})
             return (
                 <Container >
                     <Row>
-                        <h2>Tabel Data Wilayah</h2>
+                        <h2>Data Wilayah</h2>
                     </Row>
                     <Row className={styles.rowSection}>
                         <Col className={styles.colStyle}>

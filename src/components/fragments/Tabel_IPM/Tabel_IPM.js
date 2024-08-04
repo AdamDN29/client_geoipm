@@ -153,7 +153,7 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
             return(
                 <Container>
                 <Row>
-                    <h2>Tabel Data IPM</h2>
+                    <h2>Data IPM</h2>
                 </Row>
                 <Row className={styles.rowSection}>
                     <Col className={styles.colStyle}>

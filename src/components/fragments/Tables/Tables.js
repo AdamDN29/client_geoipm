@@ -135,7 +135,7 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                     <Table striped bordered hover responsive="sm" className={styles.tableStyles} >
                         <thead style={stylesHeaderBody}>
                             <tr style={stylesHeader}>
-                                <th style={stylesHeader}>No</th>
+                                
                                 {
                                     columnsWilayah.map((column, i) =>
                                         (<th key={i} style={stylesHeader}>{column}</th>) )
@@ -149,7 +149,7 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                             {
                                 dataTable.map((data,i) =>(
                                     <tr key={i}>
-                                        <td>{i+1}</td>
+                                        
                                         {actionFlag ? (<td>{data.id}</td>):(<></>)}
                                         <td style={stylesNameRow}>{data?.nama_wilayah} </td>                         
                                         <td>{data?.latitude.toFixed(7)}</td>

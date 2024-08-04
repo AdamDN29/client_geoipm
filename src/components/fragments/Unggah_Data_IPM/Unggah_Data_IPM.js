@@ -221,7 +221,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
         yearFlag(true);
     }
 
-    const columnsIPM = ["ID Wilayah", "Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "MGWR"]
+    const columnsIPM = ["ID", "Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "Model MGWR"]
     const stylesTable = {maxHeight: '29.5rem', overflowY: "scroll"}
     const stylesHeaderBody = {position: "sticky", top: "-5px" }
     const stylesHeader = {textAlign: 'center', backgroundColor: '#B8D9A0'}

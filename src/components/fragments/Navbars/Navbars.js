@@ -97,7 +97,7 @@ export default function Navbars () {
                                 lassName={`d-inline-block ${styles.nav_icon_img}`}
                                 alt="Icon Updates"
                             />
-                            <span className={styles.nav_icon_text}>Data</span>
+                            <span className={styles.nav_icon_text}>Dataview</span>
                         </Nav.Link>                
                         
                     </Nav>
