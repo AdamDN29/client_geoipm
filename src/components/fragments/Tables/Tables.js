@@ -11,7 +11,7 @@ import ipm_kab_kotAPI from "../../../api/ipm_kab_kotAPI";
 import provinsiAPI from "../../../api/provinsiAPI";
 import kab_kotAPI from "../../../api/kab_kotAPI";
 
-export default function Tables({contentChanger, dataChanger, tableFlag, textTingkat, textTahun, dataTable, actionFlag, refreshFlag}) {
+export default function Tables({contentChanger, dataChanger, tableFlag, textTingkat, dataTable, actionFlag, refreshFlag}) {
     
     useEffect (() => {
         console.log(dataTable)
@@ -34,13 +34,13 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
         var res;
         try{ 
             if (tableFlag === "showIPM"){
-                if(textTingkat === "Nasional"){
+                if(textTingkat === "Provinsi"){
                     res = await ipm_provinsiAPI.deleteDataIPM(parseInt(value));
                 }else{
                     res = await ipm_kab_kotAPI.deleteDataIPM(parseInt(value));
                 }    
             }else{
-                if(textTingkat === "Nasional"){
+                if(textTingkat === "Provinsi"){
                     res = await provinsiAPI.deleteDataWilayah(parseInt(value));
                 }else{
                     res = await kab_kotAPI.deleteDataWilayah(parseInt(value));
@@ -69,14 +69,15 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
     return (
         <>
             {tableFlag === "showIPM" ? (
+                // Tampil Data IPM
                 <div className="table_container" >
                     <div style={stylesTable}> 
                     <Table striped bordered hover responsive="sm" className={styles.tableStyles} >
                         <thead style={stylesHeaderBody}>
                             <tr style={stylesHeader}>
-                                <th style={stylesHeader}>No</th>
+                                
                                 {
-                                    actionFlag ? (<th style={stylesHeader}>ID</th>):(<></>)
+                                    actionFlag ? (<th style={stylesHeader}>ID</th>):(<><th style={stylesHeader}>No</th></>)
                                 }
                                 {
                                     columnsIPM.map((column, i) =>
@@ -91,18 +92,18 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                             {
                                 dataTable.map((data,i) =>(
                                     <tr key={i}>
-                                        <td>{i+1}</td>
-                                        {actionFlag ? (<td>{data.id}</td>):(<></>)}
-                                        <td style={stylesNameRow}>{data.nama_wilayah} </td>                         
+                                        
+                                        {actionFlag ? (<td>{data.id}</td>):(<><td>{i+1}</td></>)}
+                                        <td style={stylesNameRow}>{data.Wilayah.nama_wilayah} </td>                         
                                         <td>{data.tahun}</td>
-                                        <td>{data?.uhh}</td>
-                                        <td>{data?.ahls}</td>
-                                        <td>{data?.arls}</td>
+                                        <td>{data?.uhh.toFixed(2)}</td>
+                                        <td>{data?.ahls.toFixed(2)}</td>
+                                        <td>{data?.arls.toFixed(2)}</td>
                                         <td>Rp. {separatorNumber(data?.ppd * 1000)}</td>  
-                                        <td>{data?.iuhh}</td>
-                                        <td>{data?.ipthn}</td>
-                                        <td>{data?.iplrn}</td>
-                                        <td>{data?.ipm}</td>
+                                        <td>{data?.iuhh.toFixed(3)}</td>
+                                        <td>{data?.ipthn.toFixed(3)}</td>
+                                        <td>{data?.iplrn.toFixed(3)}</td>
+                                        <td>{data?.ipm.toFixed(2)}</td>
                                         <td>{data?.mgwr}</td>
                                         {
                                             actionFlag ? (
@@ -125,10 +126,10 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                         </tbody>                   
                     </Table>  
                     </div>
-                    <p> Menampilkan {dataTable.length} Data</p>
-                </div>
-             
+                    <p> Menampilkan {dataTable.length} Baris</p>
+                </div>          
             ):(
+                // Tampil Data Wilayah
                 <div className="table_container" >
                     <div style={stylesTable}> 
                     <Table striped bordered hover responsive="sm" className={styles.tableStyles} >
@@ -150,9 +151,9 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                                     <tr key={i}>
                                         <td>{i+1}</td>
                                         {actionFlag ? (<td>{data.id}</td>):(<></>)}
-                                        <td style={stylesNameRow}>{data.nama_wilayah} </td>                         
-                                        <td>{data?.latitude}</td>
-                                        <td>{data?.longitude}</td>
+                                        <td style={stylesNameRow}>{data?.nama_wilayah} </td>                         
+                                        <td>{data?.latitude.toFixed(7)}</td>
+                                        <td>{data?.longitude.toFixed(7)}</td>
                                         {
                                             actionFlag ? (
                                             <>
@@ -174,7 +175,7 @@ export default function Tables({contentChanger, dataChanger, tableFlag, textTing
                         </tbody>                   
                     </Table>  
                     </div>
-                    <p> Menampilkan {dataTable.length} Data</p>
+                    <p> Menampilkan {dataTable.length} Baris</p>
                 </div>
             )}
         </>

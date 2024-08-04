@@ -6,6 +6,7 @@ import ImgAsset from '../../assets';
 import Navbars from '../../components/fragments/Navbars/Navbars';
 import Tables from '../../components/fragments/Tables/Tables';
 import ExportData from '../../hook/exportData';
+import findRegion from '../../hook/findRegion';
 
 import ipm_provinsiAPI from '../../api/ipm_provinsiAPI';
 import ipm_kab_kotAPI from '../../api/ipm_kab_kotAPI';
@@ -21,7 +22,7 @@ export default function Table_Data() {
     const [dataProvinsi, setDataProvinsi] = useState([]);
     const [dataKabKot, setDataKabKot] = useState([]);
     
-    const [tingkat, setTingkat] = useState("Nasional");
+    const [tingkat, setTingkat] = useState("Provinsi");
     const [tahun, setTahun] = useState("all");
     const [provinsi, setProvinsi] = useState("all");
     const [kabkot, setKabKot] = useState("");
@@ -36,7 +37,7 @@ export default function Table_Data() {
     const [found, setFound] = useState(false);
     const [statusKabKot, setStatusKabKot] = useState(true);
 
-    const [textTingkat, setTextTingkat] = useState("Nasional");
+    const [textTingkat, setTextTingkat] = useState("Provinsi");
     const [textTahun, setTextTahun] = useState("");
     const [textTitle, setTextTitle] = useState("");
     
@@ -47,17 +48,17 @@ export default function Table_Data() {
         setLoading(false);
     }, [])
 
-    function findProv(array, name) {
-        return array.find((element) => {
-            return element.nama_provinsi === name
-        })
-    }
+    // function findRegion(array, name) {
+    //     return array.find((element) => {
+    //         return element.nama_wilayah === name
+    //     })
+    // }
 
-    function findKabKot(array, name) {
-        return array.find((element) => {
-            return element.nama_kabupaten_kota === name
-        })
-    }
+    // function findKabKot(array, name) {
+    //     return array.find((element) => {
+    //         return element.nama_kabupaten_kota === name
+    //     })
+    // }
 
     const getDataWilayah = async () => {
         const prov = await provinsiAPI.getAllProvinsi();
@@ -69,7 +70,7 @@ export default function Table_Data() {
     const getListYear = async (dataTingkat) => {
         console.log("Tingkat: ",dataTingkat)
         let temp;
-        if(dataTingkat === "Nasional"){
+        if(dataTingkat === "Provinsi"){
             temp = await ipm_provinsiAPI.getDataProvinsiYear();
         }else{
             temp = await ipm_kab_kotAPI.getDataKabKotYear();
@@ -84,16 +85,16 @@ export default function Table_Data() {
         setStatus(false);
         setLoading(true);
         
-        if (tingkat === "Nasional"){
+        if (tingkat === "Provinsi"){
             console.log("Provinsi", provinsi)
             if(provinsi === "all"){
                 res = await ipm_provinsiAPI.getAllDataProvinsi(tahun); 
                 wilayah = "Seluruh Provinsi di Indonesia"
 
             }else{
-                const temp = findProv(dataProvinsi, provinsi)
+                const temp = findRegion(dataProvinsi, provinsi, false)
                 res = await ipm_provinsiAPI.getOneDataProvinsi(temp.id, tahun);
-                wilayah = temp.nama_provinsi
+                wilayah = temp.nama_wilayah
             }
             
         }else{
@@ -102,13 +103,13 @@ export default function Table_Data() {
                 wilayah = "Seluruh Kabupaten/Kota di Indonesia"       
             }else{
                 if(kabkot === "all"){
-                    const temp = findProv(dataProvinsi, provinsi);
+                    const temp = findRegion(dataProvinsi, provinsi, false);
                     res = await ipm_kab_kotAPI.getManyDataKabKot(temp.id, tahun);
-                    wilayah = "Seluruh Kabupaten/Kota di " + temp.nama_provinsi
+                    wilayah = "Seluruh Kabupaten/Kota di " + temp.nama_wilayah
                 }else{
-                    const temp = findKabKot(dataKabKot, kabkot)
+                    const temp = findRegion(dataKabKot, kabkot, false)
                     res = await ipm_kab_kotAPI.getOneDataKabKot(temp.id, tahun);  
-                    wilayah = temp.nama_kabupaten_kota  
+                    wilayah = temp.nama_wilayah  
                 }   
             }          
         }
@@ -129,16 +130,6 @@ export default function Table_Data() {
                 dataTemp = temp;
             }
             console.log("DataTemp:", dataTemp)
-
-            dataTemp = dataTemp.map(function(obj,i) {
-
-                if(tingkat === "Nasional"){
-                    obj['nama_wilayah'] = obj?.Provinsi.nama_provinsi;
-                }else{
-                    obj['nama_wilayah'] = obj?.Kabupaten_Kotum.nama_kabupaten_kota;
-                }
-                return obj;
-            })
             
             setDataTable(dataTemp);
             setStatus(true);
@@ -156,7 +147,7 @@ export default function Table_Data() {
     const tingkatHandler =  (e) => {
         setTingkat(e.target.value)         
         getListYear(e.target.value);
-        if(e.target.value === "Provinsi"){
+        if(e.target.value === "Kabupaten/Kota"){
             // setStatusProv(false);  
             setProvinsi("all"); 
             setKabKot("");    
@@ -178,13 +169,14 @@ export default function Table_Data() {
         }else{
             let temp = [];
 
-            let provFlag = findProv(dataProvinsi, e.target.value); 
-
+            let provFlag = findRegion(dataProvinsi, e.target.value, false); 
+            
             dataKabKot.forEach((data) => {
                 if (data.provinsi_Id === provFlag.id){
                     temp.push(data);
                 } 
             })
+            console.log(temp)
             setListKabKot(temp);
             setKabKot("all");
             setStatusKabKot(false);
@@ -225,8 +217,8 @@ export default function Table_Data() {
                                     <select name="tingkat" id="tingkat" className={styles.dropdownStyle}
                                         onChange={tingkatHandler} value={tingkat}
                                     >
-                                          <option value="Nasional">Cari Provinsi</option>
-                                          <option value="Provinsi">Cari Kabupaten/Kota</option>
+                                          <option value="Provinsi">Cari Provinsi</option>
+                                          <option value="Kabupaten/Kota">Cari Kabupaten/Kota</option>
                                     </select>
                                 </div>
                             </Row>
@@ -241,9 +233,8 @@ export default function Table_Data() {
                                         {/* <option value="" selected disabled hidden>Pilih Provinsi</option> */}
                                         <option value="all" selected>Seluruh Provinsi</option>
                                             { dataProvinsi && dataProvinsi.map((data, i) => {
-                                                    let nama = data.nama_provinsi;
                                                     return(
-                                                        <option key={i} value={nama}>{nama}</option>
+                                                        <option key={i} value={data.nama_wilayah} >{data.nama_wilayah}</option>
                                                     )
                                                 })
                                             }
@@ -254,7 +245,7 @@ export default function Table_Data() {
                             {/* Pilih Kabupaten/Kota */}
                             <Row>
                                 {
-                                    tingkat === "Provinsi" ?(
+                                    tingkat === "Kabupaten/Kota" ?(
                                         <div className={styles.dropdownField}>
                                             <p className={styles.dropdownTitle}>Kabupaten/Kota</p>
                                             <select name="kabkot" id="kabkot" className={styles.dropdownStyle}
@@ -263,9 +254,8 @@ export default function Table_Data() {
                                                 <option value="" selected disabled hidden>Pilih Kabupaten/Kota</option>
                                                 <option value="all" >Seluruh Kabupaten/Kota</option>
                                                     { listKabKot && listKabKot.map((data, i) => {
-                                                            let nama = data.nama_kabupaten_kota;
                                                             return(
-                                                                <option key={i} value={nama}>{nama}</option>
+                                                                <option key={i} value={data.nama_wilayah}>{data.nama_wilayah}</option>
                                                             )
                                                         })
                                                     }
@@ -311,7 +301,7 @@ export default function Table_Data() {
                                 {status ? (
                                     <>
                                         <div className={styles.titleSection}></div>
-                                        <ExportData excelData={dataTable} fileName={"Tabel Data IPM " + textTitle} tingkat={textTingkat} flag={"Data"}/>
+                                        <ExportData excelData={dataTable} fileName={"Tabel Data IPM " + textTitle} flag={"Data"}/>
                                     </>
                                 ):(<></>)}        
                             </Row>       
@@ -328,7 +318,7 @@ export default function Table_Data() {
                                 <div className={styles.tableField}>
                                 {
                                     status ?(
-                                        <Tables tableFlag={"showIPM"} textTingkat={textTingkat} textTahun={textTahun} dataTable={dataTable} actionFlag={false}/>
+                                        <Tables tableFlag={"showIPM"} textTingkat={textTingkat} dataTable={dataTable} actionFlag={false}/>
                                     ) :(<>
                                         <center>
                                             <img

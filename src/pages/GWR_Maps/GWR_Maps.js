@@ -36,7 +36,7 @@ const arrayText = [
 
 export default function GWR_Maps() {
 
-    const [tingkat, setTingkat] = useState("Nasional");
+    const [tingkat, setTingkat] = useState("Provinsi");
     const [tahun, setTahun] = useState(2022);
     const [dataType, setdataType] = useState("iuhh");
 
@@ -50,7 +50,7 @@ export default function GWR_Maps() {
     const [geojsonKey, setgeojsonKey] = useState(null);
     const [textTooltip, setTextTooltip] = useState("");
     const [textDataType, setTextDataType] = useState("");
-    const [textDataTingkat, setTextDataTingkat] = useState("Nasional");
+    const [textDataTingkat, setTextDataTingkat] = useState("Provinsi");
     const [tempDataTingkat, setTempDataTingkat] = useState("");
     const [textDataTahun, setTextDataTahun] = useState("");
     const [textDataDesc, setTextDataDesc] = useState("");
@@ -70,7 +70,7 @@ export default function GWR_Maps() {
     const getListYear = async (dataTingkat) => {
         console.log("Tingkat: ",dataTingkat)
         let temp;
-        if(dataTingkat === "Nasional"){
+        if(dataTingkat === "Provinsi"){
             temp = await ipm_provinsiAPI.getDataProvinsiYear();
         }else{
             temp = await ipm_kab_kotAPI.getDataKabKotYear();
@@ -89,14 +89,14 @@ export default function GWR_Maps() {
     const fetchData = async () => {
         console.log("Pilih Peta \nTingkat: ", tingkat, "\nTahun: ", tahun, "\nData: ", dataType)
 
-        let res,resCalc, resGWR, tempTingkat;
+        let resCalc, resGWR, tempTingkat;
         let key = tingkat + "_" + dataType + "_" + String(tahun);
 
         setLoading(true);
 
         if(geojsonKey !== key){
-            if(tingkat === 'Nasional'){
-                console.log("Cari Data Tingkat Nasional")     
+            if(tingkat === 'Provinsi'){
+                console.log("Cari Data Tingkat Provinsi")     
                 resCalc = await calculationAPI.getCalcGWRProvinsi(dataType, tahun);               
                 console.log(resCalc.data)   
                 resGWR = await calculationAPI.getGWRProvinsi(tahun);   
@@ -104,7 +104,7 @@ export default function GWR_Maps() {
                 setGeojson(prov_map);   
                 tempTingkat = "Provinsi"
             }else{
-                console.log("Cari Data Tingkat Provinsi") 
+                console.log("Cari Data Tingkat Kabupaten/Kota") 
                 resCalc = await calculationAPI.getCalcGWRKabKot(dataType, tahun);                      
                 console.log(resCalc.data)
                 resGWR = await calculationAPI.getGWRKabKot(tahun);
@@ -146,18 +146,14 @@ export default function GWR_Maps() {
     }
 
     const positionHandler =  (e) => {
-        let position = findRegion(dataMap, e, textDataTingkat)
-        let latitude, longitude, zoomOption;
-        if (textDataTingkat === "Nasional"){
-            latitude = position.Provinsi.latitude;
-            longitude = position.Provinsi.longitude;
-            zoomOption = 9;
+        let position = findRegion(dataMap, e.Wilayah.nama_wilayah, true)
+        let zoomOption;
+        if (textDataTingkat === "Provinsi"){
+            zoomOption = 8;
         } else{
-            latitude = position.Kabupaten_Kotum.latitude;
-            longitude = position.Kabupaten_Kotum.longitude;
-            zoomOption = 11;
+            zoomOption = 10;
         }
-        setCenterMap([latitude, longitude]);   
+        setCenterMap([position.Wilayah.latitude, position.Wilayah.longitude]);   
         setZoomMap(zoomOption);
         // setSelectedMap(e);
     }
@@ -176,16 +172,10 @@ export default function GWR_Maps() {
     
     const onEachRegion = (regionMap, layer) => {
         let dataRegion, value, regionName;
-        
-        if(tingkat === "Nasional"){
-            dataRegion = dataMap.find((element) => {
-                return element.provinsi_Id === regionMap.id
-            })
-        }else{
-            dataRegion = dataMap.find((element) => {
-                return element.kabupaten_kota_Id === regionMap.id
-            })
-        }
+
+        dataRegion = dataMap.find((element) => {
+            return element.Wilayah.id === regionMap.id
+        })
 
         if(textDataDesc === "IUHH"){value = dataRegion?.iuhh}
         else if(textDataDesc === "IPTHN"){value = dataRegion?.ipthn}
@@ -193,27 +183,15 @@ export default function GWR_Maps() {
         else {value = dataRegion?.intercept}
        
         if (dataRegion !== undefined) {  
-            if(value < dataCalc.Q1){
-                layer.options.fillColor = '#FB4141'
-            }
-            else if(value > dataCalc.Q1 && value < dataCalc.Q2){
-                layer.options.fillColor = '#FD905D'
-            }   
-            else if(value > dataCalc.Q2 && value < dataCalc.Q3){
-                layer.options.fillColor = '#E1FB41'
-            }    
-            else if(value > dataCalc.Q3 && value < dataCalc.Q4){
-                layer.options.fillColor = '#80CB91'
-            }
-            else if(value > dataCalc.Q4){
-                layer.options.fillColor = '#73D737'
-            }
+            if (value > dataCalc.max) {
+                layer.options.fillColor = '#00B8A9';  //#73D737
+              } else if (value < dataCalc.min) {
+                layer.options.fillColor = '#F6416C';  //#FB4141       
+              } else {
+                layer.options.fillColor = '#FFDE78';  //#E1FB41
+              }
         } 
-        if(tingkat === "Nasional"){
-            regionName = dataRegion?.Provinsi.nama_provinsi
-        }else{
-            regionName = dataRegion?.Kabupaten_Kotum.nama_kabupaten_kota
-        }
+        regionName = dataRegion?.Wilayah.nama_wilayah     
     
         layer.on("mouseover", function (e){
             const target = e.target;
@@ -234,14 +212,6 @@ export default function GWR_Maps() {
             })
         })  
     };
-
-    const selectOptionMenu = (option) =>{
-        if(textDataTingkat === "Nasional"){
-            return option.Provinsi.nama_provinsi
-        }else{
-            return option.Kabupaten_Kotum.nama_kabupaten_kota
-        }
-    }
 
     return (
         <div>
@@ -264,8 +234,8 @@ export default function GWR_Maps() {
                                     <select name="tingkat" id="tingkat" className={styles.dropdownStyle}
                                         onChange={tingkatHandler} value={tingkat}
                                     >
-                                          <option value="Nasional">Tingkat Provinsi</option>
-                                          <option value="Provinsi">Tingkat Kabupaten/Kota</option>
+                                          <option value="Provinsi">Tingkat Provinsi</option>
+                                          <option value="Kabupaten/Kota">Tingkat Kabupaten/Kota</option>
                                     </select>
                                 </div>
                             </Row>
@@ -276,8 +246,8 @@ export default function GWR_Maps() {
                                     <select name="Tahun" id="Tahun" className={styles.dropdownStyle}
                                         onChange={(e) => setTahun(e.target.value)} value={tahun}
                                     >
-                                        {listYear && listYear.map((data) => {
-                                            return(<option value={data.tahun}>{data.tahun}</option>)
+                                        {listYear && listYear.map((data,i) => {
+                                            return(<option key={i} value={data.tahun}>{data.tahun}</option>)
                                         })}
                                     </select>
                                 </div>
@@ -292,7 +262,7 @@ export default function GWR_Maps() {
                                         <option value="iuhh">Indeks Umur Harapan Hidup (IUHH)</option>
                                         <option value="ipthn">Indeks Pengetahuan (IPTHN)</option>
                                         <option value="iplrn">Indeks Pengeluaran (IPLRN)</option>
-                                        <option value="intercept">Intercept</option>
+                                        {/* <option value="intercept">Intercept</option> */}
                                     </select>
                                 </div>
                             </Row>
@@ -317,10 +287,11 @@ export default function GWR_Maps() {
                                         <div className={styles.dropdownField}>
                                             <p className={styles.dropdownTitle}>Cari Wilayah</p>
                                              <Select 
-                                                getOptionLabel={option => selectOptionMenu(option)}
-                                                getOptionValue={option => selectOptionMenu(option)}
+                                                getOptionLabel={option => option.Wilayah.nama_wilayah}
+                                                getOptionValue={option => option.Wilayah.nama_wilayah}
                                                 options={dataMap}
                                                 onChange={(e) => positionHandler(e)}
+                                                value={selectedMap}
                                                 className={styles.selectRegion}
                                                 placeholder="Pilih Wilayah"
                                             />
@@ -369,31 +340,22 @@ export default function GWR_Maps() {
                                             <LayersControl.Overlay checked name="Marker">
                                                 <LayerGroup>
                                            
-                                        {dataMap && dataMap.map((i, idx) => {
-                                            let namaWilayah, latitude, longitude, value;
-                                            if (textDataTingkat === "Nasional"){
-                                                namaWilayah = i.Provinsi?.nama_provinsi;
-                                                latitude = i.Provinsi?.latitude;
-                                                longitude = i.Provinsi?.longitude;
-                                            }else{
-                                                namaWilayah = i.Kabupaten_Kotum?.nama_kabupaten_kota;
-                                                latitude = i.Kabupaten_Kotum?.latitude;
-                                                longitude = i.Kabupaten_Kotum?.longitude;
-                                            }
-                                            if(dataType === "iuhh"){value = i.iuhh}
-                                            else if(dataType === "ipthn"){value = i.ipthn}
-                                            else if(dataType === "iplrn"){value = i.iplrn}
-                                            else {value = i.intercept}
+                                        {dataMap && dataMap.map((data, idx) => {
+                                            let value;
+                                            if(dataType === "iuhh"){value = data.iuhh}
+                                            else if(dataType === "ipthn"){value = data.ipthn}
+                                            else if(dataType === "iplrn"){value = data.iplrn}
+                                            else {value = data.intercept}
 
                                             value = value.toFixed(5)
                                         return(
                                             <>
 
                                                 <Marker key={idx}
-                                                    position={[latitude || '', longitude || '']}
+                                                    position={[data.Wilayah.latitude || '', data.Wilayah.longitude || '']}
                                                 >
                                                     <Tooltip>
-                                                    <b>{namaWilayah}</b>
+                                                    <b>{data.Wilayah.nama_wilayah}</b>
                                                     <p>
                                                         {value !== null || value !== undefined ||value !== 0 ?(
                                                             <>
@@ -428,7 +390,7 @@ export default function GWR_Maps() {
 
                                     {/* Map Desc */}
                                     {status === true ?(
-                                        <Map_Desc handleClickSet={true} Q1={dataCalc.Q1} Q2={dataCalc.Q2} Q3={dataCalc.Q3} Q4={dataCalc.Q4} dataType={textDataDesc}/>
+                                        <Map_Desc handleClickSet={true} max={dataCalc.max} min={dataCalc.min} gwrflag={true} dataType={textDataDesc}/>
                                     ):(<></>)}
                                     
                                 </div>  
@@ -444,8 +406,9 @@ export default function GWR_Maps() {
                 <Modal_Result
                     show={modalShow}
                     onHide={() => setModalShow(false)}
-                    max={0} min={0}
-                    Q1={dataCalc.Q1} Q2={dataCalc.Q2} Q3={dataCalc.Q3} Q4={dataCalc.Q4}
+                    max={dataCalc.max} 
+                    min={dataCalc.min}
+                    gwrflag={true}
                     data={dataMap}
                     tingkat={textDataTingkat}
                     tahun={textDataTahun}

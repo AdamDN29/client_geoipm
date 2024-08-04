@@ -2,6 +2,7 @@ export default {
     // Icon SVG
     GeoIPM: require('./GeoIPM.svg').default,
     GeoIPM2: require('./GeoIPM2.svg').default,
+    Icon_Home: require('./Icon_Home.svg').default,
     Icon_IPM_Maps: require('./Icon_IPM_Maps.svg').default,
     Icon_GWR_Maps: require('./Icon_GWR_Maps.svg').default,
     Icon_Table_Data: require('./Icon_Table_Data.svg').default,

@@ -31,7 +31,7 @@ export default function Admin() {
     const [refreshStatus, setRefreshStatus] = useState(false);
     const [listYear, setListYear] = useState([]);
     const [yearFlag, setYearFlag] = useState(false);
-    const [tempTingkat, setTempTingkat] = useState("Nasional");
+    const [tempTingkat, setTempTingkat] = useState("Provinsi");
 
     useEffect(() => {
         getDataWilayah(); 
@@ -69,7 +69,7 @@ export default function Admin() {
 
     const getListYear = async (dataTingkat) => {
         let temp;
-        if(dataTingkat === "Nasional"){
+        if(dataTingkat === "Provinsi"){
             temp = await ipm_provinsiAPI.getDataProvinsiYear();
         }else{
             temp = await ipm_kab_kotAPI.getDataKabKotYear();
@@ -110,10 +110,10 @@ export default function Admin() {
                                         Dashboard
                                     </ListGroup.Item>
                                     <ListGroup.Item action href="#tabel_wilayah" className={styles.listItem}>
-                                        Tabel Data Wilayah
+                                        Data Wilayah
                                     </ListGroup.Item>
                                     <ListGroup.Item action href="#tabel_ipm" className={styles.listItem}>
-                                        Tabel Data IPM
+                                        Data IPM
                                     </ListGroup.Item>
                                     <ListGroup.Item action href="#unggah_data_ipm" className={styles.listItem}>
                                         Unggah Data IPM

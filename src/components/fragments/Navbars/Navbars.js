@@ -38,6 +38,18 @@ export default function Navbars () {
                 {/* Menu Navigation */}
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
+                        {/* Menu Home */}      
+                        <Nav.Link as={Link} to="/homepage" className={`nav-link ${styles.nav_icon_field}`}>
+                            <img
+                                src = {ImgAsset.Icon_Home}
+                                width="25"
+                                height="25"
+                                className={`d-inline-block ${styles.nav_icon_img}`}
+                                alt="Icon Home"
+                            />
+                            <span className={styles.nav_icon_text}>Home</span>
+                        </Nav.Link>  
+
                         {/* Menu IPM Maps */}      
                         <Nav.Link as={Link} to="/peta_ipm" className={`nav-link ${styles.nav_icon_field}`}>
                             <img
@@ -85,7 +97,7 @@ export default function Navbars () {
                                 lassName={`d-inline-block ${styles.nav_icon_img}`}
                                 alt="Icon Updates"
                             />
-                            <span className={styles.nav_icon_text}>Tabel Data</span>
+                            <span className={styles.nav_icon_text}>Data</span>
                         </Nav.Link>                
                         
                     </Nav>

@@ -40,7 +40,7 @@ const arrayText = [
 
 export default function IPM_Maps() {
 
-    const [tingkat, setTingkat] = useState("Nasional");
+    const [tingkat, setTingkat] = useState("Provinsi");
     const [tahun, setTahun] = useState(2022);
     const [dataType, setdataType] = useState("ipm");
 
@@ -54,7 +54,7 @@ export default function IPM_Maps() {
     const [geojsonKey, setgeojsonKey] = useState(null);
     const [textTooltip, setTextTooltip] = useState("");
     const [textDataType, setTextDataType] = useState("");
-    const [textDataTingkat, setTextDataTingkat] = useState("Nasional");
+    const [textDataTingkat, setTextDataTingkat] = useState("Provinsi");
     const [tempDataTingkat, setTempDataTingkat] = useState("");
     const [textDataTahun, setTextDataTahun] = useState("");
     const [textDataDesc, setTextDataDesc] = useState("");
@@ -74,7 +74,7 @@ export default function IPM_Maps() {
     const getListYear = async (dataTingkat) => {
         console.log("Tingkat: ",dataTingkat)
         let temp;
-        if(dataTingkat === "Nasional"){
+        if(dataTingkat === "Provinsi"){
             temp = await ipm_provinsiAPI.getDataProvinsiYear();
         }else{
             temp = await ipm_kab_kotAPI.getDataKabKotYear();
@@ -89,8 +89,7 @@ export default function IPM_Maps() {
             return element.title === title
         })
     }
-
-    
+ 
 
     const fetchData = async () => {
         console.log("Pilih Peta \nTingkat: ", tingkat, "\nTahun: ", tahun, "\nData: ", dataType)
@@ -101,8 +100,8 @@ export default function IPM_Maps() {
         setLoading(true);
 
         if(geojsonKey !== key){
-            if(tingkat === 'Nasional'){
-                console.log("Cari Data Tingkat Nasional")     
+            if(tingkat === 'Provinsi'){
+                console.log("Cari Data Tingkat Provinsi")     
                 res = await ipm_provinsiAPI.getDataProvinsi(dataType, tahun);
                 console.log(res.data)  
                 resCalc = await calculationAPI.getCalcProvinsi(dataType, tahun);
@@ -110,7 +109,7 @@ export default function IPM_Maps() {
                 setGeojson(prov_map);   
                 tempTingkat = "Provinsi"
             }else{
-                console.log("Cari Data Tingkat Provinsi")
+                console.log("Cari Data Tingkat Kabupaten/Kota")
                 res = await ipm_kab_kotAPI.getDataKabKot(dataType, tahun);
                 console.log(res.data)  
                 resCalc = await calculationAPI.getCalcKabKot(dataType, tahun);
@@ -153,19 +152,15 @@ export default function IPM_Maps() {
     }
 
     const positionHandler =  (e) => {
-        let position = findRegion(dataMap, e, textDataTingkat)
+        let position = findRegion(dataMap, e.Wilayah.nama_wilayah, true)
         console.log(position)
-        let latitude, longitude, zoomOption;
-        if (textDataTingkat === "Nasional"){
-            latitude = position.Provinsi.latitude;
-            longitude = position.Provinsi.longitude;
+        let zoomOption;
+        if (textDataTingkat === "Provinsi"){
             zoomOption = 8;
         } else{
-            latitude = position.Kabupaten_Kotum.latitude;
-            longitude = position.Kabupaten_Kotum.longitude;
             zoomOption = 10;
         }
-        setCenterMap([latitude, longitude]);   
+        setCenterMap([position.Wilayah.latitude, position.Wilayah.longitude]);   
         setZoomMap(zoomOption);
         setSelectedMap(e);
     }
@@ -184,15 +179,9 @@ export default function IPM_Maps() {
     
     const onEachRegion = (regionMap, layer) => {
         let dataRegion, regionName, value;
-        if(tingkat === "Nasional"){
-            dataRegion = dataMap.find((element) => {
-                return element.provinsi_Id === regionMap.id
-            })
-        }else{
-            dataRegion = dataMap.find((element) => {
-                return element.kabupaten_kota_Id === regionMap.id
-            })
-        }
+        dataRegion = dataMap.find((element) => {
+            return element.Wilayah.id === regionMap.id
+        })
        
         if (dataRegion !== undefined) {            
           if (dataRegion?.value > dataCalc.max) {
@@ -202,12 +191,8 @@ export default function IPM_Maps() {
           } else {
             layer.options.fillColor = '#FFDE78';  //#E1FB41
           }
-        }        
-        if(tingkat === "Nasional"){
-            regionName = dataRegion?.Provinsi.nama_provinsi
-        }else{
-            regionName = dataRegion?.Kabupaten_Kotum.nama_kabupaten_kota
-        }
+        }   
+        regionName = dataRegion?.Wilayah.nama_wilayah     
 
         if(dataType === "ahls" || dataType === "arls" || dataType === "uhh"){
             value = dataRegion?.value + " Tahun"
@@ -241,14 +226,6 @@ export default function IPM_Maps() {
         }) 
     };
 
-    const selectOptionMenu = (option) =>{
-        if(textDataTingkat === "Nasional"){
-            return option.Provinsi.nama_provinsi
-        }else{
-            return option.Kabupaten_Kotum.nama_kabupaten_kota
-        }
-    }
-
     return (
         <div>
         <Container fluid>
@@ -270,8 +247,8 @@ export default function IPM_Maps() {
                                     <select name="tingkat" id="tingkat" className={styles.dropdownStyle}
                                         onChange={tingkatHandler} value={tingkat}
                                     >
-                                          <option value="Nasional">Tingkat Provinsi</option>
-                                          <option value="Provinsi">Tingkat Kabupaten/Kota</option>
+                                          <option value="Provinsi">Tingkat Provinsi</option>
+                                          <option value="Kabupaten/Kota">Tingkat Kabupaten/Kota</option>
                                     </select>
                                 </div>
                             </Row>
@@ -327,10 +304,11 @@ export default function IPM_Maps() {
                                         <div className={styles.dropdownField}>
                                             <p className={styles.dropdownTitle}>Cari Wilayah</p>
                                             <Select 
-                                                getOptionLabel={option => selectOptionMenu(option)}
-                                                getOptionValue={option => selectOptionMenu(option)}
+                                                getOptionLabel={option => option.Wilayah.nama_wilayah}
+                                                getOptionValue={option => option.Wilayah.nama_wilayah}
                                                 options={dataMap}
                                                 onChange={(e) => positionHandler(e)}
+                                                value={selectedMap}
                                                 className={styles.selectRegion}
                                                 placeholder="Pilih Wilayah"
                                                 // isDisabled="true"
@@ -380,38 +358,25 @@ export default function IPM_Maps() {
                                             <LayersControl.Overlay checked name="Marker">
                                                 <LayerGroup>
                                    
-                                        {dataMap && dataMap.map((i, idx) => {
-                                            let namaWilayah, latitude, longitude, valueData;
-                                            if (textDataTingkat === "Nasional"){
-                                                namaWilayah = i.Provinsi?.nama_provinsi;
-                                                latitude = i.Provinsi?.latitude;
-                                                longitude = i.Provinsi?.longitude;
-                                            }else{
-                                                namaWilayah = i.Kabupaten_Kotum?.nama_kabupaten_kota;
-                                                latitude = i.Kabupaten_Kotum?.latitude;
-                                                longitude = i.Kabupaten_Kotum?.longitude;
-                                            }
+                                        {dataMap && dataMap.map((data, idx) => {
+                                            let valueData;
+
                                             if (textDataDesc === "PPD"){
-                                                valueData = "Rp. " + separatorNumber(i.value * 1000);
+                                                valueData = "Rp. " + separatorNumber(data.value * 1000);
                                             }else if(textDataDesc === "AHLS" || textDataDesc === "ARLS" || textDataDesc === "UHH"){
-                                                valueData = i.value + " Tahun";
+                                                valueData = data.value + " Tahun";
                                             }
                                             else{
-                                                valueData = i.value;
+                                                valueData = data.value;
                                             }
 
                                         return(
                                             <>
                                                 <Marker key={idx}
-                                                    position={[latitude || '', longitude || '']}
-                                                    eventHandlers={{
-                                                    click: () => {
-                                                        // handleClick(i.ProvinsiId, i.Provinsi?.nama_provinsi)
-                                                    },
-                                                    }}
+                                                    position={[data.Wilayah.latitude || '', data.Wilayah.longitude || '']}
                                                 >
                                                     <Tooltip>
-                                                    <b>{namaWilayah}</b>
+                                                    <b>{data.Wilayah.nama_wilayah}</b>
                                                     <p>
                                                         {valueData !== null || valueData !== undefined ||valueData !== 0 ?(
                                                             <>{textTooltip} : {valueData}</>
@@ -444,7 +409,7 @@ export default function IPM_Maps() {
 
                                     {/* Map Desc */}
                                     {status === true ?(
-                                             <Map_Desc handleClickSet={true} max={dataCalc.max} min={dataCalc.min} dataType={textDataDesc}/> 
+                                             <Map_Desc handleClickSet={true} max={dataCalc.max} min={dataCalc.min} gwrflag={false} dataType={textDataDesc}/> 
                                     ):(<></>)}
                                     
                                 </div>  
@@ -462,6 +427,7 @@ export default function IPM_Maps() {
                     onHide={() => setModalShow(false)}
                     max={dataCalc.max}
                     min={dataCalc.min}
+                    gwrflag={false}
                     data={dataMap}
                     tingkat={textDataTingkat}
                     tahun={textDataTahun}

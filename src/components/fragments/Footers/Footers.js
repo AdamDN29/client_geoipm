@@ -20,7 +20,7 @@ export default function Footers () {
                                     <Row><a href="/peta_gwr"><p className={styles.link_text}>Peta MGWR</p></a></Row>
                                 </Col>
                                 <Col>
-                                        <Row><a href="/tabel_data"><p className={styles.link_text}>Tabel Data</p></a></Row>
+                                        <Row><a href="/tabel_data"><p className={styles.link_text}>Data</p></a></Row>
                                         <Row><a href="/tentang"><p className={styles.link_text}>Tentang</p></a></Row>
                                 </Col>
                             </Row>                

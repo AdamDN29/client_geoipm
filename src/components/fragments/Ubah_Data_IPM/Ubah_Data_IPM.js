@@ -21,8 +21,6 @@ const initialState = {
   mgwr: "",
 };
 
-const listYear = [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026];
-
 const reducer = (currentState, action) => {
   switch (action.type) {
     case "nama":
@@ -62,7 +60,7 @@ export default function Ubah_Data_IPM({
   refreshFlag
 }) {
     const [preload, setPreLoad] = useState([]);
-    const [tingkat, setTingkat] = useState("Nasional");
+    const [tingkat, setTingkat] = useState("Provinsi");
     const [tahun, setTahun] = useState("");
     const [provinsi, setProvinsi] = useState("");
     const [kabkot, setKabKot] = useState(""); 
@@ -84,20 +82,17 @@ export default function Ubah_Data_IPM({
     }, []);
 
     const getDataIPM = async (id) => {
-        var res, temp;
+        var res;
         console.log(id, tahunFlag)
-        if (tingkatFlag === "Nasional") {
-        res = await ipm_provinsiAPI.getOneProvinsi(id);
-
-        temp = res.data.data.Provinsi.nama_provinsi;
+        if (tingkatFlag === "Provinsi") {
+          res = await ipm_provinsiAPI.getOneProvinsi(id);
         } else {
-        res = await ipm_kab_kotAPI.getOneKabKot(id);
-        temp = res.data.data.Kabupaten_Kotum.nama_kabupaten_kota;
+          res = await ipm_kab_kotAPI.getOneKabKot(id);
         }
         console.log(res.data.data);
         setPreLoad({
         id: res.data.data.id,
-        nama: temp,
+        nama: res.data.data.Wilayah.nama_wilayah,
         tahun: res.data.data.tahun,
         uhh: res.data.data.uhh,
         ahls: res.data.data.ahls,
@@ -156,7 +151,7 @@ export default function Ubah_Data_IPM({
         }else{mgwr = preload.mgwr}
 
         if(dataFlag === 0){
-          if (tingkat === "Nasional"){
+          if (tingkat === "Provinsi"){
             if (provinsi !== "" && tahun !== ""){
                 id_wilayah = parseInt(provinsi); 
                 tahunData = parseInt(tahun);
@@ -193,13 +188,13 @@ export default function Ubah_Data_IPM({
             var res;
 
             if(dataFlag === 0){
-              if(tingkat === "Nasional"){
+              if(tingkat === "Provinsi"){
                 res = await ipm_provinsiAPI.createDataIPM(id_wilayah, dataKu);
               }else{
                 res = await ipm_kab_kotAPI.createDataIPM(id_wilayah, dataKu);
               }
             }else{
-              if(tingkatFlag === "Nasional"){
+              if(tingkatFlag === "Provinsi"){
                 res = await ipm_provinsiAPI.editDataIPM(preload.id, dataKu);
               }else{
                 res = await ipm_kab_kotAPI.editDataIPM(preload.id, dataKu);
@@ -225,7 +220,7 @@ export default function Ubah_Data_IPM({
 
     const tingkatHandler =  (e) => {
         setTingkat(e.target.value)         
-        if(e.target.value === "Provinsi"){
+        if(e.target.value === "Kabupaten/Kota"){
             setStatus(true);    
         }else{
             setStatus(false);
@@ -247,26 +242,15 @@ export default function Ubah_Data_IPM({
         setStatusKabKot(false)
     }
 
-    const kabkotHandler = (e) => {
-        setKabKot(e.target.value);
-    }
-
-    const tahunHandler = (e) => {
-        setTahun(parseInt(e.target.value));
-    }
-
-    const showYear = () =>{
-        for (let i = 2020; i < 2030; i++) {    
-            console.log(i)      
-            return(<option key={i} value={i}>{i}</option>)          
-        }
-    }
+    const listTahun = []
+    for (let i=2016; i <= 2030; i++) {
+       listTahun.push(<option key={i} value={i}>{i}</option>);  
+    };
 
     const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
 
-    const handleChange = event =>
-      setTempPPD(addCommas(removeNonNumeric((event.target.value * 1000))));
+    const handleChange = event => setTempPPD(addCommas(removeNonNumeric((event.target.value * 1000))));
 
   return (
     <section>
@@ -284,10 +268,10 @@ export default function Ubah_Data_IPM({
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label className="label_form">Pilih Wilayah</Form.Label>
                     <Form.Select aria-label="Default select example" size="sm"
-                        defaultValue="Nasional" value={tingkat} onChange={tingkatHandler}
+                        defaultValue="Provinsi" value={tingkat} onChange={tingkatHandler}
                     >
-                        <option value="Nasional">Provinsi</option>
-                        <option value="Provinsi">Kabupaten/Kota</option>
+                        <option value="Provinsi">Provinsi</option>
+                        <option value="Kabupaten/Kota">Kabupaten/Kota</option>
                     </Form.Select>
                 </Form.Group>
 
@@ -298,7 +282,7 @@ export default function Ubah_Data_IPM({
                     >
                         <option value="" hidden>Pilih Provinsi</option>
                         {dataProvinsi.map((data,i) => {
-                            return(<option key={i+1} value={data.id}>{data.nama_provinsi}</option>)
+                            return(<option key={i+1} value={data.id}>{data.nama_wilayah}</option>)
                         })}   
                     </Form.Select>
                 </Form.Group>
@@ -307,11 +291,11 @@ export default function Ubah_Data_IPM({
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label className="label_form">Pilih Kabupaten/Kota</Form.Label>
                     <Form.Select aria-label="Default select example" size="sm"
-                        value={kabkot} onChange={kabkotHandler} disabled={statusKabkot}
+                        value={kabkot} onChange={(e) => setKabKot(e.target.value)} disabled={statusKabkot}
                     >
                         <option value="" hidden>Pilih Kabupaten/Kota</option>
                         {listKabkot && listKabkot.map((data,i) => {
-                            return(<option key={i+1} value={data.id}>{data.nama_kabupaten_kota}</option>)
+                            return(<option key={i+1} value={data.id}>{data.nama_wilayah}</option>)
                         })}   
                     </Form.Select>
                 </Form.Group>
@@ -321,13 +305,10 @@ export default function Ubah_Data_IPM({
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label className="label_form">Pilih Tahun</Form.Label>
                     <Form.Select aria-label="Default select example" size="sm"
-                        defaultValue="" value={tahun} onChange={tahunHandler}
+                        defaultValue="" value={tahun} onChange={(e) => setTahun(parseInt(e.target.value))}
                     >
                         <option value="" hidden>Pilih Tahun</option>
-                        {/* { showYear() } */}
-                        {listYear.map((data,i) => {
-                            return(<option key={i+1} value={data}>{data}</option>)
-                        })}   
+                        {listTahun}           
                     </Form.Select>
                 </Form.Group>
             

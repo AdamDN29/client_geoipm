@@ -54,3 +54,7 @@
     overflow: scroll;
     text-align: center !important;
 }
+
+.inputStyle{
+    width: 100%;
+}

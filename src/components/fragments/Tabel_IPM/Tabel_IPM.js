@@ -6,13 +6,14 @@ import ipm_provinsiAPI from '../../../api/ipm_provinsiAPI';
 import ipm_kab_kotAPI from '../../../api/ipm_kab_kotAPI';
 import Tables from '../Tables/Tables';
 import Ubah_Data_IPM from '../Ubah_Data_IPM/Ubah_Data_IPM';
+import findRegion from '../../../hook/findRegion';
 
 //import component Bootstrap React
 import { Container, Row, Col, Button, Spinner } from 'react-bootstrap'
 
 export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag, tempTingkat, refreshStatus}) {
        
-    const [tingkat, setTingkat] = useState("Nasional");
+    const [tingkat, setTingkat] = useState("Provinsi");
     const [tahun, setTahun] = useState("all");
     const [provinsi, setProvinsi] = useState("all");
     const [kabkot, setKabKot] = useState("");
@@ -26,47 +27,47 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
     const [found, setFound] = useState(true);
     const [statusKabKot, setStatusKabKot] = useState(true);
 
-    const [textTingkat, setTextTingkat] = useState("Nasional");
+    const [textTingkat, setTextTingkat] = useState("Provinsi");
     const [textTahun, setTextTahun] = useState("");
 
     const [content, setContent] = useState("show");
     const [dataFlag, setDataFlag] = useState(null);
     const [refresh, setRefresh] = useState(false);
   
-    function findProv(array, name) {
-        return array.find((element) => {
-            return element.nama_provinsi === name
-        })
-    }
+    // function findProv(array, name) {
+    //     return array.find((element) => {
+    //         return element.nama_provinsi === name
+    //     })
+    // }
 
-    function findKabKot(array, name) {
-        return array.find((element) => {
-            return element.nama_kabupaten_kota === name
-        })
-    }
+    // function findKabKot(array, name) {
+    //     return array.find((element) => {
+    //         return element.nama_kabupaten_kota === name
+    //     })
+    // }
 
     const fetchData = async () => {
         let res;
         setStatus(false);
         setLoading(true);
         setFound(false);
-        if (tingkat === "Nasional"){    
+        if (tingkat === "Provinsi"){    
             if(provinsi === "all"){
                 res = await ipm_provinsiAPI.getAllDataProvinsi(tahun);
             }else{
-                const temp = findProv(listProvinsi, provinsi);
-                res = await ipm_provinsiAPI.getOneDataProvinsi(temp.id, tahun);
+                // const temp = findRegion(listProvinsi, provinsi, false);
+                res = await ipm_provinsiAPI.getOneDataProvinsi(parseInt(provinsi), tahun);
             }
         }else{ 
             if (provinsi === "all"){
                 res = await ipm_kab_kotAPI.getAllDataKabKot(tahun); 
             }else{
                 if(kabkot === "all"){   
-                    const temp = findProv(listProvinsi, provinsi);
-                    res = await ipm_kab_kotAPI.getManyDataKabKot(temp.id, tahun); 
+                    // const temp = findRegion(listProvinsi, provinsi, false);
+                    res = await ipm_kab_kotAPI.getManyDataKabKot(parseInt(provinsi), tahun); 
                 }else{   
-                    const temp = findKabKot(listKabKot, kabkot);
-                    res = await ipm_kab_kotAPI.getOneDataKabKot(temp.id, tahun);   
+                    // const temp = findKabKot(listKabKot, kabkot);
+                    res = await ipm_kab_kotAPI.getOneDataKabKot(parseInt(kabkot), tahun);   
                 }
             } 
             
@@ -85,15 +86,6 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
             }
             console.log("DataTemp:", dataTemp)
 
-            dataTemp = dataTemp.map(function(obj,i) {
-
-                if(tingkat === "Nasional"){
-                    obj['nama_wilayah'] = obj.Provinsi.nama_provinsi;
-                }else{
-                    obj['nama_wilayah'] = obj.Kabupaten_Kotum.nama_kabupaten_kota;
-                }
-                return obj;
-            })
             setDataTable(dataTemp);   
             setFound(true);
             setTextTingkat(tingkat);  
@@ -108,7 +100,7 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
         setTingkat(e.target.value);
         tempTingkat(e.target.value);
         yearFlag(true);       
-        if(e.target.value === "Provinsi"){
+        if(e.target.value === "Kabupaten/Kota"){
             setProvinsi("all"); 
             setKabKot("");    
             setStatusKabKot(true);   
@@ -129,16 +121,14 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
         }else{
             let temp = [];
 
-            let provFlag = findProv(listProvinsi, e.target.value); 
-
             listKabKot.forEach((data) => {
-                if (data.provinsi_Id === provFlag.id){
+                if (data.provinsi_Id === parseInt(e.target.value)){
                     temp.push(data);
                 } 
             })
             setTempKabKot(temp);
             
-            if(tingkat === "Nasional"){setStatusKabKot(true);}
+            if(tingkat === "Provinsi"){setStatusKabKot(true);}
             else{setKabKot("all"); setStatusKabKot(false);}
         }
     }
@@ -155,6 +145,7 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
         refreshStatus(true)
         fetchData();
         setRefresh(false);
+        yearFlag(true);
     }
 
     const showContent = () => {
@@ -190,8 +181,8 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
                                 <select name="tingkat" id="tingkat" className={styles.dropdownStyle}
                                     onChange={tingkatHandler} value={tingkat}
                                 >
-                                    <option value="Nasional">Provinsi</option>
-                                    <option value="Provinsi">Kabupaten/Kota</option>
+                                    <option value="Provinsi">Provinsi</option>
+                                    <option value="Kabupaten/Kota">Kabupaten/Kota</option>
                                 </select>
                             </Col>
                             <Col xs={3}>
@@ -200,8 +191,7 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
                                 >
                                     <option value="all" selected>Seluruh Provinsi</option>
                                         { listProvinsi && listProvinsi.map((data, i) => {
-                                            let nama = data.nama_provinsi;
-                                            return(<option key={i} value={nama}>{nama}</option>)
+                                            return(<option key={i} value={data.id}>{data.nama_wilayah}</option>)
                                     })}
                                 </select>
                             </Col>
@@ -212,8 +202,7 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
                                     <option value="" selected disabled hidden>Pilih Kabupaten/Kota</option>
                                     <option value="all" >Seluruh Kabupaten/Kota</option>
                                         { tempKabKot && tempKabKot.map((data, i) => {
-                                            let nama = data.nama_kabupaten_kota;
-                                            return(<option key={i} value={nama}>{nama}</option>)
+                                            return(<option key={i} value={data.id}>{data.nama_wilayah}</option>)
                                         })}
                                 </select>
                             </Col>

@@ -32,11 +32,10 @@ export default function Ubah_Data_Wilayah({
   dataFlag,
   tingkatFlag,
   dataProvinsi,
-  dataKabKot,
   refreshFlag
 }) {
     const [preload, setPreLoad] = useState([]);
-    const [tingkat, setTingkat] = useState("Nasional");
+    const [tingkat, setTingkat] = useState("Provinsi");
     const [provinsi, setProvinsi] = useState("");
 
     const [status, setStatus] = useState(false);
@@ -53,24 +52,22 @@ export default function Ubah_Data_Wilayah({
     }, []);
 
     const getDataWilayah = async (id) => {
-        var res, temp, temp2;
+        var res, temp;
         console.log(id)
-        if (tingkatFlag === "Nasional") {
+        if (tingkatFlag === "Provinsi") {
             res = await provinsiAPI.getOneProvinsi(id);
-            temp = res.data.data.nama_provinsi;
-            temp2 = "None";
+            temp = "None";
         } else {
             res = await kab_kotAPI.getOneKabKot(id);
-            temp = res.data.data.nama_kabupaten_kota;
-            temp2 = res.data.data.Provinsi.nama_provinsi;
+            temp = res.data.data.Provinsi.nama_provinsi;
         }
         console.log(res.data.data);
         setPreLoad({
             id: res.data.data.id,
-            nama: temp,
+            nama: res.data.data.nama_wilayah,
             latitude: res.data.data.latitude,
             longitude: res.data.data.longitude,
-            provinsiName: temp2
+            provinsiName: temp
         });
     };
 
@@ -98,12 +95,11 @@ export default function Ubah_Data_Wilayah({
             alert("Silahkan Lengkapi Data")
             return setIsLoading(false);
         }  
-        if (dataFlag === 0 && tingkat !== "Nasional" && provinsi === ""){
+        if (dataFlag === 0 && tingkat !== "Provinsi" && provinsi === ""){
             alert("Silahkan Lengkapi Data")
             return setIsLoading(false);
         }
-
-        
+       
         const dataKu = new URLSearchParams({
             "nama_wilayah": nama,
             "latitude": parseFloat(latitude),
@@ -115,14 +111,14 @@ export default function Ubah_Data_Wilayah({
             var res;
 
             if(dataFlag === 0){
-              if(tingkat === "Nasional"){
+              if(tingkat === "Provinsi"){
                 res = await provinsiAPI.createDataWilayah(dataKu);
               }else{
                 res = await kab_kotAPI.createDataWilayah(dataKu);
               }
               console.log("Create Data")
             }else{
-              if(tingkatFlag === "Nasional"){
+              if(tingkatFlag === "Provinsi"){
                 res = await provinsiAPI.editDataWilayah(preload.id, dataKu);
               }else{
                 res = await kab_kotAPI.editDataWilayah(preload.id, dataKu);
@@ -149,7 +145,7 @@ export default function Ubah_Data_Wilayah({
 
     const tingkatHandler =  (e) => {
         setTingkat(e.target.value)         
-        if(e.target.value === "Provinsi"){
+        if(e.target.value === "Kabupaten/Kota"){
             setStatus(true);    
         }else{
             setStatus(false);
@@ -176,14 +172,14 @@ export default function Ubah_Data_Wilayah({
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label className="label_form">Pilih Wilayah</Form.Label>
                     <Form.Select aria-label="Default select example" size="sm"
-                        defaultValue="Nasional" value={tingkat} onChange={tingkatHandler}
+                        defaultValue="Provinsi" value={tingkat} onChange={tingkatHandler}
                     >
-                        <option value="Nasional">Provinsi</option>
-                        <option value="Provinsi">Kabupaten/Kota</option>
+                        <option value="Provinsi">Provinsi</option>
+                        <option value="Kabupaten/Kota">Kabupaten/Kota</option>
                     </Form.Select>
                 </Form.Group>
 
-                { tingkat !== "Nasional"?(
+                { tingkat !== "Provinsi"?(
                      <Form.Group className="mb-3" controlId="formBasicEmail">
                      <Form.Label className="label_form">Pilih Provinsi</Form.Label>
                      <Form.Select aria-label="Default select example" size="sm"
@@ -191,7 +187,7 @@ export default function Ubah_Data_Wilayah({
                      >
                          <option value="" hidden>Pilih Provinsi</option>
                          {dataProvinsi.map((data,i) => {
-                             return(<option key={i+1} value={data.id}>{data.nama_provinsi}</option>)
+                             return(<option key={i+1} value={data.id}>{data.nama_wilayah}</option>)
                          })}   
                      </Form.Select>
                  </Form.Group>
@@ -209,7 +205,7 @@ export default function Ubah_Data_Wilayah({
                 />
                 </Form.Group>
 
-                {tingkatFlag !== "Nasional"?(
+                {tingkatFlag !== "Provinsi"?(
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label className="label_form">Provinsi</Form.Label>
                         <Form.Control
@@ -229,7 +225,7 @@ export default function Ubah_Data_Wilayah({
                     <Form.Control
                     size="sm"
                     type="text"
-                    name="nama"
+                    name="nama_wilayah"
                     defaultValue={preload.nama}
                     onBlur={(e) =>
                         dispatch({ type: "nama", payload: e.target.value })

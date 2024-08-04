@@ -15,7 +15,7 @@ import { Container, Row, Col, Form, Button, Spinner, Table } from 'react-bootstr
 
 export default function Unggah_Data_IPM({yearFlag}) {
 
-    const [tingkat, setTingkat] = useState("Nasional");
+    const [tingkat, setTingkat] = useState("Provinsi");
     const [tahun, setTahun] = useState("");
     const [loading, setLoading] = useState(false);
     const [found, setFound] = useState(false);
@@ -32,7 +32,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
     const getLast = async (temp) => {
         let res;
         console.log(temp)
-        if(temp === "Nasional"){
+        if(temp === "Provinsi"){
             res = await ipm_provinsiAPI.getLastData();
         }else{
             res = await ipm_kab_kotAPI.getLastData();
@@ -50,7 +50,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
             return setLoading(false);
         }
 
-        if(tingkat === "Nasional"){
+        if(tingkat === "Provinsi"){
             res = await provinsiAPI.getAllProvinsi();
         }else{
             res = await kab_kotAPI.getAllKabKot();
@@ -66,7 +66,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
     }
 
     const tingkatHandler =  (e) => {
-        if (e.target.value === "Nasional"){
+        if (e.target.value === "Provinsi"){
             setTexTingkat("Provinsi")
         }else{setTexTingkat("Kabupaten/Kota")}
         setTingkat(e.target.value)             
@@ -77,15 +77,9 @@ export default function Unggah_Data_IPM({yearFlag}) {
 
     const convertData = async (dataTable) => {
         const dataKu = dataTable.map((data,i) => {
-            let name;
-            if (tingkat === "Nasional"){
-                name = data.nama_provinsi;
-            }else{
-                name = data.nama_kabupaten_kota;
-            }
             return  {
                 "id_wilayah": data.id,
-                "nama_wilayah": name,
+                "nama_wilayah": data.nama_wilayah,
                 "tahun": tahun,
                 "uhh": "",
                 "ahls": "",
@@ -121,7 +115,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
     }
       
     
-      const handleConvert = (event) => {
+    const handleConvert = (event) => {
         let fileObj = event.target.files[0];
         getLast();
         
@@ -138,11 +132,11 @@ export default function Unggah_Data_IPM({yearFlag}) {
             let temp;
             try{
                 if(json[0].nama_wilayah.includes("Provinsi")){
-                    temp = "Nasional"
-                    setTingkat("Nasional")
-                }else{
                     temp = "Provinsi"
                     setTingkat("Provinsi")
+                }else {
+                    temp = "Kabupaten/Kota"
+                    setTingkat("Kabupaten/Kota")
                 }
                 console.log(temp)
                 getLast(temp);
@@ -182,7 +176,7 @@ export default function Unggah_Data_IPM({yearFlag}) {
 
         try{
             let res;
-            if(tingkat === "Nasional"){
+            if(tingkat === "Provinsi"){
                 console.log("Tambah Provinsi")
                 res = await ipm_provinsiAPI.createDataIPM(id_wilayah, dataKu);
             }else{
@@ -219,13 +213,12 @@ export default function Unggah_Data_IPM({yearFlag}) {
 
         const results = await Promise.all(temp);      
         const countTotal = results.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
-       
-        console.log(results)
+        console.log(results)      
         
+        alert("Data Berhasil Ditambahkan : " + countTotal + " dari " + dataUpload.length) 
         setFlag(true)
-        setLoading(false);
+        setLoading(false); 
         yearFlag(true);
-        alert("Data Berhasil Ditambahkan : " + countTotal + " dari " + dataUpload.length)  
     }
 
     const columnsIPM = ["ID Wilayah", "Nama Wilayah", "Tahun", "UHH", "AHLS", "ARLS", "PPD","IUHH","IPTHN", "IPLRN", "IPM", "MGWR"]
@@ -266,8 +259,8 @@ export default function Unggah_Data_IPM({yearFlag}) {
                                     <select name="tingkat" id="tingkat" className={styles.dropdownStyle}
                                         onChange={tingkatHandler} value={tingkat}
                                     >
-                                        <option value="Nasional">Provinsi</option>
-                                        <option value="Provinsi">Kabupaten/Kota</option>
+                                        <option value="Provinsi">Provinsi</option>
+                                        <option value="Kabupaten/Kota">Kabupaten/Kota</option>
                                     </select>
                                 </Col>
                                 <Col >

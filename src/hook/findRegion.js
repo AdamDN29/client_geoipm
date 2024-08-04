@@ -1,12 +1,15 @@
 import React from "react";
 
-const findRegion = (array, e, tingkat) => {
+const findRegion = (array, name, flag) => {
+    let dataName;
     return array.find((element) => {
-        if (tingkat === "Nasional"){
-            return element.Provinsi.nama_provinsi === e.Provinsi.nama_provinsi
+        if(flag){
+            dataName = element.Wilayah.nama_wilayah;
         }else{
-            return element.Kabupaten_Kotum.nama_kabupaten_kota === e.Kabupaten_Kotum.nama_kabupaten_kota
+            dataName = element.nama_wilayah;
         }
+        
+        return dataName === name
     })
 }
 

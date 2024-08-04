@@ -12,7 +12,7 @@ import { Container, Row, Col, Button, Spinner } from 'react-bootstrap'
 
 export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus}) {   
    
-    const [tingkat, setTingkat] = useState("Nasional");
+    const [tingkat, setTingkat] = useState("Provinsi");
     const [provinsi, setProvinsi] = useState("all");
     const [kabkot, setKabKot] = useState("");
 
@@ -25,46 +25,40 @@ export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus})
     const [found, setFound] = useState(true);
     const [statusKabKot, setStatusKabKot] = useState(true);
 
-    const [textTingkat, setTextTingkat] = useState("Nasional");
+    const [textTingkat, setTextTingkat] = useState("Provinsi");
 
     const [content, setContent] = useState("show");
     const [dataFlag, setDataFlag] = useState(null);
     const [refresh, setRefresh] = useState(false);
 
-    function findProv(array, name) {
-        return array.find((element) => {
-            return element.nama_provinsi === name
-        })
-    }
-
-    function findKabKot(array, name) {
-        return array.find((element) => {
-            return element.nama_kabupaten_kota === name
-        })
-    }
+    // function findData(array, id) {
+    //     return array.find((element) => {
+    //         return element.id === id
+    //     })
+    // }
 
     const fetchData = async () => {
         let res;
         setStatus(false);
         setLoading(true);
-        setFound(false);
-        if (tingkat === "Nasional"){    
+        setFound(false);    
+
+        if (tingkat === "Provinsi"){  
+
+           
             if(provinsi === "all"){
-                res = await provinsiAPI.getAllProvinsi();
-            }else{
-                const temp = findProv(listProvinsi, provinsi);
-                res = await provinsiAPI.getOneProvinsi(temp.id)
-            }
+                res = await provinsiAPI.getAllProvinsi();   
+            }else{             
+                res = await provinsiAPI.getOneProvinsi(parseInt(provinsi))
+            }         
         }else{ 
             if (provinsi === "all"){
                 res = await kab_kotAPI.getAllKabKot();
             }else{
                 if(kabkot === "all"){   
-                    const temp = findProv(listProvinsi, provinsi);
-                    res = await kab_kotAPI.getKabKotbyProvinsi(temp.id);
+                    res = await kab_kotAPI.getKabKotbyProvinsi(parseInt(provinsi));
                 }else{   
-                    const temp = findKabKot(listKabKot, kabkot);
-                    res = await kab_kotAPI.getOneKabKot(temp.id); 
+                    res = await kab_kotAPI.getOneKabKot(parseInt(kabkot)); 
                 }
             }     
         }
@@ -81,16 +75,6 @@ export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus})
                 dataTemp = temp;
             }
             console.log("DataTemp:", dataTemp)
-
-            dataTemp = dataTemp.map(function(obj,i) {
-
-                if(tingkat === "Nasional"){
-                    obj['nama_wilayah'] = obj.nama_provinsi;
-                }else{
-                    obj['nama_wilayah'] = obj.nama_kabupaten_kota;
-                }
-                return obj;
-            })
             setDataTable(dataTemp); 
             setFound(true);
             setTextTingkat(tingkat);          
@@ -101,7 +85,7 @@ export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus})
 
     const tingkatHandler =  (e) => {
         setTingkat(e.target.value)         
-        if(e.target.value === "Provinsi"){  
+        if(e.target.value === "Kabupaten/Kota"){  
             setProvinsi("all"); 
             setKabKot("");    
             setStatusKabKot(true);    
@@ -121,22 +105,16 @@ export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus})
         }else{
             let temp = [];
 
-            let provFlag = findProv(listProvinsi, e.target.value); 
-
             listKabKot.forEach((data) => {
-                if (data.provinsi_Id === provFlag.id){
+                if (data.provinsi_Id === parseInt(e.target.value)){
                     temp.push(data);
                 } 
             })
             setTempKabKot(temp);
             
-            if(tingkat === "Nasional"){setStatusKabKot(true);}
+            if(tingkat === "Provinsi"){setStatusKabKot(true);}
             else{setKabKot("all"); setStatusKabKot(false);}
         }
-    }
-
-    const kabkotHandler =  (e) => {
-        setKabKot(e.target.value)   
     }
 
     if(refresh === true){
@@ -175,8 +153,8 @@ export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus})
                                     <select name="tingkat" id="tingkat" className={styles.dropdownStyle}
                                         onChange={tingkatHandler} value={tingkat}
                                     >
-                                        <option value="Nasional">Provinsi</option>
-                                        <option value="Provinsi">Kabupaten/Kota</option>
+                                        <option value="Provinsi">Provinsi</option>
+                                        <option value="Kabupaten/Kota">Kabupaten/Kota</option>
                                     </select>
                                 </Col>
                                 <Col xs={3}>
@@ -185,20 +163,18 @@ export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus})
                                     >
                                         <option value="all" selected>Seluruh Provinsi</option>
                                             { listProvinsi && listProvinsi.map((data, i) => {
-                                                let nama = data.nama_provinsi;
-                                                return(<option key={i} value={nama}>{nama}</option>)
+                                                return(<option key={i} value={data.id}>{data.nama_wilayah}</option>)
                                         })}
                                     </select>
                                 </Col>
                                 <Col>
                                     <select name="kabkot" id="kabkot" className={styles.dropdownStyle}
-                                        onChange={kabkotHandler} value={kabkot} disabled={statusKabKot}
+                                        onChange={(e) => setKabKot(e.target.value)} value={kabkot} disabled={statusKabKot}
                                     >
                                         <option value="" selected disabled hidden>Pilih Kabupaten/Kota</option>
                                         <option value="all" >Seluruh Kabupaten/Kota</option>
                                             { tempKabKot && tempKabKot.map((data, i) => {
-                                                let nama = data.nama_kabupaten_kota;
-                                                return(<option key={i} value={nama}>{nama}</option>)
+                                                return(<option key={i} value={data.id}>{data.nama_wilayah}</option>)
                                             })}
                                     </select>
                                 </Col>
@@ -251,7 +227,7 @@ export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus})
 
         }else if(content === "create"){
             return(
-                <Ubah_Data_Wilayah contentChanger={setContent} dataFlag={0} tingkatFlag={textTingkat} dataProvinsi={listProvinsi} dataKabKot={listKabKot} refreshFlag={setRefresh}/>
+                <Ubah_Data_Wilayah contentChanger={setContent} dataFlag={0} tingkatFlag={textTingkat} dataProvinsi={listProvinsi} refreshFlag={setRefresh}/>
             )
         }
 
