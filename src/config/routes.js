@@ -9,7 +9,7 @@ export const routes = {
       return `/peta_gwr`;
     },
     TABLE_DATA: () => {
-        return `/tabel_data`;
+        return `/dataview`;
     },
     ABOUT: () => {
         return `/tentang`;

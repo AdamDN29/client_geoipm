@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal';
 import {Row, Col, Table} from 'react-bootstrap';
 import styles from './styles.module.css';
 import separatorNumber from '../../../hook/separatorNumber';
+import preventMinus from '../../../hook/preventMinus';
 
 export default function Modal_Result(props) {
     const { max, min, gwrflag, data, tingkat, tahun, textDataType, dataType } = props;
@@ -251,11 +252,11 @@ export default function Modal_Result(props) {
                                         <td>=</td>
                                         <td><input type="number" name='est_intercept' value={data[wilayah].intercept}  style={{width: "100%"}} disabled/></td><td>+</td>
                                         <td><input type="number" name='est_iuhh'  value={data[wilayah].iuhh} style={{width: "100%"}} disabled/></td><td>*</td>
-                                        <td><input type="number" name='p_iuhh' placeholder='IUHH' min="0" max="1"  value={input1} onChange={(e) => setInput1(e.target.value)}/></td><td>+</td>
+                                        <td><input type="number" name='p_iuhh' placeholder='IUHH' min="0" max="1"  value={input1} onKeyPress={preventMinus} onChange={(e) => setInput1(e.target.value)}/></td><td>+</td>
                                         <td><input type="number" name='est_ipthn'  value={data[wilayah].ipthn} style={{width: "100%"}} disabled/></td><td>*</td>
-                                        <td><input type="number" name='p_ipthn' placeholder='IPTHN' min="0" max="1" value={input2} onChange={(e) => setInput2(e.target.value)}/></td><td>+</td>
+                                        <td><input type="number" name='p_ipthn' placeholder='IPTHN' min="0" max="1" value={input2} onKeyPress={preventMinus} onChange={(e) => setInput2(e.target.value)}/></td><td>+</td>
                                         <td><input type="number" name='est_iplrn'  value={data[wilayah].iplrn} style={{width: "100%"}} disabled/></td><td>*</td>
-                                        <td><input type="number" name='p_iplrn' placeholder='IPLRN' min="0" max="1" value={input3} onChange={(e) => setInput3(e.target.value)}/></td><td>=</td>
+                                        <td><input type="number" name='p_iplrn' placeholder='IPLRN' min="0" max="1" value={input3} onKeyPress={preventMinus} onChange={(e) => setInput3(e.target.value)}/></td><td>=</td>
                                         <td><input type="number" name='result'  value={resultValue} disabled/></td>
                                     </tr>
                                 </tbody>

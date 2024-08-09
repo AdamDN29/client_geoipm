@@ -8,6 +8,7 @@ import kab_kotAPI from '../../../api/kab_kotAPI';
 import ipm_provinsiAPI from "../../../api/ipm_provinsiAPI";
 import ipm_kab_kotAPI from "../../../api/ipm_kab_kotAPI";
 import ImgAsset from '../../../assets';
+import preventMinus from '../../../hook/preventMinus';
 
 
 //import component Bootstrap React
@@ -268,6 +269,10 @@ export default function Unggah_Data_IPM({yearFlag}) {
                                         <Form.Control
                                         size="sm"
                                         name="tahun"
+                                        type="number"
+                                        min="2000"
+                                        max="2050"
+                                        onKeyPress={preventMinus}
                                         placeholder='20xx'
                                         onChange={(e)=> setTahun(e.target.value)}
                                         />

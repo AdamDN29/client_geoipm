@@ -89,7 +89,7 @@ export default function Navbars () {
                             <span className={styles.nav_icon_text}>Peta MGWR</span>
                         </Nav.Link>
                         {/* Menu Table Data */}
-                        <Nav.Link as={Link} to="/tabel_data" className={`nav-link ${styles.nav_icon_field}`}>
+                        <Nav.Link as={Link} to="/dataview" className={`nav-link ${styles.nav_icon_field}`}>
                             <img
                                 src = {ImgAsset.Icon_Table_Data}
                                 width="25"

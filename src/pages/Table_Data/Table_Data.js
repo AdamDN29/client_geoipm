@@ -301,7 +301,7 @@ export default function Table_Data() {
                                 {status ? (
                                     <>
                                         <div className={styles.titleSection}></div>
-                                        <ExportData excelData={dataTable} fileName={"Tabel Data IPM " + textTitle} flag={"Data"}/>
+                                        <ExportData excelData={dataTable} fileName={"Data IPM " + textTitle} flag={"Data"}/>
                                     </>
                                 ):(<></>)}        
                             </Row>       

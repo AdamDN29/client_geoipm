@@ -3,6 +3,7 @@ import React, { useState, useEffect, useReducer } from "react";
 import styles from "./styles.module.css";
 import ipm_provinsiAPI from "../../../api/ipm_provinsiAPI";
 import ipm_kab_kotAPI from "../../../api/ipm_kab_kotAPI";
+import preventMinus from "../../../hook/preventMinus";
 
 //import component Bootstrap React
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
@@ -250,7 +251,7 @@ export default function Ubah_Data_IPM({
     const addCommas = num => num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     const removeNonNumeric = num => num.toString().replace(/[^0-9]/g, "");
 
-    const handleChange = event => setTempPPD(addCommas(removeNonNumeric((event.target.value * 1000))));
+    const handleChangePPD = event => setTempPPD(addCommas(removeNonNumeric((event.target.value * 1000))));
 
   return (
     <section>
@@ -359,7 +360,9 @@ export default function Ubah_Data_IPM({
                 <Form.Control
                   size="sm"
                   type="number"
+                  min="1"
                   name="uhh"
+                  onKeyPress={preventMinus}
                   defaultValue={preload.uhh}
                   onBlur={(e) =>
                     dispatch({ type: "uhh", payload: e.target.value })
@@ -373,10 +376,12 @@ export default function Ubah_Data_IPM({
                 <Form.Control
                   size="sm"
                   type="number"
+                  min="1"
                   name="ppd"
+                  onKeyPress={preventMinus}
                   placeholder="10000 (Rp.10.000.000)"
                   defaultValue={preload.ppd}
-                  onInput={handleChange}
+                  onInput={handleChangePPD}
                   onBlur={(e) =>
                     dispatch({ type: "ppd", payload: e.target.value })
                   }
@@ -396,7 +401,9 @@ export default function Ubah_Data_IPM({
                 <Form.Control
                   size="sm"
                   type="number"
+                  min="1"
                   name="ahls"
+                  onKeyPress={preventMinus}
                   defaultValue={preload.ahls}
                   onBlur={(e) =>
                     dispatch({ type: "ahls", payload: e.target.value })
@@ -410,7 +417,9 @@ export default function Ubah_Data_IPM({
                 <Form.Control
                   size="sm"
                   type="number"
+                  min="1"
                   name="arls"
+                  onKeyPress={preventMinus}
                   defaultValue={preload.arls}
                   onBlur={(e) =>
                     dispatch({ type: "arls", payload: e.target.value })
@@ -425,7 +434,10 @@ export default function Ubah_Data_IPM({
                 <Form.Control
                   size="sm"
                   type="number"
+                  min="0"
+                  max="1"
                   name="iuhh"
+                  onKeyPress={preventMinus}
                   defaultValue={preload.iuhh}
                   onBlur={(e) =>
                     dispatch({ type: "iuhh", payload: e.target.value })
@@ -439,7 +451,10 @@ export default function Ubah_Data_IPM({
                 <Form.Control
                   size="sm"
                   type="number"
+                  min="0"
+                  max="1"
                   name="ipthn"
+                  onKeyPress={preventMinus}
                   defaultValue={preload.ipthn}
                   onBlur={(e) =>
                     dispatch({ type: "ipthn", payload: e.target.value })
@@ -453,7 +468,10 @@ export default function Ubah_Data_IPM({
                 <Form.Control
                   size="sm"
                   type="number"
+                  min="0"
+                  max="1"
                   name="iplrn"
+                  onKeyPress={preventMinus}
                   defaultValue={preload.iplrn}
                   onBlur={(e) =>
                     dispatch({ type: "iplrn", payload: e.target.value })
@@ -467,7 +485,9 @@ export default function Ubah_Data_IPM({
                 <Form.Control
                   size="sm"
                   type="number"
+                  min="0"
                   name="ipm"
+                  onKeyPress={preventMinus}
                   defaultValue={preload.ipm}
                   onBlur={(e) =>
                     dispatch({ type: "ipm", payload: e.target.value })
