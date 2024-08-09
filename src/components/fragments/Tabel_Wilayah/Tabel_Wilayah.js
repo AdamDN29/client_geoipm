@@ -31,21 +31,13 @@ export default function Tabel_Wilayah({listProvinsi, listKabKot, refreshStatus})
     const [dataFlag, setDataFlag] = useState(null);
     const [refresh, setRefresh] = useState(false);
 
-    // function findData(array, id) {
-    //     return array.find((element) => {
-    //         return element.id === id
-    //     })
-    // }
-
     const fetchData = async () => {
         let res;
         setStatus(false);
         setLoading(true);
         setFound(false);    
 
-        if (tingkat === "Provinsi"){  
-
-           
+        if (tingkat === "Provinsi"){           
             if(provinsi === "all"){
                 res = await provinsiAPI.getAllProvinsi();   
             }else{             

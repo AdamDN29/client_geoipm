@@ -26,17 +26,7 @@ import Modal_Result from '../../components/fragments/Modal_Result/Modal_Result';
 import ChangeView from '../../hook/ChangeView';
 import separatorNumber from '../../hook/separatorNumber';
 import findRegion from '../../hook/findRegion';
-
-const arrayText = [ 
-    {title:"ipm", text:"Indeks Pembangunan Manusia"}, 
-    {title:"uhh", text:"Umur Harapan Hidup"}, 
-    {title:"ahls", text:"Angka Harapan Lama Sekolah"}, 
-    {title:"arls", text:"Angka Rata-Rata Lama Sekolah"}, 
-    {title:"ppd", text:"Pendapatan PerKapita Disesuaikan"}, 
-    {title:"iuhh", text:"Indeks Umur Harapan Hidup"}, 
-    {title:"ipthn", text:"Indeks Pengetahuan"}, 
-    {title:"iplrn", text:"Indeks Pengeluaran"}, 
-]
+import findDataType from '../../hook/findDataType';
 
 export default function IPM_Maps() {
 
@@ -84,13 +74,6 @@ export default function IPM_Maps() {
         console.log("Get List Year")
     }
 
-    function findArrayElementByTitle(array, title) {
-        return array.find((element) => {
-            return element.title === title
-        })
-    }
- 
-
     const fetchData = async () => {
         console.log("Pilih Peta \nTingkat: ", tingkat, "\nTahun: ", tahun, "\nData: ", dataType)
 
@@ -129,7 +112,8 @@ export default function IPM_Maps() {
                 console.log("Status Aktif")
                 console.log("GeoJSON Key: ", key)
 
-                let tempText = findArrayElementByTitle(arrayText, dataType);
+                let tempText = findDataType(dataType);
+                console.log("temptingkat:",tempText)
                 setTextDataType(tempText.text);
                 setTextDataTingkat(tingkat);
                 setTempDataTingkat(tempTingkat)
@@ -141,8 +125,7 @@ export default function IPM_Maps() {
                 setSelectedMap("");
                 setLoading(false);
             }
-        }else{return setLoading(false);}
-          
+        }else{return setLoading(false);}        
     };
 
     const tingkatHandler =  (e) => {
@@ -154,12 +137,6 @@ export default function IPM_Maps() {
     const positionHandler =  (e) => {
         let position = findRegion(dataMap, e.Wilayah.nama_wilayah, true)
         console.log(position)
-        let zoomOption;
-        if (textDataTingkat === "Provinsi"){
-            zoomOption = 8;
-        } else{
-            zoomOption = 10;
-        }
         setCenterMap([position.Wilayah.latitude, position.Wilayah.longitude]);   
         setZoomMap(zoomOption);
         setSelectedMap(e);
@@ -175,7 +152,15 @@ export default function IPM_Maps() {
         fillOpacity: 0.7,
         color: 'black',
         weight: 2
-    };
+    }; 
+
+    const zoomOption = () =>{
+        if (textDataTingkat === "Provinsi"){
+            return 8;
+        } else{
+            return 10;
+        }
+    }
     
     const onEachRegion = (regionMap, layer) => {
         let dataRegion, regionName, value;
@@ -201,9 +186,10 @@ export default function IPM_Maps() {
         }else{value = dataRegion?.value}
 
         layer.on("click", function (e){
-            const target = e.target;
-            // layer.fitBounds(layer.getBounds())
-            // map.setView([dataRegion.Provinsi.latitude, dataRegion.Provinsi.longitude])
+            // const target = e.target;
+            // let temp = layer.fitBounds(layer.getBounds())     
+            setCenterMap([dataRegion.Wilayah.latitude, dataRegion.Wilayah.longitude]);         
+            setZoomMap(zoomOption);
         }) 
     
         layer.on("mouseover", function (e){
@@ -259,8 +245,8 @@ export default function IPM_Maps() {
                                     <select name="Tahun" id="Tahun" className={styles.dropdownStyle}
                                         onChange={(e) => setTahun(e.target.value)} value={tahun}
                                     >
-                                        {listYear && listYear.map((data) => {
-                                            return(<option value={data.tahun}>{data.tahun}</option>)
+                                        {listYear && listYear.map((data, i) => {
+                                            return(<option key={i} value={data.tahun}>{data.tahun}</option>)
                                         })}
                                     </select>
                                 </div>
@@ -298,7 +284,7 @@ export default function IPM_Maps() {
                             {
                                 status && loading === false ?(
                                     <>
-                                    
+                                    {/* Cari Wilayah */}
                                     <Row>
                                         <div className={styles.titleSection}></div>
                                         <div className={styles.dropdownField}>
@@ -337,8 +323,7 @@ export default function IPM_Maps() {
                             <Row className={styles.rowMap}>
                                 <div className={styles.mapTitle}>Peta {' '}
                                     {status === true ?(<>{textDataType} Tingkat {tempDataTingkat} di </>):(<></>)}{' '}
-                                    Indonesia 
-                                     {' '}
+                                    Indonesia {' '}
                                     {status === true ?(<>Tahun {textDataTahun}</>):(<></>)}
                                 </div>
                             </Row>
@@ -352,7 +337,6 @@ export default function IPM_Maps() {
                                         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                                         />
-
 
                                         <LayersControl position="topright">
                                             <LayersControl.Overlay checked name="Marker">
@@ -398,8 +382,7 @@ export default function IPM_Maps() {
                                                 style={countryStyle}
                                                 data={geojson}
                                                 onEachFeature={onEachRegion}
-                                                />
-                                                
+                                                />    
                                             </>
                                             ):(<></>)
                                         }                                     

@@ -16,7 +16,6 @@ import kab_kotAPI from '../../api/kab_kotAPI';
 //import component Bootstrap React
 import { Container, Row, Col, Button, Spinner } from 'react-bootstrap'
 
-
 export default function Table_Data() {
 
     const [dataProvinsi, setDataProvinsi] = useState([]);
@@ -38,7 +37,6 @@ export default function Table_Data() {
     const [statusKabKot, setStatusKabKot] = useState(true);
 
     const [textTingkat, setTextTingkat] = useState("Provinsi");
-    const [textTahun, setTextTahun] = useState("");
     const [textTitle, setTextTitle] = useState("");
     
     useEffect(() => {
@@ -47,18 +45,6 @@ export default function Table_Data() {
         getListYear(tingkat);
         setLoading(false);
     }, [])
-
-    // function findRegion(array, name) {
-    //     return array.find((element) => {
-    //         return element.nama_wilayah === name
-    //     })
-    // }
-
-    // function findKabKot(array, name) {
-    //     return array.find((element) => {
-    //         return element.nama_kabupaten_kota === name
-    //     })
-    // }
 
     const getDataWilayah = async () => {
         const prov = await provinsiAPI.getAllProvinsi();
@@ -120,7 +106,6 @@ export default function Table_Data() {
             console.log("Data Tidak Ditemukan")
         }else{
             setTextTingkat(tingkat);
-            setTextTahun(tahun);
 
             var temp = res.data.data;
             var dataTemp = [];
@@ -188,7 +173,6 @@ export default function Table_Data() {
         setStatus(false);
         setFound(false);
         setTextTingkat("")
-        setTextTahun("")
         setTextTitle("")
         setStatusKabKot(true);
         setProvinsi("all");
@@ -301,7 +285,7 @@ export default function Table_Data() {
                                 {status ? (
                                     <>
                                         <div className={styles.titleSection}></div>
-                                        <ExportData excelData={dataTable} fileName={"Data IPM " + textTitle} flag={"Data"}/>
+                                        <ExportData excelData={dataTable} fileName={"Data " + textTitle} flag={"Data"}/>
                                     </>
                                 ):(<></>)}        
                             </Row>       

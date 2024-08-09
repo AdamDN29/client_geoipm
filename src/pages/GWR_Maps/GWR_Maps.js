@@ -25,14 +25,7 @@ import Map_Desc from '../../components/fragments/Map_Desc/Map_Desc';
 import Modal_Result from '../../components/fragments/Modal_Result/Modal_Result';
 import ChangeView from '../../hook/ChangeView';
 import findRegion from '../../hook/findRegion';
-
-const arrayText = [ 
-    {title:"ipm", text:"Indeks Pembangunan Manusia"}, 
-    {title:"intercept", text:"Intercept"}, 
-    {title:"iuhh", text:"Indeks Umur Harapan Hidup"}, 
-    {title:"ipthn", text:"Indeks Pengetahuan"}, 
-    {title:"iplrn", text:"Indeks Pengeluaran"}, 
-]
+import findDataType from '../../hook/findDataType';
 
 export default function GWR_Maps() {
 
@@ -80,12 +73,6 @@ export default function GWR_Maps() {
         console.log("Get List Year")
     }
 
-    function findArrayElementByTitle(array, title) {
-        return array.find((element) => {
-            return element.title === title
-        })
-    }
-
     const fetchData = async () => {
         console.log("Pilih Peta \nTingkat: ", tingkat, "\nTahun: ", tahun, "\nData: ", dataType)
 
@@ -124,7 +111,7 @@ export default function GWR_Maps() {
                 console.log("Status Aktif")
                 console.log("GeoJSON Key: ", key)
 
-                let tempText = findArrayElementByTitle(arrayText, dataType);
+                let tempText = findDataType(dataType);
                 setTextDataType(tempText.text);
                 setTextDataTingkat(tingkat);
                 setTempDataTingkat(tempTingkat)
@@ -147,12 +134,6 @@ export default function GWR_Maps() {
 
     const positionHandler =  (e) => {
         let position = findRegion(dataMap, e.Wilayah.nama_wilayah, true)
-        let zoomOption;
-        if (textDataTingkat === "Provinsi"){
-            zoomOption = 8;
-        } else{
-            zoomOption = 10;
-        }
         setCenterMap([position.Wilayah.latitude, position.Wilayah.longitude]);   
         setZoomMap(zoomOption);
         setSelectedMap(e);
@@ -169,6 +150,14 @@ export default function GWR_Maps() {
         color: 'black',
         weight: 2
     };
+
+    const zoomOption = () =>{
+        if (textDataTingkat === "Provinsi"){
+            return 8;
+        } else{
+            return 10;
+        }
+    }
     
     const onEachRegion = (regionMap, layer) => {
         let dataRegion, value, regionName;
@@ -185,13 +174,20 @@ export default function GWR_Maps() {
         if (dataRegion !== undefined) {  
             if (value > dataCalc.max) {
                 layer.options.fillColor = '#00B8A9';  //#73D737
-              } else if (value < dataCalc.min) {
+            } else if (value < dataCalc.min) {
                 layer.options.fillColor = '#F6416C';  //#FB4141       
-              } else {
+            } else {
                 layer.options.fillColor = '#FFDE78';  //#E1FB41
-              }
+            }
         } 
-        regionName = dataRegion?.Wilayah.nama_wilayah     
+        regionName = dataRegion?.Wilayah.nama_wilayah    
+        
+        layer.on("click", function (e){
+            // const target = e.target;
+            // let temp = layer.fitBounds(layer.getBounds())     
+            setCenterMap([dataRegion.Wilayah.latitude, dataRegion.Wilayah.longitude]);         
+            setZoomMap(zoomOption);
+        }) 
     
         layer.on("mouseover", function (e){
             const target = e.target;

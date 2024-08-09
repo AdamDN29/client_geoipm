@@ -7,7 +7,6 @@ import kab_kotAPI from "../../../api/kab_kotAPI";
 //import component Bootstrap React
 import { Container, Row, Col, Form, Button, Spinner } from "react-bootstrap";
 
-
 const initialState = {
   nama: "",
   latitude: "",
@@ -76,7 +75,7 @@ export default function Ubah_Data_Wilayah({
         setIsLoading(true);
         console.log(data);
 
-        let nama, latitude, longitude, id_wilayah;
+        let nama, latitude, longitude;
 
         if (data.nama !== "" || dataFlag === 0){
             nama = data.nama;
@@ -217,7 +216,6 @@ export default function Ubah_Data_Wilayah({
                         />
                  </Form.Group>       
                 ):(<></>)}
-
                 
             </>)}
                 <Form.Group className="mb-3" controlId="formBasicEmail">
@@ -232,7 +230,6 @@ export default function Ubah_Data_Wilayah({
                     }
                     />
                 </Form.Group>
-
               
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label className="label_form">
@@ -296,126 +293,6 @@ export default function Ubah_Data_Wilayah({
                 </Col>
               </Row>
             </Col>
-
-            {/* <Col>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label className="label_form">
-                  Angka Rata-Rata Lama Sekolah
-                </Form.Label>
-                <Form.Control
-                  size="sm"
-                  type="text"
-                  name="arls"
-                  defaultValue={preload.arls}
-                  onBlur={(e) =>
-                    dispatch({ type: "arls", payload: e.target.value })
-                  }
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label className="label_form">
-                  Pendapatan PerKapita Disesuaikan
-                </Form.Label>
-                <Form.Control
-                  size="sm"
-                  type="text"
-                  name="ppd"
-                  defaultValue={preload.ppd}
-                  onBlur={(e) =>
-                    dispatch({ type: "ppd", payload: e.target.value })
-                  }
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label className="label_form">
-                  Indeks Umur Harapan Hidup
-                </Form.Label>
-                <Form.Control
-                  size="sm"
-                  type="text"
-                  name="iuhh"
-                  defaultValue={preload.iuhh}
-                  onBlur={(e) =>
-                    dispatch({ type: "iuhh", payload: e.target.value })
-                  }
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label className="label_form">
-                  Indeks Pengetahuan
-                </Form.Label>
-                <Form.Control
-                  size="sm"
-                  type="text"
-                  name="ipthn"
-                  defaultValue={preload.ipthn}
-                  onBlur={(e) =>
-                    dispatch({ type: "ipthn", payload: e.target.value })
-                  }
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label className="label_form">
-                  Indeks Pengeluaran
-                </Form.Label>
-                <Form.Control
-                  size="sm"
-                  type="text"
-                  name="iplrn"
-                  defaultValue={preload.iplrn}
-                  onBlur={(e) =>
-                    dispatch({ type: "iplrn", payload: e.target.value })
-                  }
-                />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label className="label_form">
-                  Indeks Pembangunan Manusia
-                </Form.Label>
-                <Form.Control
-                  size="sm"
-                  type="text"
-                  name="ipm"
-                  defaultValue={preload.ipm}
-                  onBlur={(e) =>
-                    dispatch({ type: "ipm", payload: e.target.value })
-                  }
-                />
-              </Form.Group>
-              <Row className="btn_group">
-                <Col>
-                  <Button
-                    variant="light"
-                    className={styles.buttons}
-                    onClick={() => contentChanger("show")}
-                  >
-                    Kembali
-                  </Button>
-                  <Button
-                    variant="light"
-                    disabled={isLoading}
-                    className={styles.buttons}
-                    type="submit"
-                    onClick={submitData}
-                  >
-                    {isLoading === false ? (
-                      <>{ dataFlag !== 0 ? <>Ubah Data</>: <>Tambah Data</>}</>           
-                    ) : (
-                      <>
-                        <Spinner
-                          as="span"
-                          animation="border"
-                          size="sm"
-                          role="status"
-                          aria-hidden="true"
-                        />{" "}
-                        Loading...{" "}
-                      </>
-                    )}
-                  </Button>
-                </Col>
-              </Row>
-            </Col> */}
           </Row>
         </Form>
       </Container>

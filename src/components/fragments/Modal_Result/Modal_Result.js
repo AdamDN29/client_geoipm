@@ -123,13 +123,8 @@ export default function Modal_Result(props) {
                                     {
                                         kel1.map((data, i) => {
                                             let value = formatValue(data.value);
-            
-                                            // if(dataType === "PPD"){
-                                            //     value = separatorNumber(data.value*1000);
-                                            // }else{value = value.toFixed(nfixed)}
-
                                             return(
-                                                <><p className={styles.list}>{i+1}. {data.Wilayah.nama_wilayah} ({text1} {value} {text2})</p></>            
+                                                <><p key={i} className={styles.list}>{i+1}. {data.Wilayah.nama_wilayah} ({text1} {value} {text2})</p></>            
                                             )
                                         })
                                     }
@@ -145,7 +140,7 @@ export default function Modal_Result(props) {
                                             let value = formatValue(data.value);
                                             let rowIndex = kel1.length + i;
                                             return(
-                                                <><p className={styles.list}>{rowIndex+1}. {data.Wilayah.nama_wilayah} ({text1} {value} {text2})</p></>   
+                                                <><p key={i} className={styles.list}>{rowIndex+1}. {data.Wilayah.nama_wilayah} ({text1} {value} {text2})</p></>   
                                             )
                                         })
                                     }
@@ -161,7 +156,7 @@ export default function Modal_Result(props) {
                                             let value = formatValue(data.value);
                                             let rowIndex = kel1.length + kel2.length + i;
                                             return(
-                                                <><p className={styles.list}>{rowIndex+1}. {data.Wilayah.nama_wilayah} ({text1} {value} {text2})</p></>   
+                                                <><p key={i} className={styles.list}>{rowIndex+1}. {data.Wilayah.nama_wilayah} ({text1} {value} {text2})</p></>   
                                             )
                                         })
                                     }

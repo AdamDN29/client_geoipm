@@ -149,7 +149,7 @@ export default function Homepage() {
                                             <br/><br/> */}
 
                                             <b>Nilai IPM </b>juga dapat dimodelkan menggunakan <b>metode MGWR</b> ini berdasarkan <b>nilai IUHH, IPTHN, dan IPLRN</b>.
-                                            Hasil estimasi parameter (variabel independen) pun dapat dipetakan.
+                                            Hasil estimasi koefisien parameter (variabel independen) pun dapat dipetakan.
                                             Hasil pemodelan dengan metode MGWR pada data IPM ini dapat ditemukan pada <a href="/peta_gwr" className={styles.linkText} >Peta MGWR</a>
                                         </p>
                                     </Row>

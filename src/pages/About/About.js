@@ -27,11 +27,11 @@ export default function About() {
                             <Row>
                                 <p>
                                     <b className={styles.boldP}>GeoIPM</b> adalah website yang menyajikan data Indeks Pembangunan Manusia di Indonesia pada tingkat Provinsi dan Kabupaten/Kota.
-                                    GeoIPM pun dapat menyajikan peta pengelompokan wilayah data IPM dan prediksinya. <br></br><br></br>
+                                    GeoIPM pun dapat menyajikan peta pengelompokan wilayah data IPM dan pemodelan MGWR. <br></br><br></br>
 
                                     Data IPM pada website ini berasal dari data <a href="https://www.bps.go.id/id" target="_blank" className={styles.linkText} >Badan Pusat Statistik (BPS)</a> Indonesia yang telah dilakukan pengolahan agar dapat ditampilkan pada peta. <br></br><br></br>
 
-                                    Website ini dikembangkan untuk memberikan informasi mengenai tingkat pembangunan kualitas hidup manusia kepada masyarakat dan pengelompokan wilayahnya.
+                                    Website ini dikembangkan untuk memberikan informasi mengenai tingkat pembangunan kualitas hidup manusia dan pengelompokan wilayahnya.
                                     Website ini pun dikembangkan untuk memenuhi tugas akhir prodi S1 Teknik Informatika Unpad. <br></br><br></br>
 
                                     Dikembangkan oleh: <br></br>

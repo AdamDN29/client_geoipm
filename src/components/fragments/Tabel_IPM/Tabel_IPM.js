@@ -33,18 +33,6 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
     const [content, setContent] = useState("show");
     const [dataFlag, setDataFlag] = useState(null);
     const [refresh, setRefresh] = useState(false);
-  
-    // function findProv(array, name) {
-    //     return array.find((element) => {
-    //         return element.nama_provinsi === name
-    //     })
-    // }
-
-    // function findKabKot(array, name) {
-    //     return array.find((element) => {
-    //         return element.nama_kabupaten_kota === name
-    //     })
-    // }
 
     const fetchData = async () => {
         let res;
@@ -55,7 +43,6 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
             if(provinsi === "all"){
                 res = await ipm_provinsiAPI.getAllDataProvinsi(tahun);
             }else{
-                // const temp = findRegion(listProvinsi, provinsi, false);
                 res = await ipm_provinsiAPI.getOneDataProvinsi(parseInt(provinsi), tahun);
             }
         }else{ 
@@ -63,10 +50,8 @@ export default function Tabel_IPM({listProvinsi, listKabKot, listYear, yearFlag,
                 res = await ipm_kab_kotAPI.getAllDataKabKot(tahun); 
             }else{
                 if(kabkot === "all"){   
-                    // const temp = findRegion(listProvinsi, provinsi, false);
                     res = await ipm_kab_kotAPI.getManyDataKabKot(parseInt(provinsi), tahun); 
                 }else{   
-                    // const temp = findKabKot(listKabKot, kabkot);
                     res = await ipm_kab_kotAPI.getOneDataKabKot(parseInt(kabkot), tahun);   
                 }
             } 
