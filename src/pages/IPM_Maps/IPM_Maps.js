@@ -181,9 +181,16 @@ export default function IPM_Maps() {
 
         if(dataType === "ahls" || dataType === "arls" || dataType === "uhh"){
             value = dataRegion?.value + " Tahun"
-        }else if(dataType === "ppd"){
+        }else if(dataType === "ppd" && dataRegion?.value !== undefined){
             value = "Rp. " + (separatorNumber(dataRegion?.value * 1000))
         }else{value = dataRegion?.value}
+
+        if(value === undefined){
+            value = "Tidak Tersedia";
+        }
+        if(regionName === undefined){
+            regionName = "Data tidak tersedia";
+        }
 
         layer.on("click", function (e){
             // const target = e.target;

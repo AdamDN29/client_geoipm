@@ -181,6 +181,13 @@ export default function GWR_Maps() {
             }
         } 
         regionName = dataRegion?.Wilayah.nama_wilayah    
+
+        if(value === undefined){
+            value = "Tidak Tersedia";
+        }
+        if(regionName === undefined){
+            regionName = "Data tidak tersedia";
+        }
         
         layer.on("click", function (e){
             // const target = e.target;
